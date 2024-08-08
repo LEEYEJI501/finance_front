@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from '../../components';
+import { Button } from '../components';
 import { fetchLogin } from '@/services/auth';
 
 const LoginPage = () => {
@@ -16,6 +16,10 @@ const LoginPage = () => {
 
     await fetchLogin(username, password);
     router.push('/');
+  };
+
+  const handleSignUpClick = () => {
+    router.push('/signup');
   };
 
   return (
@@ -55,12 +59,12 @@ const LoginPage = () => {
           LOGIN
         </Button>
         <div className="flex justify-between mt-6 text-blue-500">
-          <a href="#" className="text-sm">
+          <div onClick={handleSignUpClick} className="text-sm">
             Forgot Password
-          </a>
-          <a href="#" className="text-sm">
-            회원가입
-          </a>
+          </div>
+          <div onClick={handleSignUpClick} className="text-sm">
+            Sign Up
+          </div>
         </div>
       </div>
     </div>
