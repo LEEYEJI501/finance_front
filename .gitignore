@@ -1,36 +1,59 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node modules
+node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
+logs
+*.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# local env files
-.env*.local
+# Dependency directories
+jspm_packages/
 
-# vercel
-.vercel
+# Optional npm cache directory
+.npm
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Optional REPL history
+.node_repl_history
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js build output
+.next/
+out/
+
+# Parcel cache
+.cache/
+
+# IDE directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 환경 구성 파일
+next.config.mjs
+
+# MacOS
+.DS_Store
+
+# Prettier files
+*.prettierrc
+.prettierignore
+
+# ESLint files
+*.eslintrc.js
+*.eslintrc
+.eslintignore
+
+# Other formatting and linting tools
+.stylelintrc
+.stylelintignore
+.editorconfig

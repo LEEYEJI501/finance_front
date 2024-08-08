@@ -94,6 +94,7 @@ export const getChartConfig = (
           },
         },
       },
+      backgroundColor: 'white',
     },
   };
 };
