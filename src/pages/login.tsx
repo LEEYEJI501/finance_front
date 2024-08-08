@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '../components';
-import { login } from '../utils/auth';
+import { fetchLogin } from '../api/auth/fetchLogin';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -15,7 +15,7 @@ const LoginPage = () => {
     setMessage(null);
 
     try {
-      const data = await login(username, password);
+      const data = await fetchLogin(username, password);
       console.log('Login successful:', data);
       localStorage.setItem('accessToken', data.accessToken);
       setMessage('Login successful!');

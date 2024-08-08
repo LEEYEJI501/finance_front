@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import StockChart from '../components/chart/StockChart';
-import { fetchStockData } from '../api/fetchStockData';
-import { Protocol } from '../types/chartData';
+import { fetchStockData } from '../api/stock/fetchStockData';
+import { IStockResponse } from '../types/stock/chartData';
 import { Button } from '../components';
 
 const HomePage = () => {
-  const [data, setData] = useState<Protocol | null>(null);
+  const [data, setData] = useState<IStockResponse | null>(null);
   const router = useRouter();
 
   useEffect(() => {

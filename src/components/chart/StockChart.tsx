@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { getChartConfig } from './chartConfig';
-import { Protocol } from '../../types/chartData';
+import { IStockResponse } from '../../types/stock/chartData';
 import { parseDate } from '../../utils/dateUtils';
 
 Chart.register(annotationPlugin);
 
-const StockChart: React.FC<{ data: Protocol }> = ({ data }) => {
+const StockChart: React.FC<{ data: IStockResponse }> = ({ data }) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
@@ -29,9 +29,19 @@ const StockChart: React.FC<{ data: Protocol }> = ({ data }) => {
             day: '2-digit',
           });
         });
-        const closingPrices = data.stocks.stocks.map((item) => item.close_price);
+        const closingPrices = data.stocks.stocks.map(
+          (item) => item.close_price
+        );
 
-        const config = getChartConfig(labels, closingPrices, [], [], [], [], []);
+        const config = getChartConfig(
+          labels,
+          closingPrices,
+          [],
+          [],
+          [],
+          [],
+          []
+        );
         chartInstanceRef.current = new Chart(ctx, config);
       }
     }
