@@ -5,7 +5,7 @@ type ButtonProps = {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   size?: 'small' | 'medium' | 'large';
-  color?: 'blue' | 'green' | 'red' | 'slate';
+  color?: 'blue' | 'green' | 'red' | 'slate' | 'sky';
   purpose?: 'primary' | 'secondary';
   className?: string;
 };
@@ -21,6 +21,7 @@ const colorClasses = {
   green: 'bg-green-500 hover:bg-green-700 text-white',
   red: 'bg-red-500 hover:bg-red-700 text-white',
   slate: 'bg-slate-500	hover:bg-slate-700 text-white',
+  sky: 'bg-sky-500 hover:bg-sky-700 text-white',
 };
 
 const purposeClasses = {
@@ -41,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`rounded ${sizeClasses[size]} ${colorClasses[color]} ${purposeClasses[purpose]} ${className} focus:outline-none`}
+      className={`rounded ${sizeClasses[size]} ${colorClasses[color]} ${purposeClasses[purpose]} ${className} whitespace-nowrap focus:outline-none`}
     >
       {children}
     </button>

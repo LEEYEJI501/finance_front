@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from '../components';
-import { fetchLogin } from '../api/auth/fetchLogin';
+import { Button } from '../../components';
+import { fetchLogin } from '@/services/auth';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -14,21 +14,8 @@ const LoginPage = () => {
     setError(null);
     setMessage(null);
 
-    try {
-      const data = await fetchLogin(username, password);
-      console.log('Login successful:', data);
-      localStorage.setItem('accessToken', data.accessToken);
-      setMessage('Login successful!');
-      router.push('/');
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-        console.error('Login failed:', err.message);
-      } else {
-        setError('An unexpected error occurred');
-        console.error('Login failed:', err);
-      }
-    }
+    await fetchLogin(username, password);
+    router.push('/');
   };
 
   return (

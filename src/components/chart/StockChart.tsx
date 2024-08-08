@@ -5,7 +5,7 @@ import Chart from 'chart.js/auto';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { getChartConfig } from './chartConfig';
 import { IStockResponse } from '../../types/stock/chartData';
-import { parseDate } from '../../utils/dateUtils';
+import { parseDate } from '../../utils/common/dateUtils';
 
 Chart.register(annotationPlugin);
 

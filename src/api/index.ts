@@ -1,6 +1,6 @@
 import ky from 'ky';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 const api = ky.create({
   prefixUrl: `${API_URL}`,

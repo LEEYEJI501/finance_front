@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import StockChart from '../components/chart/StockChart';
-import { fetchStockData } from '../api/stock/fetchStockData';
+import { fetchStockData } from '@/services/stock';
 import { IStockResponse } from '../types/stock/chartData';
 import { Button } from '../components';
 
@@ -25,7 +25,7 @@ const HomePage = () => {
   }, []);
 
   const handleLoginClick = () => {
-    router.push('/login');
+    router.push('/login/login');
   };
 
   return (

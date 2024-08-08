@@ -1,5 +1,5 @@
-import { post } from '../index';
-import { ILoginResponse } from '../../types/auth/login';
+import { post } from '@/api';
+import { ILoginResponse } from '@/types/auth/login';
 
 const AUTH_URL = 'auth';
 
