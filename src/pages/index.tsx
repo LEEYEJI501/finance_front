@@ -25,7 +25,7 @@ const HomePage = () => {
   }, []);
 
   const handleLoginClick = () => {
-    router.push('/login/login');
+    router.push('/login');
   };
 
   return (
