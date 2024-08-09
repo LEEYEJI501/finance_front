@@ -7,6 +7,7 @@ type InputProps = {
   placeholder?: string;
   className?: string;
   name?: string;
+  minLength?: number;
 };
 
 const baseClasses =
@@ -19,6 +20,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   className = '',
   name,
+  minLength,
 }) => {
   return (
     <input
@@ -28,6 +30,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       className={`${baseClasses} ${className}`}
       name={name}
+      minLength={minLength}
     />
   );
 };

@@ -5,7 +5,3 @@ export interface ILoginResponse {
     username: string;
   };
 }
-
-export interface ICheckUsernameResponse {
-  isDuplicate: boolean;
-}

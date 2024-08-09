@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "chart.js": "^4.4.3",
     "chartjs-plugin-annotation": "^3.0.1",
     "ky": "^1.5.0",

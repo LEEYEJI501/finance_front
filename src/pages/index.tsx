@@ -6,23 +6,20 @@ import StockChart from '../components/chart/StockChart';
 import { fetchStockData } from '@/services/stock';
 import { IStockResponse } from '../types/stock/chartData';
 import { Button } from '../components';
+import { useSockJS } from '@/hooks/useSockJS';
 
 const HomePage = () => {
+  const { subscribe, send } = useSockJS();
   const [data, setData] = useState<IStockResponse | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const stockData = await fetchStockData();
-        setData(stockData);
-      } catch (error) {
-        console.error('Failed to fetch stock data:', error);
-      }
-    };
+    subscribe('/topic/initialData/KOSPI/005930', (message) => {
+      console.log('Initial data update:', message.body);
+    });
 
-    getData();
-  }, []);
+    send('/app/initialData/KOSPI/005930', { timeframe: '5years' });
+  }, [subscribe, send]);
 
   const handleLoginClick = () => {
     router.push('/login');

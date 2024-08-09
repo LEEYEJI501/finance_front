@@ -8,6 +8,7 @@ type ButtonProps = {
   color?: 'blue' | 'green' | 'red' | 'slate' | 'sky';
   purpose?: 'primary' | 'secondary';
   className?: string;
+  disabled?: boolean;
 };
 
 const sizeClasses = {
@@ -20,9 +21,11 @@ const colorClasses = {
   blue: 'bg-blue-500 hover:bg-blue-700 text-white',
   green: 'bg-green-500 hover:bg-green-700 text-white',
   red: 'bg-red-500 hover:bg-red-700 text-white',
-  slate: 'bg-slate-500	hover:bg-slate-700 text-white',
+  slate: 'bg-slate-500 hover:bg-slate-700 text-white',
   sky: 'bg-sky-500 hover:bg-sky-700 text-white',
 };
+
+const disabledClasses = 'bg-gray-300 text-gray-500 cursor-not-allowed';
 
 const purposeClasses = {
   primary: '',
@@ -37,12 +40,18 @@ const Button: React.FC<ButtonProps> = ({
   color = 'blue',
   purpose = 'primary',
   className = '',
+  disabled = false,
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`rounded ${sizeClasses[size]} ${colorClasses[color]} ${purposeClasses[purpose]} ${className} whitespace-nowrap focus:outline-none`}
+      className={`rounded ${sizeClasses[size]} ${
+        disabled
+          ? disabledClasses
+          : `${colorClasses[color]} ${purposeClasses[purpose]}`
+      } ${className} whitespace-nowrap focus:outline-none`}
+      disabled={disabled}
     >
       {children}
     </button>

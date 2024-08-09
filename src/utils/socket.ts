@@ -1,7 +1,8 @@
 import SockJS from 'sockjs-client';
 import { Client, IMessage } from '@stomp/stompjs';
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000/sockjs';
+const SOCKET_URL =
+  process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000/sockjs';
 
 let stompClient: Client;
 let reconnectAttempts = 0;
@@ -13,12 +14,15 @@ const subscriptions = [
     destination: '/topic/error/',
     callback: (message: IMessage) => {
       console.log('Error update:', JSON.parse(message.body));
-    }
+    },
   },
 ];
 
-const pendingSubscriptions: { destination: string, callback: (message: any) => void }[] = [];
-const pendingMessages: { destination: string, body: any }[] = [];
+const pendingSubscriptions: {
+  destination: string;
+  callback: (message: any) => void;
+}[] = [];
+const pendingMessages: { destination: string; body: any }[] = [];
 const activeSubscriptions = new Set<string>();
 
 export const connectSocket = (onConnectCallback?: () => void): void => {
@@ -49,7 +53,7 @@ export const connectSocket = (onConnectCallback?: () => void): void => {
       console.log('Socket disconnected');
       socketConnected = false;
       attemptReconnect();
-    }
+    },
   });
 
   stompClient.activate();
@@ -59,14 +63,14 @@ const attemptReconnect = (): void => {
   if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
     reconnectAttempts += 1;
     console.log(`Attempting to reconnect... (${reconnectAttempts})`);
-    setTimeout(connectSocket, 1000 * reconnectAttempts); 
+    setTimeout(connectSocket, 1000 * reconnectAttempts);
   } else {
     console.log('Max reconnect attempts reached.');
   }
 };
 
 const subscribeToTopics = (): void => {
-  subscriptions.forEach(sub => {
+  subscriptions.forEach((sub) => {
     if (!activeSubscriptions.has(sub.destination)) {
       stompClient.subscribe(sub.destination, sub.callback);
       activeSubscriptions.add(sub.destination);
@@ -91,7 +95,7 @@ const processPendingMessages = (): void => {
     const { destination, body } = pendingMessages.shift()!;
     stompClient.publish({
       destination: destination,
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
     console.log(`Message sent to ${destination}:`, body);
   }
@@ -101,11 +105,14 @@ export const disconnectSocket = (): void => {
   if (stompClient) {
     console.log('Disconnecting socket...');
     stompClient.deactivate();
-    activeSubscriptions.clear(); 
+    activeSubscriptions.clear();
   }
 };
 
-export const subscribeToTopic = (destination: string, callback: (message: any) => void): void => {
+export const subscribeToTopic = (
+  destination: string,
+  callback: (message: any) => void
+): void => {
   if (stompClient && stompClient.connected) {
     if (!activeSubscriptions.has(destination)) {
       stompClient.subscribe(destination, callback);
@@ -122,7 +129,7 @@ export const sendMessage = (destination: string, body: any): void => {
   if (stompClient && stompClient.connected) {
     stompClient.publish({
       destination: destination,
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
     console.log(`Message sent to ${destination}:`, body);
   } else {
