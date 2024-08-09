@@ -27,14 +27,23 @@ export const get = async <T>(
 
 export const post = async <T>(
   url: string,
-  data: Record<string, any>,
+  data: Record<string, any> | FormData,
   withCredentials: boolean = false
 ): Promise<T> => {
   try {
+    let headers: HeadersInit = {};
     const options: any = {
-      json: data,
+      method: 'POST',
       credentials: withCredentials ? 'include' : 'same-origin',
     };
+    if (data instanceof FormData) {
+      headers['Content-Type'] = 'multipart/form-data';
+      options.body = data;
+    } else {
+      headers['Content-Type'] = 'application/json';
+      options.json = JSON.stringify(data);
+    }
+    options.headers = headers;
     const response = await api.post(url, options).json<T>();
     return response;
   } catch (error) {

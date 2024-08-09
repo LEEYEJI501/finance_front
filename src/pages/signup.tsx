@@ -48,14 +48,27 @@ const SignupPage = () => {
     formData.append('username', username);
     formData.append('password', password);
     formData.append('email', email);
-    if (profileImage) {
+
+    if (profileImage !== null) {
       formData.append('profileImage', profileImage);
+    } else {
+      const defaultImageResponse = await fetch('/default-profile.png');
+      const defaultImageBlob = await defaultImageResponse.blob();
+      const defaultImageFile = new File(
+        [defaultImageBlob],
+        'default-profile.png',
+        {
+          type: defaultImageBlob.type,
+        }
+      );
+
+      formData.append('profileImage', defaultImageFile);
     }
 
     console.log('sign up button click', formData);
     console.log(username, password, email);
 
-    await fetchSignUp();
+    await fetchSignUp(username, password, email, profileImage!);
   };
 
   const isFormValid =

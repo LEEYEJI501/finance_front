@@ -17,19 +17,22 @@ export const fetchSignUp = async (
   username: string,
   password: string,
   email: string,
-  profile: File
+  profileImage?: File
 ): Promise<ISignUpResponse> => {
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
+  formData.append('email', email);
+
+  if (profileImage) {
+    formData.append('profileImage', profileImage);
+  }
+
   const response = await post<ISignUpResponse>(
     `${USERS_URL}/register`,
-    {
-      username,
-      password,
-      email,
-      profile,
-    },
+    formData,
     true
   );
-  console.log(response);
 
   return response;
 };
