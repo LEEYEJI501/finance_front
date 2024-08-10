@@ -30,8 +30,7 @@ export const fetchSignUp = async (
 
   const response = await post<ISignUpResponse>(
     `${USERS_URL}/register`,
-    formData,
-    true
+    formData
   );
 
   return response;

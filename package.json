@@ -17,13 +17,15 @@
     "react": "^18",
     "react-dom": "^18",
     "sockjs": "^0.3.24",
-    "sockjs-client": "^1.6.1"
+    "sockjs-client": "^1.6.1",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/next": "^8.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.2",
     "@typescript-eslint/parser": "^5.4.2",
     "eslint": "^8.0.0",

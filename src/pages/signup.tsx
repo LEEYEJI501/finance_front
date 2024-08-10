@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from '../components';
-import { Input } from '../components';
+import { Button, Input } from '../components';
 import { fetchCheckUsername, fetchSignUp } from '@/services/users';
+import EmailVerification from '@/components/signup/EmailVerification';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
@@ -170,20 +170,7 @@ const SignupPage = () => {
           </div>
         </div>
 
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-2">
-            이메일 주소 <span className="text-red-500">*</span>
-          </label>
-          <div className="flex">
-            <Input
-              type="text"
-              placeholder="이메일 주소"
-              className="mr-2"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </div>
+        <EmailVerification email={email} setEmail={setEmail} />
 
         <div className="flex justify-between">
           <Button
