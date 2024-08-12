@@ -14,3 +14,35 @@ export interface IStockResponse {
     stocks: IStockData[];
   };
 }
+
+export interface IStockInfoResponse {
+  stockNames: {
+    stock_code: string;
+    stock_name: string;
+  }[];
+}
+
+export interface IStock {
+  code: string;
+  name: string;
+  market_name: string;
+}
+
+export interface IAllStocksByMarketResponse {
+  all_stocks_by_market: {
+    total_elements: number;
+    total_pages: number;
+    market_name: string;
+    stocks: IStock[];
+  };
+}
+
+export interface IMarket {
+  name: string;
+}
+
+export interface IMarketsResponse {
+  markets: {
+    markets: IMarket[];
+  };
+}

@@ -1,12 +1,36 @@
-import { get } from '@/api';
-import { IStockData, IStockResponse } from '@/types/stock/chartData';
+import { get } from "@/api";
+import {
+  IStockData,
+  IStockResponse,
+  IStockInfoResponse,
+  IAllStocksByMarketResponse,
+  IMarketsResponse,
+} from "@/types/stock/chartData";
 
-const STOCK_URL = 'stock';
+const STOCK_URL = "stock";
 
 export const fetchStockData = async (): Promise<IStockResponse> => {
   const response = await get<IStockResponse>(
     `${STOCK_URL}/markets/KOSPI/securities/code/005930/data?timeframe=5years`
   );
+  return response;
+};
+
+export const fetchStockInfoData = async (): Promise<IStockInfoResponse> => {
+  const response = await get<IAllStocksByMarketResponse>(
+    `${STOCK_URL}/markets/KOSPI/securities?page=0&pageSize=10&sort=name,asc`
+  );
+
+  const stockNames = response.all_stocks_by_market.stocks.map((stock) => ({
+    stock_code: stock.code,
+    stock_name: stock.name,
+  }));
+
+  return { stockNames };
+};
+
+export const fetchMarketList = async (): Promise<IMarketsResponse> => {
+  const response = await get<IMarketsResponse>(`${STOCK_URL}/markets`);
   return response;
 };
 
