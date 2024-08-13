@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import Pagination from "@/components/common/Pagination";
 import StockList from "@/components/main/tab/StockList"; 
+import constants from "@/constants";
 
 type TabContentProps = {
   market: string;
 };
 
 const TabContent: React.FC<TabContentProps> = ({ market }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(constants.DEFAULT_PAGING.PAGE);
   const [totalPages, setTotalPages] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(constants.DEFAULT_PAGING.PAGESIZE);
 
   return (
     <div className="w-full">

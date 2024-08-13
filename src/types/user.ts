@@ -3,8 +3,8 @@ export interface ICheckUsernameResponse {
 }
 
 export interface ISignUpResponse {
-  username: string;
-  password: string;
-  email: string;
-  profileImage?: File;
+  user: {
+    id: number;
+    username: string;
+  }
 }

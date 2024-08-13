@@ -24,7 +24,7 @@ const StockList: React.FC<StockListProps> = ({
     const loadStockList = async () => {
       const { stocks, total_pages } = await fetchStockList(market, {
         page: currentPage,
-        pageSize: pageSize,
+        pageSize,
       });
       setStocks(stocks);
       onTotalPagesChange(total_pages);

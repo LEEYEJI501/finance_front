@@ -5,6 +5,7 @@ import EmailVerification from "@/components/signup/EmailVerification";
 import UsernameVerification from "@/components/signup/UsernameVerification";
 import PasswordVerification from "@/components/signup/PasswordVerification";
 import { Tooltip } from "@/components/index";
+import { useRouter } from "next/router";
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
@@ -18,6 +19,7 @@ const SignupPage = () => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageSelected, setIsImageSelected] = useState<boolean>(false);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsFormValid(
@@ -55,24 +57,11 @@ const SignupPage = () => {
   };
 
   const handleSignUp = async () => {
-    if (password.length < 8) {
-      alert("비밀번호는 최소 8자 이상이어야 합니다.");
-      return;
+    const { success } = await fetchSignUp(username, password, email, profileImage!);
+  
+    if (success) {
+      router.push("/login");
     }
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-    formData.append("email", email);
-
-    if (profileImage !== null) {
-      formData.append("profileImage", profileImage);
-    } else {
-      alert("프로필 이미지를 업로드해주세요.");
-      return;
-    }
-
-    await fetchSignUp(username, password, email, profileImage!);
   };
 
   return (

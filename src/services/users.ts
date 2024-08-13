@@ -1,6 +1,6 @@
 import { get, post } from '@/api';
 import { ICheckUsernameResponse, ISignUpResponse } from '@/types/user';
-import { getCheckUsernameModel } from '@/models/users'
+import { getCheckUsernameModel, getSignupModel } from '@/models/users'
 
 const USERS_URL = 'users';
 
@@ -19,11 +19,18 @@ export const fetchSignUp = async (
   password: string,
   email: string,
   profileImage?: File
-): Promise<ISignUpResponse> => {
+) => {
+  const user = {
+    username,
+    password,
+    email,
+    profile: {
+      "greeting": `Hello, I'm ${username}!`
+    }
+  }
+  
   const formData = new FormData();
-  formData.append('username', username);
-  formData.append('password', password);
-  formData.append('email', email);
+  formData.append("user", new Blob([JSON.stringify(user)], { type: "application/json" }));
 
   if (profileImage) {
     formData.append('profileImage', profileImage);
@@ -34,5 +41,5 @@ export const fetchSignUp = async (
     formData
   );
 
-  return response;
+  return getSignupModel(response);
 };
