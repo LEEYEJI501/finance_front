@@ -12,6 +12,15 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(constants.DEFAULT_PAGING.PAGESIZE);
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1); 
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(0); 
+  };
+
   return (
     <div className="w-full">
       <StockList
@@ -21,13 +30,10 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         onTotalPagesChange={(totalPages: number) => setTotalPages(totalPages)} 
       />
       <Pagination
-        currentPage={currentPage}
+        currentPage={currentPage + 1}
         totalPages={totalPages}
-        onPageChange={(page) => setCurrentPage(page)}
-        onPageSizeChange={(size) => {
-          setPageSize(size);
-          setCurrentPage(1); 
-        }}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
         pageRangeDisplayed={5}
         pageSizeOptions={[10, 20, 50, 100]} 
       />

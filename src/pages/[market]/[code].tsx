@@ -43,7 +43,7 @@ const ChartPage = () => {
       : "text-black";
   };
 
-  const latestClosePrice = stockData.length > 0 ? stockData[stockData.length - 1].closePrice : 0;
+  const latestClosePrice = stockData.length > 0 ? stockData[stockData.length - 1].closePrice : constants.DEFAULT_NUM;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('ko-KR').format(price);
