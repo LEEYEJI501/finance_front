@@ -26,7 +26,10 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
   ];
 
   const handleRowClick = (row: IStock) => {
-    router.push("/");
+    router.push({
+      pathname: `/${row.market_name}/${row.code}`,
+      query: { name: row.name },
+    });
   };
 
   return (
