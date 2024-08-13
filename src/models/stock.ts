@@ -6,22 +6,38 @@ import {
     IMarketsResponse,
 } from "@/types/stock";
 import constants from "@/constants";
+import { IApiResponse } from '@/types/common';
 
-export const getStockListModel = (res: IAllStocksByMarketResponse) => {
-    const results = res?.all_stocks_by_market ?? {
+export const getStockListModel = (res: IApiResponse<IAllStocksByMarketResponse>) => {
+    const success = res.success;
+
+    if (success) {
+        const results = res?.data;
+
+        return results?.all_stocks_by_market ?? {
+            market_name: constants.NONE,
+            stocks: constants.DEFAULT_ITEMS,
+            total_elements: constants.DEFAULT_NUM,
+            total_pages: constants.DEFAULT_NUM
+        };
+    }
+
+    return {
         market_name: constants.NONE,
         stocks: constants.DEFAULT_ITEMS,
         total_elements: constants.DEFAULT_NUM,
         total_pages: constants.DEFAULT_NUM
-    }
-
-    return results;
+    };
 }
 
-export const getMarketListModel = (res: IMarketsResponse) => {
-    const markets = res?.markets ?? constants.DEFAULT_OBJ
+export const getMarketListModel = (res: IApiResponse<IMarketsResponse>) => {
+    const success = res.success;
 
-    const results = markets?.markets ?? constants.DEFAULT_ITEMS
+    if (success) {
+        const results = res?.data;
+        const markets = results?.markets; 
+        return markets?.markets ?? constants.DEFAULT_ITEMS;
+    }
 
-    return results
+    return constants.DEFAULT_ITEMS;
 }

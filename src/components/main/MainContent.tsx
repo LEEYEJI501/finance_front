@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Tabs from '@/components/common/Tabs'
-import { fetchMarketList, fetchStockList } from "@/services/stock";
+import { fetchMarketList } from "@/services/stock";
 import { IMarket } from "@/types/stock";
 import TabContent from "./tab/TabContent";
 
