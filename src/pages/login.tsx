@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { Button } from '../components';
-import { fetchLogin } from '@/services/auth';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { Button } from "../components";
+import { fetchLogin } from "@/services/auth";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
@@ -15,11 +15,11 @@ const LoginPage = () => {
     setMessage(null);
 
     await fetchLogin(username, password);
-    router.push('/');
+    router.push("/");
   };
 
   const handleSignUpClick = () => {
-    router.push('/signup');
+    router.push("/signup");
   };
 
   return (
@@ -58,11 +58,17 @@ const LoginPage = () => {
         >
           LOGIN
         </Button>
-        <div className="flex justify-between mt-6 text-blue-500">
-          <div onClick={handleSignUpClick} className="text-sm">
+        <div className="flex justify-between mt-6 text-blue-700">
+          <div
+            onClick={handleSignUpClick}
+            className="text-sm hover:cursor-pointer"
+          >
             Forgot Password
           </div>
-          <div onClick={handleSignUpClick} className="text-sm">
+          <div
+            onClick={handleSignUpClick}
+            className="text-sm hover:cursor-pointer"
+          >
             Sign Up
           </div>
         </div>

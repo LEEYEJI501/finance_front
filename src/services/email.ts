@@ -1,32 +1,31 @@
-import { post } from '@/api';
-import { IEmailSendResponse } from '@/types/email';
+import { post } from "@/api";
+import { IEmailSendResponse } from "@/types/email";
 
-const EMAIL_URL = 'email';
+const EMAIL_URL = "email";
 
 export const fetchEmailSend = async (
   email: string
 ): Promise<IEmailSendResponse> => {
-  const response = await post<IEmailSendResponse>(
-    `${EMAIL_URL}/send`,
-    {
-      email
-    }
-  );
+  const response = await post<IEmailSendResponse>(`${EMAIL_URL}/send`, {
+    email,
+  });
 
   return response;
 };
 
-export const fetchEmailVerify = async(
-    email: string,
-    code: string
+export const fetchEmailVerify = async (
+  email: string,
+  code: string
 ): Promise<any> => {
-    const response = await post<any>(
-        `${EMAIL_URL}/verify`,
-        {
-            email,
-            code
-        }
-    );
+  const response = await post<any>(
+    `${EMAIL_URL}/verify`,
+    {
+      email,
+      code,
+    },
+    false,
+    true
+  );
 
-    return response;
-}
+  return response;
+};

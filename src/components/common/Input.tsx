@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 type InputProps = {
   type: string;
@@ -8,19 +8,21 @@ type InputProps = {
   className?: string;
   name?: string;
   minLength?: number;
+  disabled?: boolean;
 };
 
 const baseClasses =
-  'w-full p-2 border-b border-gray-300 focus:outline-none focus:border-black';
+  "w-full p-2 border-b border-gray-300 focus:outline-none focus:border-black";
 
 const Input: React.FC<InputProps> = ({
   type,
   value,
   onChange,
   placeholder,
-  className = '',
+  className = "",
   name,
   minLength,
+  disabled,
 }) => {
   return (
     <input
@@ -31,6 +33,7 @@ const Input: React.FC<InputProps> = ({
       className={`${baseClasses} ${className}`}
       name={name}
       minLength={minLength}
+      disabled={disabled}
     />
   );
 };

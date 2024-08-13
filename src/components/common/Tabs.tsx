@@ -1,5 +1,5 @@
-import { useState, ReactNode } from 'react';
-import Button from './Button'; 
+import { useState, ReactNode } from "react";
+import Button from "./Button";
 
 type Tab = {
   label: string;
@@ -25,7 +25,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
             size="medium"
             color={index === activeTab ? "blue" : "none"}
             purpose={index === activeTab ? "primary" : "secondary"}
-            className={`mr-2 ${index === activeTab ? 'font-bold' : ''}`} 
+            className={`mr-2 ${index === activeTab ? "font-bold" : ""}`}
           >
             {tab.label}
           </Button>
