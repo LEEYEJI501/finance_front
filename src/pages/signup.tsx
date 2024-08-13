@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input } from "../components";
-import { fetchCheckUsername, fetchSignUp } from "@/services/users";
+import { Button } from "../components";
+import { fetchSignUp } from "@/services/users";
 import EmailVerification from "@/components/signup/EmailVerification";
+import UsernameVerification from "@/components/signup/UsernameVerification";
+import PasswordVerification from "@/components/signup/PasswordVerification";
 import { Tooltip } from "@/components/index";
 
 const SignupPage = () => {
@@ -17,19 +19,24 @@ const SignupPage = () => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   useEffect(() => {
-    const validateForm = () => {
-      setIsFormValid(
-        username !== "" &&
-          password !== "" &&
-          passwordConfirm !== "" &&
-          email !== "" &&
-          isPasswordMatch === true &&
-          isDuplicate === false &&
-          isImageSelected === true
-      );
-    };
+    console.log("Form Validation Triggered");
+    console.log("Username:", username);
+    console.log("Password:", password);
+    console.log("Password Confirm:", passwordConfirm);
+    console.log("Email:", email);
+    console.log("Is Password Match:", isPasswordMatch);
+    console.log("Is Duplicate:", isDuplicate);
+    console.log("Is Image Selected:", isImageSelected);
 
-    validateForm();
+    setIsFormValid(
+      username !== "" &&
+        password !== "" &&
+        passwordConfirm !== "" &&
+        email !== "" &&
+        isPasswordMatch === true &&
+        isDuplicate === false &&
+        isImageSelected === true
+    );
   }, [
     username,
     password,
@@ -39,19 +46,6 @@ const SignupPage = () => {
     isDuplicate,
     isImageSelected,
   ]);
-
-  const handleCheckClick = async () => {
-    const response = await fetchCheckUsername(username);
-    setIsDuplicate(response.isDuplicate);
-  };
-
-  const handlePasswordConfirmChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value;
-    setPasswordConfirm(value);
-    setIsPasswordMatch(value === password);
-  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -84,9 +78,6 @@ const SignupPage = () => {
       return;
     }
 
-    console.log("sign up button click", formData);
-    console.log(username, password, email, profileImage);
-
     await fetchSignUp(username, password, email, profileImage!);
   };
 
@@ -117,73 +108,21 @@ const SignupPage = () => {
           </Tooltip>
         </div>
 
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-2">
-            아이디 <span className="text-red-500">*</span>
-          </label>
-          <div className="flex">
-            <Input
-              type="text"
-              placeholder="아이디 입력"
-              className="mr-2"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            {isDuplicate !== null && (
-              <span
-                className={`text-lg font-bold ml-2 ${
-                  isDuplicate ? "text-red-500" : "text-green-500"
-                }`}
-              >
-                {isDuplicate ? "✕" : "◯"}
-              </span>
-            )}
-            <Button
-              type="button"
-              color="slate"
-              size="small"
-              className="text-white px-4 rounded-r text-xs"
-              onClick={handleCheckClick}
-            >
-              중복 확인
-            </Button>
-          </div>
-        </div>
+        <UsernameVerification
+          username={username}
+          setUsername={setUsername}
+          isDuplicate={isDuplicate}
+          setIsDuplicate={setIsDuplicate}
+        />
 
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-2">
-            비밀번호 <span className="text-red-500">*</span>
-          </label>
-          <Input
-            type="password"
-            placeholder="비밀번호 입력(8~20자)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-2">
-            비밀번호 확인 <span className="text-red-500">*</span>
-          </label>
-          <div className="flex items-center">
-            <Input
-              type="password"
-              placeholder="비밀번호 재입력"
-              value={passwordConfirm}
-              onChange={handlePasswordConfirmChange}
-            />
-            {isPasswordMatch !== null && (
-              <span
-                className={`text-lg font-bold ml-2 ${
-                  isPasswordMatch ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {isPasswordMatch ? "◯" : "✕"}
-              </span>
-            )}
-          </div>
-        </div>
+        <PasswordVerification
+          password={password}
+          setPassword={setPassword}
+          passwordConfirm={passwordConfirm}
+          setPasswordConfirm={setPasswordConfirm}
+          isPasswordMatch={isPasswordMatch}
+          setIsPasswordMatch={setIsPasswordMatch}
+        />
 
         <EmailVerification email={email} setEmail={setEmail} />
 
