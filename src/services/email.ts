@@ -18,7 +18,7 @@ export const fetchEmailSend = async (
 export const fetchEmailVerify = async (
   email: string,
   code: string
-): Promise<IApiResponse<IEmailVerifyResponse>> => {
+) => {
   const response = await post<IEmailVerifyResponse>(
     `${EMAIL_URL}/verify`,
     {

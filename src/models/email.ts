@@ -12,5 +12,5 @@ export const getEmailVerify = (res: IApiResponse<IEmailVerifyResponse>) => {
         return isValid;
     }
     
-    return res.error;
+    return false;
 }
