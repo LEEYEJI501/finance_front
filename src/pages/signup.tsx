@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input } from "../components";
 import { fetchCheckUsername, fetchSignUp } from "@/services/users";
 import EmailVerification from "@/components/signup/EmailVerification";
@@ -14,6 +14,31 @@ const SignupPage = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageSelected, setIsImageSelected] = useState<boolean>(false);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
+  useEffect(() => {
+    const validateForm = () => {
+      setIsFormValid(
+        username !== "" &&
+          password !== "" &&
+          passwordConfirm !== "" &&
+          email !== "" &&
+          isPasswordMatch === true &&
+          isDuplicate === false &&
+          isImageSelected === true
+      );
+    };
+
+    validateForm();
+  }, [
+    username,
+    password,
+    passwordConfirm,
+    email,
+    isPasswordMatch,
+    isDuplicate,
+    isImageSelected,
+  ]);
 
   const handleCheckClick = async () => {
     const response = await fetchCheckUsername(username);
@@ -64,15 +89,6 @@ const SignupPage = () => {
 
     await fetchSignUp(username, password, email, profileImage!);
   };
-
-  const isFormValid =
-    username !== "" &&
-    password !== "" &&
-    passwordConfirm !== "" &&
-    email !== "" &&
-    isPasswordMatch &&
-    isDuplicate === false &&
-    isImageSelected;
 
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
