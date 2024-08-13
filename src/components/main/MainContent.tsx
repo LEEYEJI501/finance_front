@@ -9,8 +9,8 @@ const MainContent: React.FC = () => {
 
     useEffect(() => {
         const loadMarketList = async () => {
-            const { markets } = await fetchMarketList();
-            setMarkets(markets.markets);
+            const markets = await fetchMarketList();
+            setMarkets(markets);
         };
     
         loadMarketList();

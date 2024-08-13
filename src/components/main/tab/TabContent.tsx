@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { fetchStockList } from "@/services/stock";
+import Table from "@/components/common/Table";
+import { IStock } from "@/types/stock"
 
 type TabContentProps = {
-    market: string;
-}
+  market: string;
+};
 
 const TabContent: React.FC<TabContentProps> = ({ market }) => {
-    const [stocks, setStocks] = useState<{
-        stock_code: string;
-        stock_name: string;
-    }[]>([]); 
+  const [stocks, setStocks] = useState<IStock[]>([]);
 
-    useEffect(() => {
-        const loadStockList = async () => {
-            const { stockNames } = await fetchStockList(market);
-            setStocks(stockNames);
-        };
-    
-        loadStockList();
-    }, []);
+  useEffect(() => {
+    const loadStockList = async () => {
+      const { stocks } = await fetchStockList(market);
+      setStocks(stocks);
+    };
 
-    return (
-        <div className="w-full">
-            test
-        </div>
-    );
+    loadStockList();
+  }, [market]);
+
+  const columns = [
+    { key: 'code', header: 'Stock Code' },
+    { key: 'name', header: 'Stock Name' },
+  ];
+
+  return (
+    <div className="w-full">
+      {stocks.length > 0 ? (
+        <Table<IStock> columns={columns} data={stocks} />
+      ) : (
+        <p>No stocks available for {market}.</p>
+      )}
+    </div>
+  );
 };
 
 export default TabContent;

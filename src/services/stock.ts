@@ -3,11 +3,11 @@ import { IPaging } from "@/types/common";
 import {
   IStockData,
   IStockResponse,
-  IStockInfoResponse,
   IAllStocksByMarketResponse,
   IMarketsResponse,
 } from "@/types/stock";
 import constants from "@/constants";
+import { getStockListModel, getMarketListModel } from "@/models/stock";
 
 const STOCK_URL = "stock";
 
@@ -16,22 +16,17 @@ export const fetchStockList = async (
   paging: IPaging = { 
     page: constants.DEFAULT_PAGING.PAGE, 
     pageSize: constants.DEFAULT_PAGING.PAGESIZE 
-  }): Promise<IStockInfoResponse> => {
+  }) => {
   const response = await get<IAllStocksByMarketResponse>(
     `${STOCK_URL}/markets/${market}/securities?page=${paging.page}&pageSize=${paging.pageSize}&sort=name,asc`
   );
 
-  const stockNames = response.all_stocks_by_market.stocks.map((stock) => ({
-    stock_code: stock.code,
-    stock_name: stock.name,
-  }));
-
-  return { stockNames };
+  return getStockListModel(response);
 };
 
-export const fetchMarketList = async (): Promise<IMarketsResponse> => {
+export const fetchMarketList = async () => {
   const response = await get<IMarketsResponse>(`${STOCK_URL}/markets`);
-  return response;
+  return getMarketListModel(response);
 };
 
 export const parseStockData = (data: any): IStockResponse => {
