@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { getChartConfig } from './chartConfig';
-import { IStockResponse } from '../../types/stock/chartData';
+import { IStockResponse } from '../../types/stock';
 import { parseDate } from '../../utils/dateUtils';
 
 Chart.register(annotationPlugin);

@@ -1,5 +1,5 @@
 import { get, post } from '@/api';
-import { ICheckUsernameResponse, ISignUpResponse } from '@/types/user/signup';
+import { ICheckUsernameResponse, ISignUpResponse } from '@/types/user';
 
 const USERS_URL = 'users';
 
