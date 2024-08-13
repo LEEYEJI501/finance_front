@@ -1,8 +1,13 @@
+import { AppProps } from 'next/app';
+import { ToastProvider } from '../contexts/ToastContext';
 import '../app/globals.css';
-import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <ToastProvider>
+      <Component {...pageProps} />
+    </ToastProvider>
+  );
 }
 
 export default MyApp;

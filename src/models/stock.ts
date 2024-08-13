@@ -19,9 +19,9 @@ export const getStockListModel = (res: IAllStocksByMarketResponse) => {
 }
 
 export const getMarketListModel = (res: IMarketsResponse) => {
-    const markets = res?.markets ?? {}
+    const markets = res?.markets ?? constants.DEFAULT_OBJ
 
-    const results = markets?.markets ?? []
+    const results = markets?.markets ?? constants.DEFAULT_ITEMS
 
     return results
 }
