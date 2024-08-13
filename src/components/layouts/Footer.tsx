@@ -6,7 +6,7 @@ type FooterProps = {
 
 const Footer: React.FC<FooterProps> = ({ children }) => {
   return (
-    <footer className="p-4 bg-gray-800 text-white">
+    <footer className="p-1 bg-gray-300 text-white">
       <div className="container mx-auto">{children}</div>
     </footer>
   );

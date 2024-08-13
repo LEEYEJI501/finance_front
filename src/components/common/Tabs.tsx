@@ -1,5 +1,4 @@
 import { useState, ReactNode } from "react";
-import Button from "./Button";
 
 type Tab = {
   label: string;
@@ -17,21 +16,23 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex border-b border-gray-300 mb-4">
+      <div className="flex justify-center items-center mb-4 space-x-8">
         {tabs.map((tab, index) => (
-          <Button
+          <div
             key={index}
             onClick={() => setActiveTab(index)}
-            size="medium"
-            color={index === activeTab ? "blue" : "none"}
-            purpose={index === activeTab ? "primary" : "secondary"}
-            className={`mr-2 ${index === activeTab ? "font-bold" : ""}`}
+            className={`cursor-pointer px-4 py-2 ${
+              index === activeTab ? "font-bold text-black" : "text-gray-500"
+            }`}
+            style={{
+              borderBottom: index === activeTab ? "2px solid black" : "2px solid transparent",
+            }}
           >
             {tab.label}
-          </Button>
+          </div>
         ))}
       </div>
-      <div className="p-4 border border-gray-300 rounded">
+      <div className="p-4 border-t border-gray-300">
         {currentTab ? currentTab.content : <p>No content available</p>}
       </div>
     </div>

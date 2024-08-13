@@ -16,6 +16,7 @@
     "ky": "^1.5.0",
     "next": "14.2.5",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
