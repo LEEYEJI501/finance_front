@@ -1,12 +1,12 @@
-export const extractErrorMessage = async (error: any): Promise<string> => {
+export const extractErrorMessage = async (error: any): Promise<{ message: string; json: any | null }> => {
     if (error.response) {
       try {
         const responseBody = await error.response.json();
-        return JSON.stringify(responseBody); 
+        return { message: JSON.stringify(responseBody), json: responseBody };
       } catch (jsonError) {
-        return error.message; 
+        return { message: error.message, json: null }; 
       }
     } else {
-      return error.message;
+      return { message: error.message, json: null };
     }
-};
+  };

@@ -23,8 +23,6 @@ export const fetchEmailVerify = async (
       email,
       code,
     },
-    false,
-    true
   );
 
   return response;

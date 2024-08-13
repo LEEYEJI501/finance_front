@@ -1,6 +1,6 @@
 import ky from "ky";
 import { logError } from "./logger";
-import { extractErrorMessage } from './extractErrorMessage';
+import { extractErrorMessage } from "./extractErrorMessage"; 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 const api = ky.create({
@@ -11,27 +11,22 @@ const api = ky.create({
 
 export const get = async <T>(
   url: string,
-  params?: Record<string, string | number | boolean>,
-  bypassError: boolean = false
+  params?: Record<string, string | number | boolean>
 ): Promise<T | null> => {
   try {
     const response = await api.get(url, { searchParams: params }).json<T>();
     return response;
   } catch (error) {
-    const errorMessage = await extractErrorMessage(error);
-    logError(`GET request to ${url} failed: ${errorMessage}`, error);
-    if (bypassError) {
-      return null;
-    }
-    throw error;
+    const { message, json } = await extractErrorMessage(error);
+    logError(`GET request to ${url} failed: ${message}`, error);
+    throw json || message;
   }
 };
 
 export const post = async <T>(
   url: string,
   data: Record<string, any> | FormData,
-  withCredentials: boolean = false,
-  bypassError: boolean = false
+  withCredentials: boolean = false
 ): Promise<T | null> => {
   try {
     const options: any = {
@@ -46,20 +41,16 @@ export const post = async <T>(
     const response = await api.post(url, options).json<T>();
     return response;
   } catch (error) {
-    const errorMessage = await extractErrorMessage(error);
-    logError(`POST request to ${url} failed: ${errorMessage}`, error);
-    if (bypassError) {
-      return null;
-    }
-    throw error;
+    const { message, json } = await extractErrorMessage(error);
+    logError(`POST request to ${url} failed: ${message}`, error);
+    throw json || message;
   }
 };
 
 export const put = async <T>(
   url: string,
   data: Record<string, any>,
-  withCredentials: boolean = false,
-  bypassError: boolean = false
+  withCredentials: boolean = false
 ): Promise<T | null> => {
   try {
     const options: any = {
@@ -69,20 +60,16 @@ export const put = async <T>(
     const response = await api.put(url, options).json<T>();
     return response;
   } catch (error) {
-    const errorMessage = await extractErrorMessage(error);
-    logError(`PUT request to ${url} failed: ${errorMessage}`, error);
-    if (bypassError) {
-      return null;
-    }
-    throw error;
+    const { message, json } = await extractErrorMessage(error);
+    logError(`PUT request to ${url} failed: ${message}`, error);
+    throw json || message;
   }
 };
 
 export const patch = async <T>(
   url: string,
   data: Record<string, any>,
-  withCredentials: boolean = false,
-  bypassError: boolean = false
+  withCredentials: boolean = false
 ): Promise<T | null> => {
   try {
     const options: any = {
@@ -92,30 +79,23 @@ export const patch = async <T>(
     const response = await api.patch(url, options).json<T>();
     return response;
   } catch (error) {
-    const errorMessage = await extractErrorMessage(error);
-    logError(`PATCH request to ${url} failed: ${errorMessage}`, error);
-    if (bypassError) {
-      return null;
-    }
-    throw error;
+    const { message, json } = await extractErrorMessage(error);
+    logError(`PATCH request to ${url} failed: ${message}`, error);
+    throw json || message;
   }
 };
 
 export const del = async (
   url: string,
-  withCredentials: boolean = false,
-  bypassError: boolean = false
+  withCredentials: boolean = false
 ): Promise<void | null> => {
   try {
     await api.delete(url, {
       credentials: withCredentials ? "include" : "same-origin",
     });
   } catch (error) {
-    const errorMessage = await extractErrorMessage(error);
-    logError(`DELETE request to ${url} failed: ${errorMessage}`, error);
-    if (bypassError) {
-      return null;
-    }
-    throw error;
+    const { message, json } = await extractErrorMessage(error);
+    logError(`DELETE request to ${url} failed: ${message}`, error);
+    throw json || message;
   }
 };
