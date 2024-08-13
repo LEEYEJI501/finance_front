@@ -1,5 +1,6 @@
 import ky from "ky";
 import { logError } from "./logger";
+import { extractErrorMessage } from './extractErrorMessage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 const api = ky.create({
@@ -17,10 +18,11 @@ export const get = async <T>(
     const response = await api.get(url, { searchParams: params }).json<T>();
     return response;
   } catch (error) {
+    const errorMessage = await extractErrorMessage(error);
+    logError(`GET request to ${url} failed: ${errorMessage}`, error);
     if (bypassError) {
       return null;
     }
-    logError(`GET request to ${url} failed`, error);
     throw error;
   }
 };
@@ -44,10 +46,11 @@ export const post = async <T>(
     const response = await api.post(url, options).json<T>();
     return response;
   } catch (error) {
+    const errorMessage = await extractErrorMessage(error);
+    logError(`POST request to ${url} failed: ${errorMessage}`, error);
     if (bypassError) {
       return null;
     }
-    logError(`POST request to ${url} failed`, error);
     throw error;
   }
 };
@@ -66,10 +69,11 @@ export const put = async <T>(
     const response = await api.put(url, options).json<T>();
     return response;
   } catch (error) {
+    const errorMessage = await extractErrorMessage(error);
+    logError(`PUT request to ${url} failed: ${errorMessage}`, error);
     if (bypassError) {
       return null;
     }
-    logError(`PUT request to ${url} failed`, error);
     throw error;
   }
 };
@@ -88,10 +92,11 @@ export const patch = async <T>(
     const response = await api.patch(url, options).json<T>();
     return response;
   } catch (error) {
+    const errorMessage = await extractErrorMessage(error);
+    logError(`PATCH request to ${url} failed: ${errorMessage}`, error);
     if (bypassError) {
       return null;
     }
-    logError(`PATCH request to ${url} failed`, error);
     throw error;
   }
 };
@@ -106,10 +111,11 @@ export const del = async (
       credentials: withCredentials ? "include" : "same-origin",
     });
   } catch (error) {
+    const errorMessage = await extractErrorMessage(error);
+    logError(`DELETE request to ${url} failed: ${errorMessage}`, error);
     if (bypassError) {
       return null;
     }
-    logError(`DELETE request to ${url} failed`, error);
     throw error;
   }
 };
