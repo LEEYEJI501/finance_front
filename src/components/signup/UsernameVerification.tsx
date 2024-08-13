@@ -29,19 +29,10 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
         <Input
           type="text"
           placeholder="아이디 입력"
-          className="mr-2"
+          className={`mr-2 ${isDuplicate === false ? "border-green-500" : ""}`}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        {isDuplicate !== null && (
-          <span
-            className={`text-lg font-bold ml-2 ${
-              isDuplicate ? "text-red-500" : "text-green-500"
-            }`}
-          >
-            {isDuplicate ? "✕" : "◯"}
-          </span>
-        )}
         <Button
           type="button"
           color="slate"

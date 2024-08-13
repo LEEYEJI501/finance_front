@@ -8,6 +8,8 @@ type PasswordVerificationProps = {
   setPasswordConfirm: React.Dispatch<React.SetStateAction<string>>;
   isPasswordMatch: boolean | null;
   setIsPasswordMatch: React.Dispatch<React.SetStateAction<boolean | null>>;
+  isPasswordValid: boolean | null;
+  setIsPasswordValid: React.Dispatch<React.SetStateAction<boolean | null>>;
 };
 
 const PasswordVerification: React.FC<PasswordVerificationProps> = ({
@@ -17,7 +19,15 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
   setPasswordConfirm,
   isPasswordMatch,
   setIsPasswordMatch,
+  isPasswordValid,
+  setIsPasswordValid,
 }) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+    setIsPasswordValid(value.length >= 8);
+  };
+
   const handlePasswordConfirmChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -36,7 +46,14 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
           type="password"
           placeholder="비밀번호 입력(8~20자)"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
+          className={`${
+            isPasswordValid === false
+              ? "border-red-500"
+              : isPasswordValid === true
+              ? "border-green-500"
+              : ""
+          }`}
         />
       </div>
 
@@ -50,16 +67,14 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
             placeholder="비밀번호 재입력"
             value={passwordConfirm}
             onChange={handlePasswordConfirmChange}
+            className={`${
+              isPasswordMatch === false
+                ? "border-red-500"
+                : isPasswordMatch === true
+                ? "border-green-500"
+                : ""
+            }`}
           />
-          {isPasswordMatch !== null && (
-            <span
-              className={`text-lg font-bold ml-2 ${
-                isPasswordMatch ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {isPasswordMatch ? "◯" : "✕"}
-            </span>
-          )}
         </div>
       </div>
     </>

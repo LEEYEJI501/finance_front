@@ -13,27 +13,20 @@ const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [isDuplicate, setIsDuplicate] = useState<boolean | null>(null);
   const [isPasswordMatch, setIsPasswordMatch] = useState<boolean | null>(null);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageSelected, setIsImageSelected] = useState<boolean>(false);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("Form Validation Triggered");
-    console.log("Username:", username);
-    console.log("Password:", password);
-    console.log("Password Confirm:", passwordConfirm);
-    console.log("Email:", email);
-    console.log("Is Password Match:", isPasswordMatch);
-    console.log("Is Duplicate:", isDuplicate);
-    console.log("Is Image Selected:", isImageSelected);
-
     setIsFormValid(
       username !== "" &&
         password !== "" &&
         passwordConfirm !== "" &&
         email !== "" &&
         isPasswordMatch === true &&
+        isPasswordValid === true &&
         isDuplicate === false &&
         isImageSelected === true
     );
@@ -43,6 +36,7 @@ const SignupPage = () => {
     passwordConfirm,
     email,
     isPasswordMatch,
+    isPasswordValid,
     isDuplicate,
     isImageSelected,
   ]);
@@ -122,6 +116,8 @@ const SignupPage = () => {
           setPasswordConfirm={setPasswordConfirm}
           isPasswordMatch={isPasswordMatch}
           setIsPasswordMatch={setIsPasswordMatch}
+          isPasswordValid={isPasswordValid}
+          setIsPasswordValid={setIsPasswordValid}
         />
 
         <EmailVerification email={email} setEmail={setEmail} />

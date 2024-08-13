@@ -50,7 +50,6 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
 
   const handleCodeVerify = async () => {
     const isValid = await fetchEmailVerify(email, verificationCode);
-      
     setIsCodeValid(isValid);
   };
 
@@ -62,8 +61,8 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
       <div className="flex">
         <Input
           type="text"
-          placeholder="이메일 주소"
-          className="mr-2"
+          placeholder="example@gmail.com"
+          className={`mr-2 ${isEmailValid ? "border-green-500" : ""}`}
           value={email}
           onChange={handleEmailChange}
           disabled={emailDisabled}
