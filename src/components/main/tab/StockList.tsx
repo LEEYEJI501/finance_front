@@ -3,7 +3,6 @@ import { fetchStockList } from "@/services/stock";
 import Table from "@/components/common/Table";
 import { IStock } from "@/types/stock";
 import { useRouter } from "next/router";
-import constants from "@/constants";
 
 type StockListProps = {
   market: string;
