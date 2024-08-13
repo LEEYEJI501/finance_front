@@ -5,6 +5,7 @@ type TooltipProps = {
   position?: "top" | "bottom" | "left" | "right";
   children: React.ReactNode;
   className?: string;
+  alwaysVisible?: boolean;
 };
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -12,6 +13,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   position = "right",
   children,
   className = "",
+  alwaysVisible = false,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -27,11 +29,12 @@ const Tooltip: React.FC<TooltipProps> = ({
       onBlur={hideTooltip}
     >
       {children}
-      {isVisible && (
+      {(isVisible || alwaysVisible) && (
         <div
           className={`absolute z-10 p-2 text-sm text-gray-500 bg-white rounded shadow-md ${getTooltipPosition(
             position
           )} ${className}`}
+          style={{ whiteSpace: "nowrap" }}
         >
           {message}
         </div>

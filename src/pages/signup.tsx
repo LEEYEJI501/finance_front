@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Input } from "../components";
 import { fetchCheckUsername, fetchSignUp } from "@/services/users";
 import EmailVerification from "@/components/signup/EmailVerification";
+import { Tooltip } from "@/components/index";
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
@@ -12,7 +13,7 @@ const SignupPage = () => {
   const [isPasswordMatch, setIsPasswordMatch] = useState<boolean | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
+  const [isImageSelected, setIsImageSelected] = useState<boolean>(false);
 
   const handleCheckClick = async () => {
     const response = await fetchCheckUsername(username);
@@ -27,18 +28,12 @@ const SignupPage = () => {
     setIsPasswordMatch(value === password);
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsEmailValid(emailRegex.test(value));
-  };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setProfileImage(file);
       setPreviewImage(URL.createObjectURL(file));
+      setIsImageSelected(true);
     }
   };
 
@@ -60,21 +55,12 @@ const SignupPage = () => {
     if (profileImage !== null) {
       formData.append("profileImage", profileImage);
     } else {
-      const defaultImageResponse = await fetch("/default-profile.png");
-      const defaultImageBlob = await defaultImageResponse.blob();
-      const defaultImageFile = new File(
-        [defaultImageBlob],
-        "default-profile.png",
-        {
-          type: defaultImageBlob.type,
-        }
-      );
-
-      formData.append("profileImage", defaultImageFile);
+      alert("프로필 이미지를 업로드해주세요.");
+      return;
     }
 
     console.log("sign up button click", formData);
-    console.log(username, password, email);
+    console.log(username, password, email, profileImage);
 
     await fetchSignUp(username, password, email, profileImage!);
   };
@@ -86,7 +72,7 @@ const SignupPage = () => {
     email !== "" &&
     isPasswordMatch &&
     isDuplicate === false &&
-    isEmailValid;
+    isImageSelected;
 
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
@@ -94,21 +80,25 @@ const SignupPage = () => {
         <h1 className="text-2xl font-bold mb-10 text-center">Sign Up</h1>
 
         <div className="mb-6 flex flex-col items-center relative">
-          <div className="relative">
-            <img
-              src={previewImage || "/default-profile.png"}
-              alt="Profile Preview"
-              className="w-24 h-24 object-cover rounded-full cursor-pointer"
-              onClick={handleImageClick}
-            />
-            <input
-              type="file"
-              id="profileImage"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-          </div>
+          <Tooltip message="프로필 사진 업로드" position="bottom">
+            <div className="relative">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-500 p-1">
+                <img
+                  src={previewImage || "/default-profile.png"}
+                  alt="Profile Preview"
+                  className="w-full h-full object-cover rounded-full"
+                  onClick={handleImageClick}
+                />
+              </div>
+              <input
+                type="file"
+                id="profileImage"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+          </Tooltip>
         </div>
 
         <div className="mb-6">
@@ -179,12 +169,7 @@ const SignupPage = () => {
           </div>
         </div>
 
-        <EmailVerification
-          email={email}
-          setEmail={setEmail}
-          onEmailChange={handleEmailChange}
-          isEmailValid={isEmailValid}
-        />
+        <EmailVerification email={email} setEmail={setEmail} />
 
         <div className="flex justify-between">
           <Button

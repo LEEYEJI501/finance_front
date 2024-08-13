@@ -7,15 +7,11 @@ import Input from "../common/Input";
 type EmailVerificationProps = {
   email: string;
   setEmail: (email: string) => void;
-  onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isEmailValid: boolean;
 };
 
 const EmailVerification: React.FC<EmailVerificationProps> = ({
   email,
   setEmail,
-  onEmailChange,
-  isEmailValid,
 }) => {
   const [isCountCompleted, setIsCountCompleted] = useState(true);
   const [countHide, setCountHide] = useState(true);
@@ -23,10 +19,18 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
   const [verificationCode, setVerificationCode] = useState("");
   const [isCodeValid, setIsCodeValid] = useState<boolean | null>(null);
   const [emailDisabled, setEmailDisabled] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
   const handleComplete = () => {
     setIsCountCompleted(true);
     setCountHide(true);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(value));
   };
 
   const handleEmailSend = async () => {
@@ -68,7 +72,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
           placeholder="이메일 주소"
           className="mr-2"
           value={email}
-          onChange={onEmailChange}
+          onChange={handleEmailChange}
           disabled={emailDisabled}
         />
         <CountDown
