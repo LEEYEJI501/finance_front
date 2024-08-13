@@ -33,6 +33,7 @@ export const fetchStockDetail = async () => {
   
 }
 
+
 export const parseStockData = (data: any): IStockResponse => {
   const parsedStocks: IStockData[] = data.stockData.map((item: any) => ({
     date: item.date,

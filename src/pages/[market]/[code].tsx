@@ -15,22 +15,21 @@ const ChartPage = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('1MONTH');
 
   useEffect(() => {
+    const fetchData = async () => {
+      subscribe(`/topic/initialData/${market}/${code}/${uniqueId}`, (message) => {
+        const stockData = JSON.parse(message.body);
+        setStockData(stockData.stockData);
+      });
+
+      send(`/app/initialData/${market}/${code}/${uniqueId}`, {
+        timeframe: timeframe,
+      });
+    };
+
     if (market && code && name) {
-      const fetchData = async () => {
-        subscribe(`/topic/initialData/${market}/${code}/${uniqueId}`, (message) => {
-          const stockData = JSON.parse(message.body);
-          console.log(stockData);
-          setStockData(stockData.stockData);
-        });
-
-        send(`/app/initialData/${market}/${code}/${uniqueId}`, {
-          timeframe: timeframe,
-        });
-      };
-
       fetchData();
     }
-  }, [market, code, name, subscribe, send, timeframe]);
+  }, [market, code, name, subscribe, send, timeframe]); 
 
   const handleTimeframeChange = (newTimeframe: string, timeframeKey: string) => {
     setTimeframe(newTimeframe);
@@ -51,7 +50,7 @@ const ChartPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-3xl p-8">
+      <div className="w-full max-w-5xl p-8">
         <h1 className="text-lg mb-2 bg-gray-100 text-black rounded-full px-4 py-1 inline-block">
           {name}
         </h1>
@@ -64,26 +63,26 @@ const ChartPage = () => {
 
         <div className="flex justify-between mt-4">
           <button 
-            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['1MONTH'], constants.STOCK_DATA_TIME['1MONTH'])}
-            className={getButtonClass(constants.STOCK_DATA_TIME['1MONTH'])}
+            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['1MONTH'], '1MONTH')}
+            className={getButtonClass('1MONTH')}
           >
             1개월
           </button>
           <button 
-            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['1YEAR'], constants.STOCK_DATA_TIME['1YEAR'])}
-            className={getButtonClass(constants.STOCK_DATA_TIME['1YEAR'])}
+            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['1YEAR'], '1YEAR')}
+            className={getButtonClass('1YEAR')}
           >
             1년
           </button>
           <button 
-            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['3YEARS'], constants.STOCK_DATA_TIME['3YEARS'])}
-            className={getButtonClass(constants.STOCK_DATA_TIME['3YEARS'])}
+            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['3YEARS'], '3YEARS')}
+            className={getButtonClass('3YEARS')}
           >
             3년
           </button>
           <button 
-            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['5YEARS'], constants.STOCK_DATA_TIME['5YEARS'])}
-            className={getButtonClass(constants.STOCK_DATA_TIME['5YEARS'])}
+            onClick={() => handleTimeframeChange(constants.STOCK_DATA_TIME['5YEARS'], '5YEARS')}
+            className={getButtonClass('5YEARS')}
           >
             5년
           </button>

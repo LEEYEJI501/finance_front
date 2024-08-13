@@ -52,7 +52,7 @@ const ChartComponent = ({ stockData }) => {
   };
 
   return (
-    <div className="w-full h-96 bg-gray-900 rounded-lg p-4"> 
+    <div className="w-full h-[600px] bg-gray-900 rounded-lg p-4"> 
       <Line data={chartData} options={chartOptions} />
     </div>
   );
