@@ -1,12 +1,13 @@
 import { post, get } from '@/api';
 import { ILoginResponse } from '@/types/auth';
+import { getLoginModel } from '@/models/auth';
 
 const AUTH_URL = 'auth';
 
 export const fetchLogin = async (
   username: string,
   password: string
-): Promise<ILoginResponse> => {
+) => {
   const response = await post<ILoginResponse>(
     `${AUTH_URL}/login`,
     {
@@ -16,5 +17,5 @@ export const fetchLogin = async (
     true
   );
 
-  return response;
+  return getLoginModel(response);
 };

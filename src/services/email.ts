@@ -1,7 +1,7 @@
 import { post } from "@/api";
 import { IEmailSendResponse, IEmailVerifyResponse } from "@/types/email";
 import { IApiResponse } from '@/types/common';
-import { getEmailVerify } from '@/models/email'
+import { getEmailVerifyModel } from '@/models/email'
 
 const EMAIL_URL = "email";
 
@@ -27,5 +27,5 @@ export const fetchEmailVerify = async (
     },
   );
 
-  return getEmailVerify(response);
+  return getEmailVerifyModel(response);
 };

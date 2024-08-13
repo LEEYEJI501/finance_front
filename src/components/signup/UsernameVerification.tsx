@@ -16,10 +16,8 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
   setIsDuplicate,
 }) => {
   const handleCheckClick = async () => {
-    const response = await fetchCheckUsername(username);
-    console.log("API Response:", response);
-    setIsDuplicate(response.isDuplicate);
-    console.log("isDuplicate Updated:", response.isDuplicate);
+    const isDuplicate = await fetchCheckUsername(username);
+    setIsDuplicate(isDuplicate);
   };
 
   return (

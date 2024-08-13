@@ -1,16 +1,17 @@
 import { get, post } from '@/api';
 import { ICheckUsernameResponse, ISignUpResponse } from '@/types/user';
+import { getCheckUsernameModel } from '@/models/users'
 
 const USERS_URL = 'users';
 
 export const fetchCheckUsername = async (
   username: string
-): Promise<ICheckUsernameResponse> => {
+) => {
   const response = await get<ICheckUsernameResponse>(
     `${USERS_URL}/check-username`,
     { username }
   );
-  return response;
+  return getCheckUsernameModel(response);
 };
 
 export const fetchSignUp = async (
