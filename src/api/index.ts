@@ -1,6 +1,6 @@
 import ky from "ky";
-import { logError } from "./logger";
-import { extractErrorMessage } from "./extractErrorMessage"; 
+import { handleApiResponse } from "./handleApiResponse"; 
+import { IApiResponse } from '@/types/common';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 const api = ky.create({
@@ -12,90 +12,59 @@ const api = ky.create({
 export const get = async <T>(
   url: string,
   params?: Record<string, string | number | boolean>
-): Promise<T | null> => {
-  try {
-    const response = await api.get(url, { searchParams: params }).json<T>();
-    return response;
-  } catch (error) {
-    const { message, json } = await extractErrorMessage(error);
-    logError(`GET request to ${url} failed: ${message}`, error);
-    throw json || message;
-  }
+): Promise<IApiResponse<T>> => {
+  return handleApiResponse<T>(api.get(url, { searchParams: params }).json<T>());
 };
 
 export const post = async <T>(
   url: string,
   data: Record<string, any> | FormData,
   withCredentials: boolean = false
-): Promise<T | null> => {
-  try {
-    const options: any = {
-      method: "POST",
-      credentials: withCredentials ? "include" : "same-origin",
-    };
-    if (data instanceof FormData) {
-      options.body = data;
-    } else {
-      options.json = data;
-    }
-    const response = await api.post(url, options).json<T>();
-    return response;
-  } catch (error) {
-    const { message, json } = await extractErrorMessage(error);
-    logError(`POST request to ${url} failed: ${message}`, error);
-    throw json || message;
+): Promise<IApiResponse<T>> => {
+  const options: any = {
+    method: "POST",
+    credentials: withCredentials ? "include" : "same-origin",
+  };
+
+  if (data instanceof FormData) {
+    options.body = data;
+  } else {
+    options.json = data;
   }
+
+  return handleApiResponse<T>(api.post(url, options).json<T>());
 };
 
 export const put = async <T>(
   url: string,
   data: Record<string, any>,
   withCredentials: boolean = false
-): Promise<T | null> => {
-  try {
-    const options: any = {
-      json: data,
-      credentials: withCredentials ? "include" : "same-origin",
-    };
-    const response = await api.put(url, options).json<T>();
-    return response;
-  } catch (error) {
-    const { message, json } = await extractErrorMessage(error);
-    logError(`PUT request to ${url} failed: ${message}`, error);
-    throw json || message;
-  }
+): Promise<IApiResponse<T>> => {
+  const options: any = {
+    json: data,
+    credentials: withCredentials ? "include" : "same-origin",
+  };
+  return handleApiResponse<T>(api.put(url, options).json<T>());
 };
 
 export const patch = async <T>(
   url: string,
   data: Record<string, any>,
   withCredentials: boolean = false
-): Promise<T | null> => {
-  try {
-    const options: any = {
-      json: data,
-      credentials: withCredentials ? "include" : "same-origin",
-    };
-    const response = await api.patch(url, options).json<T>();
-    return response;
-  } catch (error) {
-    const { message, json } = await extractErrorMessage(error);
-    logError(`PATCH request to ${url} failed: ${message}`, error);
-    throw json || message;
-  }
+): Promise<IApiResponse<T>> => {
+  const options: any = {
+    json: data,
+    credentials: withCredentials ? "include" : "same-origin",
+  };
+  return handleApiResponse<T>(api.patch(url, options).json<T>());
 };
 
 export const del = async (
   url: string,
   withCredentials: boolean = false
-): Promise<void | null> => {
-  try {
-    await api.delete(url, {
-      credentials: withCredentials ? "include" : "same-origin",
-    });
-  } catch (error) {
-    const { message, json } = await extractErrorMessage(error);
-    logError(`DELETE request to ${url} failed: ${message}`, error);
-    throw json || message;
-  }
+): Promise<IApiResponse<void>> => {
+  const options: any = {
+    credentials: withCredentials ? "include" : "same-origin",
+  };
+  return handleApiResponse<void>(api.delete(url, options).json<void>());
 };

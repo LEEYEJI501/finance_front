@@ -51,6 +51,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
   const handleCodeVerify = async () => {
     try {
       const response = await fetchEmailVerify(email, verificationCode);
+      
       if (response && response.isValid) {
         setIsCodeValid(true);
       } else {
