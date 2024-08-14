@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { fetchGetPosts } from '@/services/social';
 import { IPost } from "@/types/social";
+import Pagination from "@/components/common/Pagination";
+import constants from "@/constants";
 
 const BoardList = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [currentPage, setCurrentPage] = useState(constants.DEFAULT_PAGING.PAGE);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(constants.DEFAULT_PAGING.PAGESIZE);
 
   useEffect(() => {
     const loadPostList = async () => {
-      const { posts } = await fetchGetPosts();
+      const { posts, total_pages } = await fetchGetPosts();
       setPosts(posts)
+      setTotalPages(total_pages)
     };
 
     loadPostList();
   }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1); 
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(0); 
+  };
 
   return (
     <div className="mx-auto">
@@ -40,6 +55,15 @@ const BoardList = () => {
           ))}
         </tbody>
       </table>
+
+      <Pagination
+        currentPage={currentPage + 1}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+        pageRangeDisplayed={5}
+        pageSizeOptions={[10, 20, 50, 100]} 
+      />
     </div>
   );
 };
