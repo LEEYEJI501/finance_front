@@ -21,16 +21,11 @@ const getAuthorizationHeader = (): Record<string, string> => {
 
 export const get = async <T>(
   url: string,
-  token: boolean = false,
   params?: Record<string, string | number | boolean>
 ): Promise<IApiResponse<T>> => {
   const options: any = {
     searchParams: params,
   };
-
-  if (token) {
-    options.headers = getAuthorizationHeader();
-  }
 
   return handleApiResponse<T>(api.get(url, options).json<T>());
 };

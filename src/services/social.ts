@@ -13,8 +13,7 @@ export const fetchGetPosts = async (
     }
 ) => {
     const response = await get<any>(
-        `${SOCIAL_URL}/posts?page=${paging.page}&pageSize=${paging.pageSize}`,
-        true
+        `${SOCIAL_URL}/posts?page=${paging.page}&pageSize=${paging.pageSize}`
     );
     return getPostsModel(response);
 }
