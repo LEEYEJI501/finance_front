@@ -5,6 +5,7 @@ export default {
     DEFAULT_ITEMS: [],
     DEFAULT_NUM: 0,
     DEFAULT_BOOL: false,
+    DEFAULT_BOOL_TRUE: true,
     DEFAULT_PAGING: {
         PAGE: 0,
         PAGESIZE: 10
@@ -22,14 +23,7 @@ export default {
         WARNING: 'warning'
     },
     LOCAL_STORAGE: {
-        LOGIN: {
-            KEY: "LOGIN",
-            VALUE: "true"
-        },
-        LOGOUT: {
-            KEY: "LOGOUT",
-            VALUE: "false"
-        },
+        LOGIN: "LOGIN",
         USER: "USER",
     }
 }

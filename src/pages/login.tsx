@@ -16,16 +16,17 @@ const LoginPage = () => {
   const handleLoginClick = async () => {
     setError(null);
 
-    const { success, authenticated, userId } = await fetchLogin(username, password);
+    const { success, authenticated, userId, accessToken } = await fetchLogin(username, password);
 
     if (success && authenticated) {
       const user = JSON.stringify({
         id: userId,
-        username
+        username,
+        accessToken
       })
       setItem(
-        constants.LOCAL_STORAGE.LOGIN.KEY, 
-        constants.LOCAL_STORAGE.LOGIN.VALUE
+        constants.LOCAL_STORAGE.LOGIN, 
+        String(constants.DEFAULT_BOOL_TRUE)
       )
       setItem(
         constants.LOCAL_STORAGE.USER,

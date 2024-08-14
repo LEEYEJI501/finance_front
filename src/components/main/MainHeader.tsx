@@ -3,6 +3,7 @@ import { Button } from "..";
 import constants from "@/constants"
 import { getItem, removeItem  } from "@/utils/localStorage"
 import { useEffect, useState } from "react";
+import { fetchLogout } from "@/services/auth"
 
 interface User {
     id: number;
@@ -15,7 +16,7 @@ const MainHeader: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        const loginStatus = getItem(constants.LOCAL_STORAGE.LOGIN.KEY) === "true";
+        const loginStatus = getItem(constants.LOCAL_STORAGE.LOGIN) === "true";
         setIsLoggedIn(loginStatus);
 
         if (loginStatus) {
@@ -30,11 +31,15 @@ const MainHeader: React.FC = () => {
         router.push("/login");
     };
 
-    const handleLogoutClick = () => {
-        removeItem(constants.LOCAL_STORAGE.LOGIN.KEY);
-        removeItem(constants.LOCAL_STORAGE.USER);
+    const handleLogoutClick = async () => {
+        const success = await fetchLogout(user?.id);
 
-        router.push("/");
+        if (success) {
+            removeItem(constants.LOCAL_STORAGE.LOGIN);
+            removeItem(constants.LOCAL_STORAGE.USER);
+            
+            router.push("/login");
+        }
     };
 
     return (

@@ -23,3 +23,9 @@ export const getLoginModel = (res: IApiResponse<ILoginResponse>) => {
         userId: constants.DEFAULT_NUM
     };
 }
+
+export const getLogoutModel = (res: IApiResponse<any>) => {
+    const success = res.success;
+
+    return success;
+}
