@@ -9,6 +9,7 @@ export const fetchCheckUsername = async (
 ) => {
   const response = await get<ICheckUsernameResponse>(
     `${USERS_URL}/check-username`,
+    false,
     { username }
   );
   return getCheckUsernameModel(response);

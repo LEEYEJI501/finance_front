@@ -1,6 +1,6 @@
 import constants from '@/constants';
 import { IApiResponse } from '@/types/common';
-import { IEmailSendResponse, IEmailVerifyResponse } from "@/types/email";
+import { IEmailVerifyResponse } from "@/types/email";
 
 export const getEmailVerifyModel = (res: IApiResponse<IEmailVerifyResponse>) => {
     const success = res.success;

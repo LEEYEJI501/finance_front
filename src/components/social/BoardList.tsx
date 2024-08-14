@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { fetchGetPosts } from '@/services/social';
+import { IPost } from "@/types/social";
 
 const BoardList = () => {
-  const items = [
-    { id: 4, title: '탭 메뉴 이미지', author: 'asd', date: '2017-12-06' },
-    { id: 3, title: '응원합니다!', author: 'asdf', date: '2017-11-20' },
-    { id: 2, title: 'asdfasdf', author: 'asdf', date: '2017-11-20' },
-    { id: 4, title: '탭 메뉴 이미지', author: 'asd', date: '2017-12-06' },
-    { id: 3, title: '응원합니다!', author: 'asdf', date: '2017-11-20' },
-    { id: 2, title: 'asdfasdf', author: 'asdf', date: '2017-11-20' },
-  ];
+  const [posts, setPosts] = useState<IPost[]>([]);
+
+  useEffect(() => {
+    const loadPostList = async () => {
+      const { posts } = await fetchGetPosts();
+      setPosts(posts)
+    };
+
+    loadPostList();
+  }, []);
 
   return (
     <div className="mx-auto">
@@ -16,6 +20,7 @@ const BoardList = () => {
         관련 게시글
       </div>
       <table className="w-full text-sm">
+        
         {/* <thead>
           <tr className="border-b">
             <th className="py-2 text-center">No</th>
@@ -25,12 +30,12 @@ const BoardList = () => {
           </tr>
         </thead> */}
         <tbody>
-          {items.map(item => (
-            <tr key={item.id} className="">
-              <td className="py-2 text-left text-gray-400">{item.id}</td>
-              <td className="text-left">{item.title}</td>
-              <td className="text-center text-gray-400">{item.author}</td>
-              <td className="text-right text-gray-400 w-36">{item.date}</td>
+          {posts.map(post => (
+            <tr key={post.id} className="">
+              <td className="py-2 text-left text-gray-400">{post.id}</td>
+              <td className="text-left">{post.title}</td>
+              <td className="text-center text-gray-400">{post.author}</td>
+              <td className="text-right text-gray-400 w-36">{post.createdAt}</td>
             </tr>
           ))}
         </tbody>

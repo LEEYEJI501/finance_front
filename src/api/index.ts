@@ -21,8 +21,8 @@ const getAuthorizationHeader = (): Record<string, string> => {
 
 export const get = async <T>(
   url: string,
-  params?: Record<string, string | number | boolean>,
-  token: boolean = false
+  token: boolean = false,
+  params?: Record<string, string | number | boolean>
 ): Promise<IApiResponse<T>> => {
   const options: any = {
     searchParams: params,
