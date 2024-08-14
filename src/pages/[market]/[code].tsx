@@ -11,6 +11,10 @@ const ChartPage = () => {
   const uniqueId = uuidv4();
   const { subscribe, send } = useSockJS();
   const [stockData, setStockData] = useState([]);
+  const [rsi, setRsi] = useState([]);
+  const [sma12, setSma12] = useState([]);
+  const [sma20, setSma20] = useState([]);
+  const [sma26, setSma26] = useState([]);
   const [timeframe, setTimeframe] = useState(constants.STOCK_DATA_TIME['1MONTH']);
   const [selectedTimeframe, setSelectedTimeframe] = useState('1MONTH');
 
@@ -18,6 +22,10 @@ const ChartPage = () => {
     const fetchData = async () => {
       subscribe(`/topic/initialData/${market}/${code}/${uniqueId}`, (message) => {
         const stockData = JSON.parse(message.body);
+        setRsi(stockData.rsi.rsi);
+        setSma12(stockData.movingAverages.sma12);
+        setSma20(stockData.movingAverages.sma20);
+        setSma26(stockData.movingAverages.sma26);
         setStockData(stockData.stockData);
       });
 
@@ -59,7 +67,7 @@ const ChartPage = () => {
           <span className='text-sm'> 원</span>
         </h2>
 
-        <Chart stockData={stockData} />
+        <Chart stockData={stockData} rsi={rsi} sma12={sma12} sma20={sma20} sma26={sma26} />
 
         <div className="flex justify-between mt-4">
           <button 

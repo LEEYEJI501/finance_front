@@ -34,7 +34,7 @@ const Toast: React.FC<ToastProps> = ({ message, type = 'info', duration = 3000, 
   return (
     <div
       className={`fixed top-4 right-4 flex items-center w-full max-w-sm p-4 rounded shadow-lg z-50 transition-transform transform ${
-        isVisible ? 'translate-x-0' : 'translate-x-full'
+        isVisible ? 'animate-bounceIn' : 'animate-fadeOut'
       } ${typeStyles[type]}`}
     >
       <div className="flex-1">

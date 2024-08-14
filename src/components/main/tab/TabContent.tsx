@@ -29,7 +29,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
 
   return (
     <div className="w-full">
-      <div className="flex justify-center mb-6"> {/* 중앙 정렬을 위한 Flexbox 적용 */}
+      <div className="flex justify-center mb-6"> 
         <SearchInput
           placeholder="검색어를 입력하세요"
           value={searchTerm}

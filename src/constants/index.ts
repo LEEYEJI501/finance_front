@@ -14,5 +14,11 @@ export default {
         "1YEAR": "1year",
         "3YEARS": "3years",
         "5YEARS": "5years"
-    }
+    },
+    TOAST_TYPES: {
+        SUCCESS: 'success',
+        ERROR: 'error',
+        INFO: 'info',
+        WARNING: 'warning'
+    },
 }

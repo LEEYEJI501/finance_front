@@ -6,8 +6,12 @@ import UsernameVerification from "@/components/signup/UsernameVerification";
 import PasswordVerification from "@/components/signup/PasswordVerification";
 import { Tooltip } from "@/components/index";
 import { useRouter } from "next/router";
+import { useToast } from "@/contexts/ToastContext";
+import constants from "@/constants";
 
 const SignupPage = () => {
+  const { showToast } = useToast();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -61,6 +65,8 @@ const SignupPage = () => {
   
     if (success) {
       router.push("/login");
+
+      showToast("가입이 완료되었습니다.", constants.TOAST_TYPES.SUCCESS);
     }
   };
 

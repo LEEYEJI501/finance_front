@@ -1,6 +1,8 @@
 import React from "react";
 import { Input, Button } from "@/components";
 import { fetchCheckUsername } from "@/services/users";
+import { useToast } from "@/contexts/ToastContext";
+import constants from "@/constants";
 
 type UsernameVerificationProps = {
   username: string;
@@ -15,9 +17,24 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
   isDuplicate,
   setIsDuplicate,
 }) => {
+  const { showToast } = useToast();
+
   const handleCheckClick = async () => {
+    if (username.length < 4 || username.length > 20) {
+      showToast("아이디는 최소 4자에서 최대 20자까지 입력 가능합니다.", constants.TOAST_TYPES.ERROR);
+      return;
+    }
+
     const isDuplicate = await fetchCheckUsername(username);
     setIsDuplicate(isDuplicate);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    if (value.length <= 20) {
+      setUsername(value);
+    }
   };
 
   return (
@@ -31,7 +48,7 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
           placeholder="아이디 입력"
           className={`mr-2 ${isDuplicate === false ? "border-green-500" : ""}`}
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={handleChange}
         />
         <Button
           type="button"

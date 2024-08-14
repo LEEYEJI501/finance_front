@@ -1,59 +1,171 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ChartComponent = ({ stockData }) => {
+interface ChartComponentProps {
+  stockData: Array<{
+    date: string;
+    closePrice: number;
+  }>;
+  rsi: number[];
+  sma12: number[];
+  sma20: number[];
+  sma26: number[];
+}
+
+const ChartComponent: React.FC<ChartComponentProps> = ({ stockData, rsi, sma12, sma20, sma26 }) => {
+  const chartRef = useRef<ChartJS<'line'> | null>(null);
+
+  useEffect(() => {
+    const loadZoomPlugin = async () => {
+      const { default: zoomPlugin } = await import('chartjs-plugin-zoom');
+      ChartJS.register(zoomPlugin);
+
+      if (chartRef.current) {
+        chartRef.current.update();
+      }
+    };
+
+    loadZoomPlugin();
+  }, []);
+
   const chartData = {
     labels: stockData.map(stock => stock.date),
     datasets: [
       {
-        label: '',
+        label: 'Closing Prices',
         data: stockData.map(stock => stock.closePrice),
         borderColor: 'rgba(255, 255, 255, 0.8)',
-        backgroundColor: 'rgba(0, 0, 0, 0)', 
-        pointRadius: 0, 
-        borderWidth: 2, 
-        tension: 0.4, 
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      {
+        label: 'RSI',
+        data: rsi,
+        borderColor: 'rgba(255, 0, 0, 0.8)', 
+        backgroundColor: 'rgba(255, 0, 0, 0)',
+        borderDash: [5, 5], 
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(255, 0, 0, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      {
+        label: 'SMA 12',
+        data: [...Array(11).fill(null), ...sma12], 
+        borderColor: 'rgba(0, 255, 0, 0.8)', 
+        backgroundColor: 'rgba(0, 255, 0, 0)',
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(0, 255, 0, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      {
+        label: 'SMA 20',
+        data: [...Array(19).fill(null), ...sma20], 
+        borderColor: 'rgba(0, 0, 255, 0.8)', 
+        backgroundColor: 'rgba(0, 0, 255, 0)',
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(0, 0, 255, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      {
+        label: 'SMA 26',
+        data: [...Array(25).fill(null), ...sma26], 
+        borderColor: 'rgba(255, 255, 0, 0.8)',
+        backgroundColor: 'rgba(255, 255, 0, 0)',
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(255, 255, 0, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
       },
     ],
   };
 
-  const chartOptions = {
+  const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
         grid: {
-          display: false,   // X축 그리드 
+          display: false,
         },
         ticks: {
-          display: false,   // X축 라벨 
+          display: true,
+          color: '#ffffff',
         },
       },
       y: {
         grid: {
-          color: 'rgba(255, 255, 255, 0.1)', 
+          color: 'rgba(255, 255, 255, 0.1)',
         },
         ticks: {
-          display: true,   // Y축 라벨
+          display: true,
+          color: '#ffffff',
         },
       },
     },
     plugins: {
       legend: {
-        display: false,   // 범례
+        display: true,
+        labels: {
+          font: {
+            size: 14,
+            family: 'Arial',
+            weight: 'bold',
+          },
+          usePointStyle: true,
+          color: '#ffffff', 
+        },
       },
       tooltip: {
-        enabled: true,   // 툴팁
+        enabled: true,
+        callbacks: {
+          label: (context) => {
+            return `${context.dataset.label}: ${context.raw}`;
+          },
+        },
+      },
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: 'xy',
+        },
+      },
+      annotation: {
+        annotations: {
+          rsiBackground: {
+            type: 'box',
+            xMin: 0,
+            xMax: stockData.length - 1,
+            yMin: 30,
+            yMax: 70, 
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          },
+        },
       },
     },
   };
 
   return (
-    <div className="w-full h-[600px] bg-gray-900 rounded-lg p-4"> 
-      <Line data={chartData} options={chartOptions} />
+    <div className="w-full h-[600px] bg-gray-900 rounded-lg p-4">
+      <Line ref={chartRef} data={chartData} options={chartOptions} />
     </div>
   );
 };
