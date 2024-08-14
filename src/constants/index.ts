@@ -21,4 +21,15 @@ export default {
         INFO: 'info',
         WARNING: 'warning'
     },
+    LOCAL_STORAGE: {
+        LOGIN: {
+            KEY: "LOGIN",
+            VALUE: "true"
+        },
+        LOGOUT: {
+            KEY: "LOGOUT",
+            VALUE: "false"
+        },
+        USER: "USER",
+    }
 }

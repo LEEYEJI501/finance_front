@@ -1,7 +1,5 @@
 export interface ILoginResponse {
-  token: string;
-  user: {
-    id: string;
-    username: string;
-  };
+  authenticated: boolean;
+  accessToken: string;
+  userId: number;
 }

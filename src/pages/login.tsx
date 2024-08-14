@@ -2,20 +2,41 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "../components";
 import { fetchLogin } from "@/services/auth";
+import { useToast } from "@/contexts/ToastContext";
+import constants from "@/constants";
+import { setItem } from '@/utils/localStorage';
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
+  const { showToast } = useToast();
 
   const handleLoginClick = async () => {
     setError(null);
-    setMessage(null);
 
-    await fetchLogin(username, password);
-    router.push("/");
+    const { success, authenticated, userId } = await fetchLogin(username, password);
+
+    if (success && authenticated) {
+      const user = JSON.stringify({
+        id: userId,
+        username
+      })
+      setItem(
+        constants.LOCAL_STORAGE.LOGIN.KEY, 
+        constants.LOCAL_STORAGE.LOGIN.VALUE
+      )
+      setItem(
+        constants.LOCAL_STORAGE.USER,
+        user
+      )
+      router.push("/");
+
+      showToast(`반갑습니다. ${username}님`, constants.TOAST_TYPES.SUCCESS);
+    } else {
+      showToast(`로그인에 실패하였습니다.`, constants.TOAST_TYPES.ERROR);
+    }
   };
 
   const handleSignUpClick = () => {
