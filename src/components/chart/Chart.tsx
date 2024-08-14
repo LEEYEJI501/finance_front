@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarElement } from 'chart.js';
 import { ChartOptions } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarElement);
 
 interface ChartComponentProps {
   stockData: Array<{
@@ -14,9 +14,12 @@ interface ChartComponentProps {
   sma12: number[];
   sma20: number[];
   sma26: number[];
+  macdLine: number[];
+  signalLine: number[];
+  histogram: number[];
 }
 
-const ChartComponent: React.FC<ChartComponentProps> = ({ stockData, rsi, sma12, sma20, sma26 }) => {
+const ChartComponent: React.FC<ChartComponentProps> = ({ stockData, rsi, sma12, sma20, sma26, macdLine, signalLine, histogram }) => {
   const chartRef = useRef<ChartJS<'line'> | null>(null);
 
   useEffect(() => {
@@ -85,6 +88,33 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ stockData, rsi, sma12, 
         pointBackgroundColor: 'rgba(255, 255, 0, 0.8)',
         borderWidth: 2,
         tension: 0.4,
+      },
+      {
+        label: 'MACD Line',
+        data: [...Array(25).fill(null), ...macdLine],
+        borderColor: 'rgba(75, 192, 192, 0.8)',
+        backgroundColor: 'rgba(75, 192, 192, 0)',
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(75, 192, 192, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      {
+        label: 'Signal Line',
+        data: [...Array(25).fill(null), ...signalLine],
+        borderColor: 'rgba(153, 102, 255, 0.8)',
+        backgroundColor: 'rgba(153, 102, 255, 0)',
+        pointRadius: 1,
+        pointBackgroundColor: 'rgba(153, 102, 255, 0.8)',
+        borderWidth: 2,
+        tension: 0.4,
+      },
+      {
+        label: 'MACD Histogram',
+        data: [...Array(25).fill(null), ...histogram],
+        type: 'bar',
+        backgroundColor: 'rgba(255, 159, 64, 0.8)',
+        borderWidth: 2,
       },
     ],
   };
