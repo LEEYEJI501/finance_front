@@ -65,37 +65,41 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-4 text-gray-800 bg-white p-4 rounded">
-      <button
-        onClick={handlePrevious}
-        disabled={currentPage === 1}
-        className="w-8 h-8 flex items-center justify-center bg-transparent hover:bg-gray-200 rounded"
-      >
-        <span className="inline-block transform rotate-180">
-          &#8250;
-        </span>
-      </button>
-      {renderPageNumbers()}
-      <button
-        onClick={handleNext}
-        disabled={currentPage === totalPages}
-        className="w-8 h-8 flex items-center justify-center bg-transparent hover:bg-gray-200 rounded"
-      >
-        <span>
-          &#8250;
-        </span>
-      </button>
-      {onPageSizeChange && (
-        <select
-          onChange={(e) => onPageSizeChange(Number(e.target.value))}
-          className="ml-4 p-2 border rounded bg-gray-100 text-gray-800"
+    <div className="flex flex-col items-center mt-4">
+      <div className="flex justify-center items-center space-x-2 text-gray-800 bg-white p-4 rounded">
+        <button
+          onClick={handlePrevious}
+          disabled={currentPage === 1}
+          className="w-8 h-8 flex items-center justify-center bg-transparent hover:bg-gray-200 rounded"
         >
-          {pageSizeOptions.map((size) => (
-            <option key={size} value={size}>
-              {size} per page
-            </option>
-          ))}
-        </select>
+          <span className="inline-block transform rotate-180">
+            &#8250;
+          </span>
+        </button>
+        {renderPageNumbers()}
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className="w-8 h-8 flex items-center justify-center bg-transparent hover:bg-gray-200 rounded"
+        >
+          <span>
+            &#8250;
+          </span>
+        </button>
+      </div>
+      {onPageSizeChange && (
+        <div className="mt-2">
+          <select
+            onChange={(e) => onPageSizeChange(Number(e.target.value))}
+            className="p-2 border rounded bg-gray-100 text-gray-800"
+          >
+            {pageSizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size} per page
+              </option>
+            ))}
+          </select>
+        </div>
       )}
     </div>
   );
