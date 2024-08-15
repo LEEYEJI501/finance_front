@@ -40,6 +40,7 @@ export const fetchMarketList = async () => {
 export const fetchSearchStock = async (data: {
   term: string;
   category: string;
+  page?: number;
 }) => {
   const { term, category } = data;
 

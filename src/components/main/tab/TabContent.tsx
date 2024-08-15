@@ -4,14 +4,17 @@ import StockList from '@/components/main/tab/StockList';
 import constants from '@/constants';
 import { SearchInput, Modal } from '@/components/index';
 import { fetchSearchStock } from '@/services/stock';
+import useDebounce from '@/hooks/useDebounced';
 
 type TabContentProps = {
   market: string;
 };
 
 const TabContent: React.FC<TabContentProps> = ({ market }) => {
-  const [currentPage, setCurrentPage] = useState(constants.DEFAULT_PAGING.PAGE);
-  const [totalPages, setTotalPages] = useState(1);
+  const [stockListPage, setStockListPage] = useState(
+    constants.DEFAULT_PAGING.PAGE,
+  );
+  const [totalStockListPages, setTotalStockListPages] = useState(1);
   const [pageSize, setPageSize] = useState(constants.DEFAULT_PAGING.PAGESIZE);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchCategory, setSearchCategory] = useState('name');
@@ -19,14 +22,17 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
     { code: string; name: string; market_name: string }[]
   >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalPage, setModalPage] = useState(0);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const searchOptions = ['name', 'code'];
 
-  const debouncedSearch = useCallback(
-    debounce(async (term: string) => {
+  const performSearch = useCallback(
+    async (term: string) => {
       const results = await fetchSearchStock({
         term,
         category: searchCategory,
+        page: 0,
       });
 
       if (results && results.stocks) {
@@ -38,21 +44,47 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
           })),
         );
         setIsModalOpen(true);
+        setModalPage(1);
       } else {
         setSearchResults([]);
         setIsModalOpen(true);
       }
-    }, 1000),
-    [searchCategory, market],
+    },
+    [searchCategory],
   );
 
+  const debouncedSearch = useDebounce(performSearch, 1000);
+
+  const loadMore = useCallback(async () => {
+    if (isLoadingMore || modalPage >= totalStockListPages) return;
+    setIsLoadingMore(true);
+    const results = await fetchSearchStock({
+      term: searchTerm,
+      category: searchCategory,
+      page: 0,
+    });
+
+    if (results && results.stocks) {
+      setSearchResults(prevResults => [
+        ...prevResults,
+        ...results.stocks.map((result: any) => ({
+          code: result.code,
+          name: result.name,
+          market_name: result.market_name,
+        })),
+      ]);
+      setModalPage(modalPage + 1);
+    }
+    setIsLoadingMore(false);
+  }, [searchTerm, searchCategory, modalPage, isLoadingMore]);
+
   const handlePageChange = (page: number) => {
-    setCurrentPage(page - 1);
+    setStockListPage(page - 1);
   };
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
-    setCurrentPage(0);
+    setStockListPage(0);
   };
 
   const handleSearch = (term: string) => {
@@ -92,20 +124,23 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
             onClose={() => setIsModalOpen(false)}
             onSelect={handleSelect}
             searchTerm={searchTerm}
+            loadMore={loadMore}
           />
         </div>
       </div>
       <StockList
         market={market}
-        currentPage={currentPage}
+        currentPage={stockListPage}
         pageSize={pageSize}
         searchTerm={searchTerm}
         searchCategory={searchCategory}
-        onTotalPagesChange={(totalPages: number) => setTotalPages(totalPages)}
+        onTotalPagesChange={(totalPages: number) =>
+          setTotalStockListPages(totalPages)
+        }
       />
       <Pagination
-        currentPage={currentPage + 1}
-        totalPages={totalPages}
+        currentPage={stockListPage + 1}
+        totalPages={totalStockListPages}
         onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}
         pageRangeDisplayed={5}
@@ -116,11 +151,3 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
 };
 
 export default TabContent;
-
-function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
-  let timeout: NodeJS.Timeout;
-  return function (...args: Parameters<T>) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-}

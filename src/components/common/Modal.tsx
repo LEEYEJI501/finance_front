@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useNavigate } from '@/hooks/useNavigate';
 
 interface ModalProps {
@@ -11,6 +11,7 @@ interface ModalProps {
     market_name: string;
   }) => void;
   searchTerm: string;
+  loadMore: () => void; // 더 많은 데이터를 로드하는 함수
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -19,8 +20,23 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   onSelect,
   searchTerm,
+  loadMore,
 }) => {
   const { navigateToStockDetail } = useNavigate();
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  const lastOptionRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (observerRef.current) observerRef.current.disconnect();
+      observerRef.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          loadMore();
+        }
+      });
+      if (node) observerRef.current.observe(node);
+    },
+    [loadMore],
+  );
 
   const handleSelect = (option: {
     code: string;
@@ -49,8 +65,9 @@ const Modal: React.FC<ModalProps> = ({
         options.map((option, index) => (
           <div
             key={index}
+            ref={index === options.length - 1 ? lastOptionRef : null}
             onClick={() => handleSelect(option)}
-            className="flex items-center p-2 cursor-pointer hover:cursor-pointer hover:bg-slate-200"
+            className="flex items-center p-2 cursor-pointer hover:bg-slate-200"
           >
             <div className="text-md mr-2">{option.name}</div>
             <div className="text-sm text-gray-500 border rounded-full px-3 py-1 inline-block mr-2">
