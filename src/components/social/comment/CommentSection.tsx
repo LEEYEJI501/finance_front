@@ -16,7 +16,7 @@ type CommentSectionProps = {
 const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
   const [commentTree, setCommentTree] = useState(buildCommentTree(comments));
   const [newComment, setNewComment] = useState('');
-  const { user } = useStorage();
+  const { user, isLoggedIn } = useStorage();
   const { showToast } = useToast();
 
   const handleAddReply = async (parentCommentId: number, replyText: string) => {
@@ -51,22 +51,24 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
       <h3 className="text-lg font-semibold mb-4">
         댓글 <span className="text-blue-500">{totalCommentCount}</span>
       </h3>
-      <div className="flex space-x-4 mt-4 mb-8">
-        <Input
-          type="text"
-          value={newComment}
-          onChange={e => setNewComment(e.target.value)}
-          placeholder="댓글을 입력하세요..."
-        />
-        <Button
-          size="small"
-          color="none"
-          onClick={handleAddComment}
-          className="whitespace-nowrap border"
-        >
-          댓글 작성
-        </Button>
-      </div>
+      {isLoggedIn && (
+        <div className="flex space-x-4 mt-4 mb-8">
+          <Input
+            type="text"
+            value={newComment}
+            onChange={e => setNewComment(e.target.value)}
+            placeholder="댓글을 입력하세요..."
+          />
+          <Button
+            size="small"
+            color="none"
+            onClick={handleAddComment}
+            className="whitespace-nowrap border"
+          >
+            댓글 작성
+          </Button>
+        </div>
+      )}
       {commentTree.map(comment => (
         <Comment
           key={comment.id}
