@@ -1,16 +1,16 @@
-import { useRouter } from 'next/router';
+import { useNavigate } from '@/hooks/useNavigate';
 import React, { useEffect, useState } from 'react';
 import { Chart } from '@/components/index';
 import { v4 as uuidv4 } from 'uuid';
 import { useSockJS } from '@/hooks/useSockJS';
 import constants from '@/constants';
-import BoardList from '@/components/social/BoardList';
+import PostList from '@/components/social/postForm/PostList';
 import BoardDetail from '@/components/social/BoardDetail';
 import Reply from '@/components/social/Reply';
 
 const ChartPage = () => {
-  const router = useRouter();
-  const { market, code, name } = router.query;
+  const { getQueryParams } = useNavigate();
+  const { market, code, name } = getQueryParams();
   const uniqueId = uuidv4();
   const { subscribe, send } = useSockJS();
   const [stockData, setStockData] = useState([]);
@@ -145,7 +145,7 @@ const ChartPage = () => {
         </div>
         <hr className="my-8 border-gray-400" />
         <div>
-          <BoardList />
+          <PostList market={market} code={code} name={name}/>
         </div>
       </div>
     </div>

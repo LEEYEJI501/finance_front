@@ -17,13 +17,21 @@ export default {
         "5YEARS": "5years"
     },
     TOAST_TYPES: {
-        SUCCESS: 'success',
-        ERROR: 'error',
-        INFO: 'info',
-        WARNING: 'warning'
+        SUCCESS: 'success' as const,
+        ERROR: 'error' as const,
+        INFO: 'info' as const,
+        WARNING: 'warning' as const
     },
     LOCAL_STORAGE: {
         LOGIN: "LOGIN",
         USER: "USER",
+    },
+    ROUTES: {
+        MAIN_PAGE: '/',
+        SIGN_UP: '/signup',
+        LOGIN: '/login',
+        STOCK_DETAIL: '/[market]/[code]',
+        CREATE_POST: '/posts/create',
+        POST_DETAIL: '/posts/[id]',
     }
 }

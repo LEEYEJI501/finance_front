@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchStockList } from "@/services/stock";
 import { IStock } from "@/types/stock";
-import { useRouter } from "next/router";
+import { useNavigate } from '@/hooks/useNavigate';
 import { Card } from "@/components/index";
 
 type StockListProps = {
@@ -18,7 +18,7 @@ const StockList: React.FC<StockListProps> = ({
   onTotalPagesChange,
 }) => {
   const [stocks, setStocks] = useState<IStock[]>([]);
-  const router = useRouter();
+  const { navigateToStockDetail } = useNavigate();
 
   useEffect(() => {
     const loadStockList = async () => {
@@ -34,9 +34,10 @@ const StockList: React.FC<StockListProps> = ({
   }, [market, currentPage, pageSize, onTotalPagesChange]);
 
   const handleCardClick = (stock: IStock) => {
-    router.push({
-      pathname: `/${stock.market_name}/${stock.code}`,
-      query: { name: stock.name },
+    navigateToStockDetail({
+      market: stock.market_name,
+      code: stock.code,
+      name: stock.name,
     });
   };
 

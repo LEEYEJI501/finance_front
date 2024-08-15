@@ -1,44 +1,28 @@
-import { useRouter } from "next/router";
+import { useNavigate } from "@/hooks/useNavigate";
 import { Button } from "..";
-import constants from "@/constants"
-import { getItem, removeItem  } from "@/utils/localStorage"
-import { useEffect, useState } from "react";
-import { fetchLogout } from "@/services/auth"
-
-interface User {
-    id: number;
-    username: string;
-}
+import constants from "@/constants";
+import { removeItem  } from "@/utils/localStorage";
+import { fetchLogout } from "@/services/auth";
+import { useStorage } from "@/hooks/useStorage";
 
 const MainHeader: React.FC = () => {
-    const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        const loginStatus = getItem(constants.LOCAL_STORAGE.LOGIN) === "true";
-        setIsLoggedIn(loginStatus);
-
-        if (loginStatus) {
-            const userData = getItem(constants.LOCAL_STORAGE.USER);
-            if (userData) {
-                setUser(JSON.parse(userData));
-            }
-        }        
-    }, []);
+    const { navigateToLogin } = useNavigate();
+    const { user, isLoggedIn } = useStorage(); 
 
     const handleLoginClick = () => {
-        router.push("/login");
+        navigateToLogin();
     };
 
     const handleLogoutClick = async () => {
-        const success = await fetchLogout(user?.id);
+        if (user) {
+            const success = await fetchLogout(user.id);
 
-        if (success) {
-            removeItem(constants.LOCAL_STORAGE.LOGIN);
-            removeItem(constants.LOCAL_STORAGE.USER);
-            
-            router.push("/login");
+            if (success) {
+                removeItem(constants.LOCAL_STORAGE.LOGIN);
+                removeItem(constants.LOCAL_STORAGE.USER);
+                
+                navigateToLogin();
+            }
         }
     };
 

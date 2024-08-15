@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import { Button } from "../components";
 import { fetchLogin } from "@/services/auth";
 import { useToast } from "@/contexts/ToastContext";
 import constants from "@/constants";
 import { setItem } from '@/utils/localStorage';
+import { useNavigate } from '@/hooks/useNavigate';
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
   const { showToast } = useToast();
+  const { navigateToMainPage, navigateToSignUp } = useNavigate();
 
   const handleLoginClick = async () => {
     setError(null);
@@ -32,7 +32,7 @@ const LoginPage = () => {
         constants.LOCAL_STORAGE.USER,
         user
       )
-      router.push("/");
+      navigateToMainPage();
 
       showToast(`반갑습니다. ${username}님`, constants.TOAST_TYPES.SUCCESS);
     } else {
@@ -41,7 +41,7 @@ const LoginPage = () => {
   };
 
   const handleSignUpClick = () => {
-    router.push("/signup");
+    navigateToSignUp();
   };
 
   return (

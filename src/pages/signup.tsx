@@ -5,7 +5,7 @@ import EmailVerification from "@/components/signup/EmailVerification";
 import UsernameVerification from "@/components/signup/UsernameVerification";
 import PasswordVerification from "@/components/signup/PasswordVerification";
 import { Tooltip } from "@/components/index";
-import { useRouter } from "next/router";
+import { useNavigate } from "@/hooks/useNavigate";
 import { useToast } from "@/contexts/ToastContext";
 import constants from "@/constants";
 
@@ -23,7 +23,7 @@ const SignupPage = () => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isImageSelected, setIsImageSelected] = useState<boolean>(false);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
-  const router = useRouter();
+  const { navigateToLogin } = useNavigate();
 
   useEffect(() => {
     setIsFormValid(
@@ -64,8 +64,7 @@ const SignupPage = () => {
     const { success } = await fetchSignUp(username, password, email, profileImage!);
   
     if (success) {
-      router.push("/login");
-
+      navigateToLogin();
       showToast("가입이 완료되었습니다.", constants.TOAST_TYPES.SUCCESS);
     }
   };

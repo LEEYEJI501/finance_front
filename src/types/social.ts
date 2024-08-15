@@ -17,7 +17,7 @@ export interface IPost {
     title: string
     userId: number
     views: number
-    comments: null
+    comments: any[] | null;
 }
 
 export interface IGetPostsResponse {
@@ -27,4 +27,17 @@ export interface IGetPostsResponse {
         posts: IPost[]
         current_page: number
     }
+}
+
+export interface ICreatePostResponse {
+    post: {
+        post_stock_name: string
+        post_id: number
+        user_id: number
+        post_stock_code: string
+    }
+}
+
+export interface IPostDetailResponse {
+    post: IPost;
 }
