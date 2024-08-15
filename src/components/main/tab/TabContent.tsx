@@ -62,36 +62,42 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
   const loadMore = useCallback(async () => {
     if (isLoadingMore || !hasMoreResults) return;
     setIsLoadingMore(true);
-    const results = await fetchSearchStock({
-      term: searchTerm,
-      category: searchCategory,
-      page: modalPage,
-    });
-
-    if (results && results.stocks) {
-      const newResults = results.stocks.map((result: any) => ({
-        code: result.code,
-        name: result.name,
-        market_name: result.market_name,
-      }));
-
-      setSearchResults((prevResults) => {
-        const updatedResults = [...prevResults, ...newResults];
-        return updatedResults.filter(
-          (item, index, self) =>
-            index ===
-            self.findIndex(
-              (t) => t.code === item.code && t.market_name === item.market_name
-            )
-        );
+    try {
+      const results = await fetchSearchStock({
+        term: searchTerm,
+        category: searchCategory,
+        page: modalPage, // 현재 페이지를 기반으로 요청
       });
 
-      setModalPage(modalPage + 1);
-      setHasMoreResults(newResults.length > 0);
-    } else {
-      setHasMoreResults(false);
+      if (results && results.stocks) {
+        const newResults = results.stocks.map((result: any) => ({
+          code: result.code,
+          name: result.name,
+          market_name: result.market_name,
+        }));
+
+        setSearchResults((prevResults) => {
+          const updatedResults = [...prevResults, ...newResults];
+          return updatedResults.filter(
+            (item, index, self) =>
+              index ===
+              self.findIndex(
+                (t) =>
+                  t.code === item.code && t.market_name === item.market_name
+              )
+          );
+        });
+
+        setModalPage(modalPage + 1); // 다음 페이지를 로드할 수 있도록 페이지 증가
+        setHasMoreResults(newResults.length > 0); // 결과가 있을 때만 더 로드
+      } else {
+        setHasMoreResults(false);
+      }
+    } catch (error) {
+      console.error("Failed to load more items:", error);
+    } finally {
+      setIsLoadingMore(false);
     }
-    setIsLoadingMore(false);
   }, [searchTerm, searchCategory, modalPage, isLoadingMore, hasMoreResults]);
 
   const handlePageChange = (page: number) => {

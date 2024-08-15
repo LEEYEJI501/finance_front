@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 interface ModalProps {
   options: { code: string; name: string; market_name: string }[];
@@ -35,12 +35,12 @@ const Modal: React.FC<ModalProps> = ({
 
     const modalElement = modalRef.current;
     if (modalElement) {
-      modalElement.addEventListener('scroll', handleScroll);
+      modalElement.addEventListener("scroll", handleScroll);
     }
 
     return () => {
       if (modalElement) {
-        modalElement.removeEventListener('scroll', handleScroll);
+        modalElement.removeEventListener("scroll", handleScroll);
       }
     };
   }, [loadMore]);
@@ -62,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({
     <div
       ref={modalRef}
       className="absolute left-0 mt-2 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto z-50"
-      style={{ width: '100%' }}
+      style={{ width: "100%" }}
     >
       {options.length > 0 ? (
         options.map((option, index) => (
