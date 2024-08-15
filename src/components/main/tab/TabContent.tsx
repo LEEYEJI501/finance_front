@@ -24,6 +24,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalPage, setModalPage] = useState(0);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMoreResults, setHasMoreResults] = useState(true); // 추가 데이터를 더 로드할 수 있는지 여부
 
   const searchOptions = ['name', 'code'];
 
@@ -32,7 +33,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
       const results = await fetchSearchStock({
         term,
         category: searchCategory,
-        page: 0,
+        page: 0, // 초기 페이지를 0으로 설정
       });
 
       if (results && results.stocks) {
@@ -45,9 +46,11 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         );
         setIsModalOpen(true);
         setModalPage(1);
+        setHasMoreResults(results.stocks.length > 0); // 응답에 결과가 없으면 무한 스크롤 종료
       } else {
         setSearchResults([]);
         setIsModalOpen(true);
+        setHasMoreResults(false); // 결과가 없으므로 더 이상 데이터를 로드하지 않도록 설정
       }
     },
     [searchCategory],
@@ -56,27 +59,40 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
   const debouncedSearch = useDebounce(performSearch, 1000);
 
   const loadMore = useCallback(async () => {
-    if (isLoadingMore || modalPage >= totalStockListPages) return;
+    if (isLoadingMore || !hasMoreResults) return;
     setIsLoadingMore(true);
     const results = await fetchSearchStock({
       term: searchTerm,
       category: searchCategory,
-      page: 0,
+      page: modalPage, // 페이지를 지정하여 요청
     });
 
     if (results && results.stocks) {
-      setSearchResults(prevResults => [
-        ...prevResults,
-        ...results.stocks.map((result: any) => ({
-          code: result.code,
-          name: result.name,
-          market_name: result.market_name,
-        })),
-      ]);
+      const newResults = results.stocks.map((result: any) => ({
+        code: result.code,
+        name: result.name,
+        market_name: result.market_name,
+      }));
+
+      // 중복 항목 필터링
+      setSearchResults(prevResults => {
+        const updatedResults = [...prevResults, ...newResults];
+        return updatedResults.filter(
+          (item, index, self) =>
+            index ===
+            self.findIndex(
+              t => t.code === item.code && t.market_name === item.market_name,
+            ),
+        );
+      });
+
       setModalPage(modalPage + 1);
+      setHasMoreResults(newResults.length > 0); // 추가 데이터가 있는 경우에만 더 로드
+    } else {
+      setHasMoreResults(false); // 더 이상 로드할 데이터가 없으므로 로드 중지
     }
     setIsLoadingMore(false);
-  }, [searchTerm, searchCategory, modalPage, isLoadingMore]);
+  }, [searchTerm, searchCategory, modalPage, isLoadingMore, hasMoreResults]);
 
   const handlePageChange = (page: number) => {
     setStockListPage(page - 1);
