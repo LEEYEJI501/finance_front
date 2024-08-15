@@ -1,23 +1,25 @@
-import React, { useState, useCallback, useRef } from 'react';
-import Pagination from '@/components/common/Pagination';
-import StockList from '@/components/main/tab/StockList';
-import constants from '@/constants';
-import { SearchInput, Modal } from '@/components/index';
-import { fetchSearchStock } from '@/services/stock';
-import useDebounce from '@/hooks/useDebounced';
+import React, { useState, useCallback, useRef } from "react";
+import Pagination from "@/components/common/Pagination";
+import StockList from "@/components/main/tab/StockList";
+import constants from "@/constants";
+import { SearchInput, Modal } from "@/components/index";
+import { fetchSearchStock } from "@/services/stock";
+import useDebounce from "@/hooks/useDebounced";
 
 type TabContentProps = {
   market: string;
 };
 
+const searchOptions = ["name", "code"];
+
 const TabContent: React.FC<TabContentProps> = ({ market }) => {
   const [stockListPage, setStockListPage] = useState(
-    constants.DEFAULT_PAGING.PAGE,
+    constants.DEFAULT_PAGING.PAGE
   );
   const [totalStockListPages, setTotalStockListPages] = useState(1);
   const [pageSize, setPageSize] = useState(constants.DEFAULT_PAGING.PAGESIZE);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchCategory, setSearchCategory] = useState('name');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchCategory, setSearchCategory] = useState("name");
   const [searchResults, setSearchResults] = useState<
     { code: string; name: string; market_name: string }[]
   >([]);
@@ -28,11 +30,11 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
 
   const performSearch = useCallback(
     async (term: string) => {
-      setModalPage(0); // 새 검색어가 입력되면 페이지를 0으로 초기화
+      setModalPage(0);
       const results = await fetchSearchStock({
         term,
         category: searchCategory,
-        page: 0, // 초기 페이지는 0
+        page: 0,
       });
 
       if (results && results.stocks) {
@@ -41,10 +43,10 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
             code: result.code,
             name: result.name,
             market_name: result.market_name,
-          })),
+          }))
         );
         setIsModalOpen(true);
-        setModalPage(1); // 다음 페이지를 로드할 준비를 위해 modalPage를 1로 설정
+        setModalPage(1);
         setHasMoreResults(results.stocks.length > 0);
       } else {
         setSearchResults([]);
@@ -52,7 +54,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         setHasMoreResults(false);
       }
     },
-    [searchCategory],
+    [searchCategory]
   );
 
   const debouncedSearch = useDebounce(performSearch, 1000);
@@ -63,7 +65,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
     const results = await fetchSearchStock({
       term: searchTerm,
       category: searchCategory,
-      page: modalPage, // 현재 페이지를 사용하여 요청
+      page: modalPage,
     });
 
     if (results && results.stocks) {
@@ -73,21 +75,21 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         market_name: result.market_name,
       }));
 
-      setSearchResults(prevResults => {
+      setSearchResults((prevResults) => {
         const updatedResults = [...prevResults, ...newResults];
         return updatedResults.filter(
           (item, index, self) =>
             index ===
             self.findIndex(
-              t => t.code === item.code && t.market_name === item.market_name,
-            ),
+              (t) => t.code === item.code && t.market_name === item.market_name
+            )
         );
       });
 
-      setModalPage(modalPage + 1); // 다음 페이지를 로드할 준비를 위해 페이지 증가
-      setHasMoreResults(newResults.length > 0); // 추가 데이터가 있는 경우에만 더 로드
+      setModalPage(modalPage + 1);
+      setHasMoreResults(newResults.length > 0);
     } else {
-      setHasMoreResults(false); // 더 이상 로드할 데이터가 없으므로 로드 중지
+      setHasMoreResults(false);
     }
     setIsLoadingMore(false);
   }, [searchTerm, searchCategory, modalPage, isLoadingMore, hasMoreResults]);
@@ -126,7 +128,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
           <SearchInput
             placeholder="검색어를 입력하세요"
             value={searchTerm}
-            onChange={e => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             searchOptions={searchOptions}
             selectedOption={searchCategory}
             onOptionChange={handleOptionChange}
@@ -138,7 +140,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
             onClose={() => setIsModalOpen(false)}
             onSelect={handleSelect}
             searchTerm={searchTerm}
-            loadMore={loadMore} // 스크롤 이벤트에 의해 호출될 loadMore 함수
+            loadMore={loadMore}
           />
         </div>
       </div>
