@@ -1,5 +1,4 @@
-import React, { useRef, useCallback } from 'react';
-import { useNavigate } from '@/hooks/useNavigate';
+import React, { useRef, useEffect } from 'react';
 
 interface ModalProps {
   options: { code: string; name: string; market_name: string }[];
@@ -11,7 +10,7 @@ interface ModalProps {
     market_name: string;
   }) => void;
   searchTerm: string;
-  loadMore: () => void; // 더 많은 데이터를 로드하는 함수
+  loadMore: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -22,32 +21,35 @@ const Modal: React.FC<ModalProps> = ({
   searchTerm,
   loadMore,
 }) => {
-  const { navigateToStockDetail } = useNavigate();
-  const observerRef = useRef<IntersectionObserver | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  const lastOptionRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (observerRef.current) observerRef.current.disconnect();
-      observerRef.current = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
+  useEffect(() => {
+    const handleScroll = () => {
+      if (modalRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = modalRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 10) {
           loadMore();
         }
-      });
-      if (node) observerRef.current.observe(node);
-    },
-    [loadMore],
-  );
+      }
+    };
+
+    const modalElement = modalRef.current;
+    if (modalElement) {
+      modalElement.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (modalElement) {
+        modalElement.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [loadMore]);
 
   const handleSelect = (option: {
     code: string;
     name: string;
     market_name: string;
   }) => {
-    navigateToStockDetail({
-      market: option.market_name,
-      code: option.code,
-      name: option.name,
-    });
     onSelect(option);
     onClose();
   };
@@ -58,6 +60,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
+      ref={modalRef}
       className="absolute left-0 mt-2 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto z-50"
       style={{ width: '100%' }}
     >
@@ -65,7 +68,6 @@ const Modal: React.FC<ModalProps> = ({
         options.map((option, index) => (
           <div
             key={index}
-            ref={index === options.length - 1 ? lastOptionRef : null}
             onClick={() => handleSelect(option)}
             className="flex items-center p-2 cursor-pointer hover:bg-slate-200"
           >
