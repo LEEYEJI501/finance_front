@@ -78,8 +78,11 @@ export const fetchCreateReply = async(
 }
 
 export const fetchDeleteComment = async (
-    id: number
+    id: number,
+    userId: number
 ) => {
-    const response = await del(`${SOCIAL_URL}/comments/${id}`);
+    const response = await del(`${SOCIAL_URL}/comments/${id}`, true, {
+        userId
+    });
     return getDeleteCommentModel(response);
 }
