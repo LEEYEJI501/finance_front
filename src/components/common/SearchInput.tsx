@@ -1,6 +1,5 @@
 import React from 'react';
 import Input from './Input';
-import Button from './Button';
 
 type SearchInputProps = {
   placeholder?: string;
@@ -58,14 +57,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
         className={`flex-grow border rounded-l ${sizeClasses[size]}`}
         disabled={disabled}
       />
-      {/* <Button
-        onClick={onSearch}
-        color="slate"
-        disabled={disabled}
-        className={`${sizeClasses[size]} rounded-l-none`}
-      >
-        {buttonLabel}
-      </Button> */}
     </div>
   );
 };

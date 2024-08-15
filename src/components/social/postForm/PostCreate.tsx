@@ -7,7 +7,7 @@ import constants from '@/constants';
 import { useStorage } from '@/hooks/useStorage';
 
 const PostCreate: React.FC = () => {
-  const { getQueryParams, navigateToStockDetail } = useNavigate();
+  const { getQueryParams, navigateBack, navigateToStockDetail } = useNavigate();
   const { market, code, name } = getQueryParams();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -30,7 +30,7 @@ const PostCreate: React.FC = () => {
     navigateToStockDetail({
       market,
       code,
-      name
+      name,
     });
   };
 
@@ -53,49 +53,75 @@ const PostCreate: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto mt-8 p-8 bg-white shadow-md rounded-md">
-      <h2 className="text-xl font-semibold mb-6">게시글 작성</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-4xl mx-auto p-10 bg-white shadow-2xl rounded-lg">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold text-center">종목 토론 게시판</h2>
+          <button 
+            className="text-blue-500 hover:text-blue-700 text-sm flex items-center" 
+            onClick={() => navigateBack()}
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            뒤로가기
+          </button>
+        </div>
 
-      <div className="mb-2">
-        <span className="mb-2 bg-gray-100 text-black rounded-full px-4 py-1 inline-block mb-4">
-          { market }
-        </span>
-        <span className="mb-2 bg-gray-100 text-black rounded-full px-4 py-1 inline-block mb-4">
-          { code }
-        </span>
-        <span className="mb-2 bg-gray-100 text-black rounded-full px-4 py-1 inline-block mb-4">
-          { name }
-        </span>
-      </div>
+        <div className="mb-6 text-center">
+          <div className="text-lg font-bold text-blue-600 mb-1">
+            {market}
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-sm text-gray-500 justify-center">
+            <span className="bg-gray-100 text-gray-800 rounded-full px-4 py-1 text-center">
+              {code}
+            </span>
+            <span className="text-gray-600 text-center">
+              {name}
+            </span>
+          </div>
+        </div>
 
-      <div className="mb-4">
-        <Input
-          type="text"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          placeholder="제목을 입력하세요"
-          className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+        <div className="mb-4 relative">
+          <label htmlFor="title" className="block text-gray-700 font-medium mb-2">
+            제목
+          </label>
+          <Input
+            type="text"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            placeholder="게시글의 제목을 입력하세요"
+            className="w-full p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-lg shadow-sm"
+            maxLength={100}
+          />
+          <span className="absolute bottom-2 right-2 text-gray-500 text-sm">{title.length} / 100</span>
+        </div>
 
-      <div className="mb-6">
-        <textarea
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          placeholder="내용을 입력하세요"
-          className="w-full h-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 resize-none"
-        />
-      </div>
+        <div className="mb-6 relative">
+          <label htmlFor="content" className="block text-gray-700 font-medium mb-2">
+            내용
+          </label>
+          <textarea
+            id="content"
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            placeholder="게시글의 내용을 입력하세요. 토론할 주제나 의견을 자유롭게 작성하세요."
+            className="w-full h-48 p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-lg resize-none shadow-sm"
+            maxLength={1000}
+          />
+          <span className="absolute bottom-2 right-2 text-gray-500 text-sm">{content.length} / 1000</span>
+        </div>
 
-      <div className="flex justify-end">
-        <Button
-          size="medium"
-          color="slate"
-          onClick={handleSubmit}
-          className="whitespace-nowrap"
-        >
-          작성하기
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            size="medium"
+            color="slate"
+            onClick={handleSubmit}
+            className="text-sm px-6 py-3"
+          >
+            작성하기
+          </Button>
+        </div>
       </div>
     </div>
   );

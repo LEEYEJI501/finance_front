@@ -11,6 +11,7 @@ interface StockDetailRouteParams {
     market: string;
     code: string;
     name: string;
+    reload?: boolean;
 }
 
 export const useNavigate = () => {

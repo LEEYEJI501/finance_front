@@ -72,9 +72,15 @@ const Pagination: React.FC<PaginationProps> = ({
           disabled={currentPage === 1}
           className="w-8 h-8 flex items-center justify-center bg-transparent hover:bg-gray-200 rounded"
         >
-          <span className="inline-block transform rotate-180">
-            &#8250;
-          </span>
+          <svg
+            className="w-2 h-2 text-gray-800"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
         </button>
         {renderPageNumbers()}
         <button
@@ -82,9 +88,15 @@ const Pagination: React.FC<PaginationProps> = ({
           disabled={currentPage === totalPages}
           className="w-8 h-8 flex items-center justify-center bg-transparent hover:bg-gray-200 rounded"
         >
-          <span>
-            &#8250;
-          </span>
+          <svg
+            className="w-2 h-2 text-gray-800"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+          </svg>
         </button>
       </div>
       {onPageSizeChange && (

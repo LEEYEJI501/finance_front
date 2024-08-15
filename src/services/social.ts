@@ -45,3 +45,4 @@ export const fetchGetPostDetail = async (
     const response = await get<IPostDetailResponse>(`${SOCIAL_URL}/posts/detail/${id}`);
     return getPostDetailModel(response);
 }
+

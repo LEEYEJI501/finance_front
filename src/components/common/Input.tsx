@@ -8,6 +8,7 @@ type InputProps = {
   className?: string;
   name?: string;
   minLength?: number;
+  maxLength?: number;
   disabled?: boolean;
 };
 
@@ -22,6 +23,7 @@ const Input: React.FC<InputProps> = ({
   className = "",
   name,
   minLength,
+  maxLength,
   disabled,
 }) => {
   return (
@@ -33,6 +35,7 @@ const Input: React.FC<InputProps> = ({
       className={`${baseClasses} ${className}`}
       name={name}
       minLength={minLength}
+      maxLength={maxLength}
       disabled={disabled}
     />
   );
