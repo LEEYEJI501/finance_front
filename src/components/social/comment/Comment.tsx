@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@/components/index';
 import { IComment } from '@/types/social';
+import { useStorage } from '@/hooks/useStorage';
 
 interface CommentProps {
   comment: IComment & { replies?: IComment[] };
@@ -18,6 +19,7 @@ const Comment: React.FC<CommentProps> = ({
   const [isLiked, setIsLiked] = useState(false);
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [showReplies, setShowReplies] = useState(false); 
+  const { isLoggedIn } = useStorage();
 
   const handleReplySubmit = () => {
     if (replyText.trim() === '') return;
@@ -45,14 +47,16 @@ const Comment: React.FC<CommentProps> = ({
               <span className="font-semibold">{comment.username}</span>
               <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
             </div>
-            <Button
-              size="small"
-              color="none"
-              onClick={() => setShowReplyInput(!showReplyInput)}
-              className="ml-4 text-xs text-blue-400 hover:bg-white"
-            >
-              댓글달기
-            </Button>
+            {isLoggedIn && (
+              <Button
+                size="small"
+                color="none"
+                onClick={() => setShowReplyInput(!showReplyInput)}
+                className="ml-4 text-xs text-blue-400 hover:bg-white"
+              >
+                댓글달기
+              </Button>
+            )}
           </div>
           <div className="mt-2 text-gray-600">{comment.content}</div>
           <div className="flex items-center mt-2">
