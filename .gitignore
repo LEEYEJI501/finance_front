@@ -57,3 +57,4 @@ next.config.mjs
 .stylelintrc
 .stylelintignore
 .editorconfig
+.eslintrc.json
