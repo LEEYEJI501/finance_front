@@ -102,6 +102,7 @@ export const patch = async <T>(
 export const del = async (
   url: string,
   token: boolean = false,
+  data?: Record<string, any>,
   withCredentials: boolean = false
 ): Promise<IApiResponse<void>> => {
   const options: any = {
@@ -113,6 +114,10 @@ export const del = async (
       ...options.headers,
       ...getAuthorizationHeader(),
     };
+  }
+
+  if (data) {
+    options.json = data;
   }
 
   return handleApiResponse<void>(api.delete(url, options).json<void>());

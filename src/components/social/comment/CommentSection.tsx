@@ -45,16 +45,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
   };
 
   const handleDeleteComment = async (commentId: number) => {
-    await fetchDeleteComment(commentId);
+    if (user) {
+      await fetchDeleteComment(commentId, user.id);
   
-    setCommentTree(prev => {
-      const updatedComments = buildCommentTree(prev).filter(comment => comment.id !== commentId);
-      return buildCommentTree(updatedComments);
-    });
+      setCommentTree(prev => {
+        const updatedComments = buildCommentTree(prev).filter(comment => comment.id !== commentId);
+        return buildCommentTree(updatedComments);
+      });
+    }
   };
   
 
-  const totalCommentCount = comments.length;
+  const totalCommentCount = buildCommentTree(comments).length;
 
   return (
     <div className="mx-auto mt-8">
