@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@/components/index';
 import Comment from './Comment';
-import { fetchCreateComment, fetchCreateReply } from '@/services/social';
+import { fetchCreateComment, fetchCreateReply, fetchDeleteComment } from '@/services/social';
 import { IComment } from '@/types/social';
 import { buildCommentTree } from '@/utils/commentUtils';
 import { useStorage } from '@/hooks/useStorage';
@@ -44,6 +44,16 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
     }
   };
 
+  const handleDeleteComment = async (commentId: number) => {
+    await fetchDeleteComment(commentId);
+  
+    setCommentTree(prev => {
+      const updatedComments = buildCommentTree(prev).filter(comment => comment.id !== commentId);
+      return buildCommentTree(updatedComments);
+    });
+  };
+  
+
   const totalCommentCount = comments.length;
 
   return (
@@ -74,6 +84,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
           key={comment.id}
           comment={comment}
           onAddReply={handleAddReply}
+          onDeleteComment={handleDeleteComment}
         />
       ))}
     </div>

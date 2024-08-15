@@ -1,6 +1,6 @@
-import { get, post } from "@/api";
+import { get, post, del } from "@/api";
 import constants from "@/constants";
-import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getPostDetailModel, getPostsModel } from "@/models/social";
+import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDeleteCommentModel, getPostDetailModel, getPostsModel } from "@/models/social";
 import { IPaging } from "@/types/common";
 import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
 
@@ -75,4 +75,11 @@ export const fetchCreateReply = async(
     }, true);
 
     return getCreateReplyModel(response);
+}
+
+export const fetchDeleteComment = async (
+    id: number
+) => {
+    const response = await del(`${SOCIAL_URL}/comments/${id}`);
+    return getDeleteCommentModel(response);
 }

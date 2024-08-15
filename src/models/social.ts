@@ -141,3 +141,7 @@ export const getCreateReplyModel = (res: IApiResponse<ICreateReplyResponse>) => 
         username: constants.DEFAULT_STR
     };
 }
+
+export const getDeleteCommentModel = (res: IApiResponse<void>) => {
+    return res.success;
+}

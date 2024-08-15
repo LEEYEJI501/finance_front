@@ -6,12 +6,14 @@ import { useStorage } from '@/hooks/useStorage';
 interface CommentProps {
   comment: IComment & { replies?: IComment[] };
   onAddReply: (commentId: number, replyText: string) => void;
+  onDeleteComment: (commentId: number) => void;
   depth?: number;
 }
 
 const Comment: React.FC<CommentProps> = ({
   comment,
   onAddReply,
+  onDeleteComment, 
   depth = 0,
 }) => {
   const [replyText, setReplyText] = useState('');
@@ -19,7 +21,7 @@ const Comment: React.FC<CommentProps> = ({
   const [isLiked, setIsLiked] = useState(false);
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [showReplies, setShowReplies] = useState(false); 
-  const { isLoggedIn } = useStorage();
+  const { isLoggedIn, user } = useStorage();
 
   const handleReplySubmit = () => {
     if (replyText.trim() === '') return;
@@ -37,6 +39,10 @@ const Comment: React.FC<CommentProps> = ({
     setIsLiked(!isLiked);
   };
 
+  const handleDeleteClick = () => {
+    onDeleteComment(comment.id);
+  };
+
   return (
     <div className={`my-4 ${depth > 0 ? `ml-${depth * 4}` : ''}`}>
       <div className="flex">
@@ -47,16 +53,28 @@ const Comment: React.FC<CommentProps> = ({
               <span className="font-semibold">{comment.username}</span>
               <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
             </div>
-            {isLoggedIn && (
-              <Button
-                size="small"
-                color="none"
-                onClick={() => setShowReplyInput(!showReplyInput)}
-                className="ml-4 text-xs text-blue-400 hover:bg-white"
-              >
-                댓글달기
-              </Button>
-            )}
+            <div className="flex items-center">
+              {isLoggedIn && (
+                <Button
+                  size="small"
+                  color="none"
+                  onClick={() => setShowReplyInput(!showReplyInput)}
+                  className="ml-4 text-xs text-blue-400 hover:bg-white"
+                >
+                  댓글달기
+                </Button>
+              )}
+              {isLoggedIn && user?.id === comment.userId && (
+                <Button
+                  size="small"
+                  color="none"
+                  onClick={handleDeleteClick}
+                  className="ml-4 text-xs text-red-400 hover:bg-white"
+                >
+                  삭제
+                </Button>
+              )}
+            </div>
           </div>
           <div className="mt-2 text-gray-600">{comment.content}</div>
           <div className="flex items-center mt-2">
@@ -111,6 +129,7 @@ const Comment: React.FC<CommentProps> = ({
                       key={reply.id}
                       comment={reply}
                       onAddReply={onAddReply}
+                      onDeleteComment={onDeleteComment} 
                       depth={depth + 1}
                     />
                   ))}
