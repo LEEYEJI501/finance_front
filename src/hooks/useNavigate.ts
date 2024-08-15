@@ -56,6 +56,10 @@ export const useNavigate = () => {
     );
   };
 
+  const navigateBack = () => {
+    router.back();
+  };
+
   return { 
     getQueryParams,
     navigateToMainPage, 
@@ -64,5 +68,6 @@ export const useNavigate = () => {
     navigateToCreatePost, 
     navigateToStockDetail,
     navigateToPostDetail,
+    navigateBack,
   };
 };

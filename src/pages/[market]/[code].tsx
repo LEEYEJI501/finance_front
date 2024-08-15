@@ -5,8 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSockJS } from '@/hooks/useSockJS';
 import constants from '@/constants';
 import PostList from '@/components/social/postForm/PostList';
-import BoardDetail from '@/components/social/BoardDetail';
-import Reply from '@/components/social/Reply';
 
 const ChartPage = () => {
   const { getQueryParams } = useNavigate();
