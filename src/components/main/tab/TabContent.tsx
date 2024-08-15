@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import Pagination from '@/components/common/Pagination';
 import StockList from '@/components/main/tab/StockList';
 import constants from '@/constants';
@@ -24,16 +24,15 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalPage, setModalPage] = useState(0);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [hasMoreResults, setHasMoreResults] = useState(true); // 추가 데이터를 더 로드할 수 있는지 여부
-
-  const searchOptions = ['name', 'code'];
+  const [hasMoreResults, setHasMoreResults] = useState(true);
 
   const performSearch = useCallback(
     async (term: string) => {
+      setModalPage(0); // 새 검색어가 입력되면 페이지를 0으로 초기화
       const results = await fetchSearchStock({
         term,
         category: searchCategory,
-        page: 0, // 초기 페이지를 0으로 설정
+        page: 0, // 초기 페이지는 0
       });
 
       if (results && results.stocks) {
@@ -45,12 +44,12 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
           })),
         );
         setIsModalOpen(true);
-        setModalPage(1);
-        setHasMoreResults(results.stocks.length > 0); // 응답에 결과가 없으면 무한 스크롤 종료
+        setModalPage(1); // 다음 페이지를 로드할 준비를 위해 modalPage를 1로 설정
+        setHasMoreResults(results.stocks.length > 0);
       } else {
         setSearchResults([]);
         setIsModalOpen(true);
-        setHasMoreResults(false); // 결과가 없으므로 더 이상 데이터를 로드하지 않도록 설정
+        setHasMoreResults(false);
       }
     },
     [searchCategory],
@@ -64,7 +63,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
     const results = await fetchSearchStock({
       term: searchTerm,
       category: searchCategory,
-      page: modalPage, // 페이지를 지정하여 요청
+      page: modalPage, // 현재 페이지를 사용하여 요청
     });
 
     if (results && results.stocks) {
@@ -74,7 +73,6 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         market_name: result.market_name,
       }));
 
-      // 중복 항목 필터링
       setSearchResults(prevResults => {
         const updatedResults = [...prevResults, ...newResults];
         return updatedResults.filter(
@@ -86,7 +84,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         );
       });
 
-      setModalPage(modalPage + 1);
+      setModalPage(modalPage + 1); // 다음 페이지를 로드할 준비를 위해 페이지 증가
       setHasMoreResults(newResults.length > 0); // 추가 데이터가 있는 경우에만 더 로드
     } else {
       setHasMoreResults(false); // 더 이상 로드할 데이터가 없으므로 로드 중지
@@ -140,7 +138,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
             onClose={() => setIsModalOpen(false)}
             onSelect={handleSelect}
             searchTerm={searchTerm}
-            loadMore={loadMore}
+            loadMore={loadMore} // 스크롤 이벤트에 의해 호출될 loadMore 함수
           />
         </div>
       </div>
