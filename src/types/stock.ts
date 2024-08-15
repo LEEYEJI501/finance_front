@@ -46,3 +46,20 @@ export interface IMarketsResponse {
     markets: IMarket[];
   };
 }
+
+export interface IStocksByCodeResponse {
+  stocks_by_code: {
+    code: string;
+    total_elements: number;
+    total_pages: number;
+    stocks: IStock[];
+  };
+}
+
+export interface IStocksByNameResponse {
+  stocks_by_name: {
+    total_elements: number;
+    total_pages: number;
+    stocks: IStock[];
+  };
+}
