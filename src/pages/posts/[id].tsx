@@ -26,9 +26,11 @@ const PostDetailPage: React.FC = () => {
 
   return (
     <PostDetail
+      id={Number(id)}
       title={post.title}
       date={post.createdAt}
       content={post.content}
+      comments={post.comments}
     />
   );
 };

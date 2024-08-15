@@ -1,16 +1,18 @@
 import React from 'react';
-import { Button } from '@/components/index'; 
 import { formatDateTime } from '../../../utils/dateUtils';
-import Reply from '@/components/social/postForm/Reply';
 import { useNavigate } from '@/hooks/useNavigate';
+import CommentSection from '../comment/CommentSection';
+import { IComment } from '@/types/social';
 
 type PostDetailProps = {
+  id: number;
   title: string;
   date: string;
   content: string;
+  comments: IComment[] | null;
 };
 
-const PostDetail: React.FC<PostDetailProps> = ({ title, date, content }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ id, title, date, content, comments }) => {
   const { navigateBack } = useNavigate();
 
   return (
@@ -36,18 +38,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ title, date, content }) => {
         <div className="text-gray-700 whitespace-pre-line leading-relaxed mb-10">
           {content}
         </div>
-
-        <div className="flex justify-end mb-8">
-          <Button
-            size="large"
-            color="blue"
-            className="text-sm px-6 py-3"
-            onClick={() => alert('글쓰기 버튼 클릭됨')}
-          >
-            글쓰기
-          </Button>
-        </div>
-        <Reply />
+        <CommentSection id={ id } comments={comments || []}/>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import { get, post } from "@/api";
 import constants from "@/constants";
-import { getCreatePostModel, getPostDetailModel, getPostsModel } from "@/models/posts";
+import { getCreateCommentModel, getCreatePostModel, getPostDetailModel, getPostsModel } from "@/models/social";
 import { IPaging } from "@/types/common";
-import { ICreatePostDto, ICreatePostResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
 
 const SOCIAL_URL = "social";
 
@@ -46,3 +46,29 @@ export const fetchGetPostDetail = async (
     return getPostDetailModel(response);
 }
 
+export const fetchCreateComment = async (
+    id: number,
+    userId: number,
+    content: string
+) => {
+    const response = await post<ICreateCommentResponse>(`${SOCIAL_URL}/posts/${id}/comments`, {
+        userId,
+        content
+    }, true);
+
+    return getCreateCommentModel(response);
+}
+
+export const fetchCreateReply = async(
+    id: number,
+    commentId: number,
+    userId: number,
+    content: string
+) => {
+    const response = await post<ICreateCommentResponse>(`${SOCIAL_URL}/posts/${id}/comments/${commentId}/reply`, {
+        userId,
+        content
+    }, true);
+
+    return getCreateCommentModel(response);
+}

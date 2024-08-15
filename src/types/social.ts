@@ -7,6 +7,16 @@ export interface ICreatePostDto {
     stockCode: string
 }
 
+export interface IComment {
+    id: number;
+    content: string;
+    createdAt: string;
+    likes: number;
+    parentCommentId: number | null;
+    postId: number;
+    userId: number;
+}
+
 export interface IPost {
     id: number
     accountName: string
@@ -17,7 +27,7 @@ export interface IPost {
     title: string
     userId: number
     views: number
-    comments: any[] | null;
+    comments: IComment[] | null;
 }
 
 export interface IGetPostsResponse {
@@ -40,4 +50,8 @@ export interface ICreatePostResponse {
 
 export interface IPostDetailResponse {
     post: IPost;
+}
+
+export interface ICreateCommentResponse {
+    comment: IComment
 }
