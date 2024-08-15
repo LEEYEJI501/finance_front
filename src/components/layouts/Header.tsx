@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import Link from 'next/link';
 
 type HeaderProps = {
   children?: React.ReactNode;
@@ -6,8 +7,13 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
   return (
-    <header className="p-4 bg-gray-300 text-white">
-      <div className="container mx-auto">{children}</div>
+    <header className="p-4 bg-transparent text-white">
+      <div className="container mx-auto flex justify-between items-center">
+        <Link href="/" className="text-lg font-bold">
+          🏠
+        </Link>
+        <div>{children}</div>
+      </div>
     </header>
   );
 };
