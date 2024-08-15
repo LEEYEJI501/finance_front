@@ -88,8 +88,8 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
           );
         });
 
-        setModalPage(modalPage + 1); // 다음 페이지를 로드할 수 있도록 페이지 증가
-        setHasMoreResults(newResults.length > 0); // 결과가 있을 때만 더 로드
+        setModalPage(modalPage + 1);
+        setHasMoreResults(newResults.length > 0);
       } else {
         setHasMoreResults(false);
       }
