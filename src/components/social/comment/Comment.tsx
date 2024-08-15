@@ -5,13 +5,13 @@ import { IComment } from '@/types/social';
 interface CommentProps {
   comment: IComment & { replies?: IComment[] };
   onAddReply: (commentId: number, replyText: string) => void;
-  depth?: number; // 댓글의 깊이 (대댓글 들여쓰기 용도)
+  depth?: number;
 }
 
 const Comment: React.FC<CommentProps> = ({
   comment,
   onAddReply,
-  depth = 0, // 기본 깊이를 0으로 설정
+  depth = 0,
 }) => {
   const [replyText, setReplyText] = useState('');
   const [likes, setLikes] = useState(comment.likes);
@@ -38,14 +38,16 @@ const Comment: React.FC<CommentProps> = ({
     <div className={`my-4 ${depth > 0 ? `ml-${depth * 4}` : ''}`}>
       <div className="flex">
         <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"></div>
-        <div className="ml-4">
-          <div className="text-gray-700">
-            <span className="font-semibold">{comment.userId}</span>
-            <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
+        <div className="ml-4 flex-1">
+          <div className="text-gray-700 flex items-center justify-between">
+            <div>
+              <span className="font-semibold">{comment.userId}</span>
+              <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
+            </div>
             <Button
               size="small"
               color="none"
-              onClick={() => setShowReplyInput(!showReplyInput)} // 클릭 시, 자신의 상태를 토글함
+              onClick={() => setShowReplyInput(!showReplyInput)}
               className="ml-4 text-xs text-blue-400 hover:bg-white"
             >
               댓글달기
@@ -69,18 +71,19 @@ const Comment: React.FC<CommentProps> = ({
             <span className="ml-2 text-sm text-gray-600">{likes}</span>
           </div>
           {showReplyInput && (
-            <div className="flex space-x-4 mt-4 mb-8">
+            <div className="flex flex-row space-y-2 mt-4 mb-8">
               <Input
                 type="text"
                 value={replyText}
                 onChange={e => setReplyText(e.target.value)}
                 placeholder="답글을 입력하세요."
+                className="flex-1 w-full"
               />
               <Button
                 size="small"
                 color="none"
                 onClick={handleReplySubmit}
-                className="whitespace-nowrap border"
+                className="self-end whitespace-nowrap border ml-5"
               >
                 답글 작성
               </Button>
@@ -93,7 +96,7 @@ const Comment: React.FC<CommentProps> = ({
                   key={reply.id}
                   comment={reply}
                   onAddReply={onAddReply}
-                  depth={depth + 1} // 깊이를 1 증가시켜 대댓글 들여쓰기
+                  depth={depth + 1}
                 />
               ))}
             </div>
