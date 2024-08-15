@@ -15,6 +15,7 @@ export interface IComment {
     parentCommentId: number | null;
     postId: number;
     userId: number;
+    username: string;
 }
 
 export interface IPost {
@@ -53,5 +54,9 @@ export interface IPostDetailResponse {
 }
 
 export interface ICreateCommentResponse {
-    comment: IComment
+    comment: IComment;
+}
+
+export interface ICreateReplyResponse {
+    reply: IComment;
 }

@@ -1,8 +1,8 @@
 import { get, post } from "@/api";
 import constants from "@/constants";
-import { getCreateCommentModel, getCreatePostModel, getPostDetailModel, getPostsModel } from "@/models/social";
+import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getPostDetailModel, getPostsModel } from "@/models/social";
 import { IPaging } from "@/types/common";
-import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
 
 const SOCIAL_URL = "social";
 
@@ -49,10 +49,12 @@ export const fetchGetPostDetail = async (
 export const fetchCreateComment = async (
     id: number,
     userId: number,
+    username: string,
     content: string
 ) => {
     const response = await post<ICreateCommentResponse>(`${SOCIAL_URL}/posts/${id}/comments`, {
         userId,
+        username,
         content
     }, true);
 
@@ -63,12 +65,14 @@ export const fetchCreateReply = async(
     id: number,
     commentId: number,
     userId: number,
+    username: string,
     content: string
 ) => {
-    const response = await post<ICreateCommentResponse>(`${SOCIAL_URL}/posts/${id}/comments/${commentId}/reply`, {
+    const response = await post<ICreateReplyResponse>(`${SOCIAL_URL}/posts/${id}/comments/${commentId}/reply`, {
         userId,
+        username,
         content
     }, true);
 
-    return getCreateCommentModel(response);
+    return getCreateReplyModel(response);
 }

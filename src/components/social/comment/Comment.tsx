@@ -17,6 +17,7 @@ const Comment: React.FC<CommentProps> = ({
   const [likes, setLikes] = useState(comment.likes);
   const [isLiked, setIsLiked] = useState(false);
   const [showReplyInput, setShowReplyInput] = useState(false);
+  const [showReplies, setShowReplies] = useState(false); 
 
   const handleReplySubmit = () => {
     if (replyText.trim() === '') return;
@@ -41,7 +42,7 @@ const Comment: React.FC<CommentProps> = ({
         <div className="ml-4 flex-1">
           <div className="text-gray-700 flex items-center justify-between">
             <div>
-              <span className="font-semibold">{comment.userId}</span>
+              <span className="font-semibold">{comment.username}</span>
               <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
             </div>
             <Button
@@ -91,14 +92,26 @@ const Comment: React.FC<CommentProps> = ({
           )}
           {comment.replies && comment.replies.length > 0 && (
             <div className="ml-4 mt-4">
-              {comment.replies.map(reply => (
-                <Comment
-                  key={reply.id}
-                  comment={reply}
-                  onAddReply={onAddReply}
-                  depth={depth + 1}
-                />
-              ))}
+              <Button
+                size="small"
+                color="none"
+                onClick={() => setShowReplies(!showReplies)}
+                className="text-xs text-blue-400 hover:bg-white"
+              >
+                {showReplies ? '대댓글 숨기기' : `대댓글 보기 (${comment.replies.length})`}
+              </Button>
+              {showReplies && (
+                <div className="mt-4">
+                  {comment.replies.map(reply => (
+                    <Comment
+                      key={reply.id}
+                      comment={reply}
+                      onAddReply={onAddReply}
+                      depth={depth + 1}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

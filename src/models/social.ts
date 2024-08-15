@@ -1,6 +1,6 @@
 import constants from '@/constants';
 import { IApiResponse } from '@/types/common';
-import { ICreateCommentResponse, ICreatePostResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
 
 export const getPostsModel = (res: IApiResponse<IGetPostsResponse>) => {
     const success = res.success;
@@ -96,6 +96,7 @@ export const getCreateCommentModel = (res: IApiResponse<ICreateCommentResponse>)
             parentCommentId: commentData?.parentCommentId ?? null,
             postId: commentData?.postId ?? constants.DEFAULT_NUM,
             userId: commentData?.userId ?? constants.DEFAULT_NUM,
+            username: commentData?.username ?? constants.DEFAULT_STR
         };
     }
 
@@ -107,5 +108,36 @@ export const getCreateCommentModel = (res: IApiResponse<ICreateCommentResponse>)
         parentCommentId: null,
         postId: constants.DEFAULT_NUM,
         userId: constants.DEFAULT_NUM,
+        username: constants.DEFAULT_STR
     };
 };
+
+export const getCreateReplyModel = (res: IApiResponse<ICreateReplyResponse>) => {
+    const success = res.success;
+
+    if (success) {
+        const commentData = res.data?.reply;
+
+        return {
+            id: commentData?.id ?? constants.DEFAULT_NUM,
+            content: commentData?.content ?? constants.DEFAULT_STR,
+            createdAt: commentData?.createdAt ?? constants.DEFAULT_STR,
+            likes: commentData?.likes ?? constants.DEFAULT_NUM,
+            parentCommentId: commentData?.parentCommentId ?? null,
+            postId: commentData?.postId ?? constants.DEFAULT_NUM,
+            userId: commentData?.userId ?? constants.DEFAULT_NUM,
+            username: commentData?.username ?? constants.DEFAULT_STR
+        };
+    }
+
+    return {
+        id: constants.DEFAULT_NUM,
+        content: constants.DEFAULT_STR,
+        createdAt: constants.DEFAULT_STR,
+        likes: constants.DEFAULT_NUM,
+        parentCommentId: null,
+        postId: constants.DEFAULT_NUM,
+        userId: constants.DEFAULT_NUM,
+        username: constants.DEFAULT_STR
+    };
+}

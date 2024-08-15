@@ -21,3 +21,19 @@ export function buildCommentTree(comments: IComment[]): (IComment & { replies?: 
 
   return rootComments;
 }
+
+export const flattenCommentTree = (commentTree: (IComment & { replies?: IComment[] })[]): IComment[] => {
+  const flatList: IComment[] = [];
+
+  const flatten = (comments: (IComment & { replies?: IComment[] })[]) => {
+    comments.forEach(comment => {
+      flatList.push(comment);
+      if (comment.replies) {
+        flatten(comment.replies);
+      }
+    });
+  };
+
+  flatten(commentTree);
+  return flatList;
+};
