@@ -1,5 +1,5 @@
-import { get } from '@/api';
-import { IPaging } from '@/types/common';
+import { get } from "@/api";
+import { IPaging } from "@/types/common";
 import {
   IStockData,
   IStockResponse,
@@ -7,26 +7,26 @@ import {
   IMarketsResponse,
   IStocksByNameResponse,
   IStocksByCodeResponse,
-} from '@/types/stock';
-import constants from '@/constants';
+} from "@/types/stock";
+import constants from "@/constants";
 import {
   getStockListModel,
   getMarketListModel,
   getStocksByNameModel,
   getStocksByCodeModel,
-} from '@/models/stock';
+} from "@/models/stock";
 
-const STOCK_URL = 'stock';
+const STOCK_URL = "stock";
 
 export const fetchStockList = async (
   market: string,
   paging: IPaging = {
     page: constants.DEFAULT_PAGING.PAGE,
     pageSize: constants.DEFAULT_PAGING.PAGESIZE,
-  },
+  }
 ) => {
   const response = await get<IAllStocksByMarketResponse>(
-    `${STOCK_URL}/markets/${market}/securities?page=${paging.page}&pageSize=${paging.pageSize}&sort=name,asc`,
+    `${STOCK_URL}/markets/${market}/securities?page=${paging.page}&pageSize=${paging.pageSize}&sort=name,asc`
   );
 
   return getStockListModel(response);
@@ -42,22 +42,24 @@ export const fetchSearchStock = async (data: {
   category: string;
   page?: number;
 }) => {
-  const { term, category } = data;
+  const { term, category, page = 0 } = data;
+
+  const encodedTerm = encodeURIComponent(term);
 
   const apiUrl = (() => {
-    if (category === 'name') {
-      return `${STOCK_URL}/securities/search/name?page=0&pageSize=10&sort=name,asc&name=${term}`;
-    } else if (category === 'code') {
-      return `${STOCK_URL}/securities/search/code?page=0&pageSize=10&sort=name,asc&code=${term}`;
+    if (category === "name") {
+      return `${STOCK_URL}/securities/search/name?page=${page}&pageSize=10&sort=name,asc&name=${encodedTerm}`;
+    } else if (category === "code") {
+      return `${STOCK_URL}/securities/search/code?page=${page}&pageSize=10&sort=name,asc&code=${encodedTerm}`;
     } else {
-      throw new Error('잘못된 검색 카테고리입니다.');
+      throw new Error("잘못된 검색 카테고리입니다.");
     }
   })();
 
-  if (category === 'name') {
+  if (category === "name") {
     const response = await get<IStocksByNameResponse>(apiUrl);
     return getStocksByNameModel(response);
-  } else if (category === 'code') {
+  } else if (category === "code") {
     const response = await get<IStocksByCodeResponse>(apiUrl);
     return getStocksByCodeModel(response);
   }
