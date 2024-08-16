@@ -50,6 +50,15 @@ export const fetchGetPostDetail = async (
     return getPostDetailModel(response);
 }
 
+export const fetchGetPublicPostDetail = async (
+    id: number
+) => {
+    const response = await get<IPostDetailResponse>(
+        `${SOCIAL_URL}/posts/public/detail/${id}`
+    );
+    return getPostDetailModel(response);
+}
+
 export const fetchCreateComment = async (
     id: number,
     userId: number,

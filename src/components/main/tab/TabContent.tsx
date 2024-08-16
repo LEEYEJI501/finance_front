@@ -17,7 +17,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
     constants.DEFAULT_PAGING.PAGE
   );
   const [totalStockListPages, setTotalStockListPages] = useState(1);
-  const [pageSize, setPageSize] = useState(constants.DEFAULT_PAGING.PAGESIZE);
+  const [pageSize, setPageSize] = useState(20);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("name");
   const [searchResults, setSearchResults] = useState<

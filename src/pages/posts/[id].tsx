@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from '@/hooks/useNavigate';
-import { fetchGetPostDetail } from '@/services/social';
+import { fetchGetPostDetail, fetchGetPublicPostDetail } from '@/services/social';
 import { IPost } from '@/types/social';
 import PostDetail from '@/components/social/postForm/PostDetail';
+import { useStorage } from '@/hooks/useStorage';
 
 const PostDetailPage: React.FC = () => {
   const { getQueryParams } = useNavigate();
   const { id } = getQueryParams();
   const [post, setPost] = useState<IPost | null>(null);
+  const { isLoggedIn } = useStorage();
 
   useEffect(() => {
     const loadPostDetail = async () => {
       if (id) {
-        const postDetail = await fetchGetPostDetail(Number(id));
-        setPost(postDetail);
+        if (isLoggedIn) {
+          const postDetail = await fetchGetPostDetail(Number(id));
+          setPost(postDetail);
+        } else {
+          const postDetail = await fetchGetPublicPostDetail(Number(id));
+          setPost(postDetail);
+        }
       }
     };
 
     loadPostDetail();
-  }, [id]);
+  }, [id, isLoggedIn]);
 
   if (!post) {
     return <div>Loading...</div>;
