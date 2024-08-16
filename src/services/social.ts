@@ -1,8 +1,8 @@
 import { get, post, del } from "@/api";
 import constants from "@/constants";
-import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel, getUnfollowedUsersModel, getUnreadFeedActivitiesModel } from "@/models/social";
+import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getFollowModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel, getUnfollowedUsersModel, getUnreadFeedActivitiesModel } from "@/models/social";
 import { IPaging } from "@/types/common";
-import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IGetUnreadFeedActivitiesResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IFollowResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IGetUnreadFeedActivitiesResponse, IPostDetailResponse } from "@/types/social";
 
 const SOCIAL_URL = "social";
 
@@ -129,12 +129,12 @@ export const fetchFollowUser = async (
     followerId: number,
     followeeId: number
 ) => {
-    const response = await post(`${SOCIAL_URL}/follow`, {
+    const response = await post<IFollowResponse>(`${SOCIAL_URL}/follow`, {
         followerId,
         followeeId
     }, true);
 
-    return response;
+    return getFollowModel(response);
 }
 
 export const fetchActivityRead = async (

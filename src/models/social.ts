@@ -1,6 +1,6 @@
 import constants from '@/constants';
 import { IApiResponse } from '@/types/common';
-import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IDeleteCommentResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IGetUnreadFeedActivitiesResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IDeleteCommentResponse, IFollowResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IGetUnreadFeedActivitiesResponse, IPostDetailResponse } from "@/types/social";
 
 export const getPostsModel = (res: IApiResponse<IGetPostsResponse>) => {
     const success = res.success;
@@ -216,5 +216,25 @@ export const getUnreadFeedActivitiesModel = (res: IApiResponse<IGetUnreadFeedAct
         currentPage: constants.DEFAULT_NUM,
         totalPages: constants.DEFAULT_NUM,
         activities: constants.DEFAULT_ITEMS
+    };
+}
+
+export const getFollowModel = (res: IApiResponse<IFollowResponse>) => {
+    const success = res.success;
+
+    if (success) {
+        const results = res.data?.results;
+
+        return {
+            success,
+            followerId: results?.follower_id ?? constants.DEFAULT_NUM,
+            followeeId: results?.followee_id ?? constants.DEFAULT_NUM
+        };
+    }
+
+    return {
+        success,
+        followerId: constants.DEFAULT_NUM,
+        followeeId: constants.DEFAULT_NUM
     };
 }

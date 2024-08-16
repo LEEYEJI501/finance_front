@@ -102,3 +102,10 @@ export interface IGetUnreadFeedActivitiesResponse {
         current_page: number;
     }
 }
+
+export interface IFollowResponse {
+    results: {
+        follower_id: number;
+        followee_id: number;
+    }
+}

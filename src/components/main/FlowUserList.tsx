@@ -30,6 +30,8 @@ const FlowUserList: React.FC = () => {
         `${username} 팔로우 완료! 이제부터 피드 알람을 확인 할 수 있어요.`,
         constants.TOAST_TYPES.SUCCESS
       );
+
+      setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== id));
     }
   };
 
