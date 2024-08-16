@@ -5,6 +5,7 @@ import constants from "@/constants";
 import { removeItem } from "@/utils/localStorage";
 import { fetchLogout } from "@/services/auth";
 import { useStorage } from "@/hooks/useStorage";
+import { DivideIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
   const { navigateToLogin, navigateToMainPage } = useNavigate();
@@ -48,11 +49,15 @@ const Header = () => {
         </div>
 
         <div className="">
-          <img
-            src="/razer-logo.svg"
-            alt="Razer Logo"
-            className="w-6 h-auto block"
-          />
+          {isLoggedIn && user ? (
+            <img
+              src="/razer-logo.svg"
+              alt="Razer Logo"
+              className="w-6 h-auto block"
+            />
+          ) : (
+            <div></div>
+          )}
         </div>
 
         <div>
