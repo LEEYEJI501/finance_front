@@ -38,7 +38,7 @@ const Toast: React.FC<ToastProps> = ({ message, type = 'info', duration = 3000, 
       } ${typeStyles[type]}`}
     >
       <div className="flex-1">
-        <p>{message}</p>
+        <p className='text-xs'>{message}</p>
       </div>
       <button onClick={() => setIsVisible(false)} className="ml-4 text-white">
         <XMarkIcon className="h-5 w-5" />

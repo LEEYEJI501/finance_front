@@ -13,7 +13,7 @@ type InputProps = {
 };
 
 const baseClasses =
-  "w-full p-2 border-b bg-black text-green-500 border-gray-700 focus:outline-none focus:border-green-500 focus:ring-green-500 focus:ring-2";
+  "w-full p-2 border-b bg-black text-green-500 border-gray-700 focus:outline-none focus:border-green-500 focus:ring-green-500 focus:ring-1";
 
 const Input: React.FC<InputProps> = ({
   type,

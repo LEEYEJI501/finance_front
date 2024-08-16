@@ -31,3 +31,11 @@ body {
   border: 1px solid #44D62C;
   border-radius: 1px;
 }
+
+.text-green-razer {
+  color: #44d62c !important;
+}
+
+.placeholder-sm::placeholder {
+  font-size: 0.75rem; /* Tailwind's text-xs */
+}

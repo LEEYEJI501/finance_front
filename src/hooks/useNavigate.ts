@@ -37,6 +37,10 @@ export const useNavigate = () => {
     router.push(constants.ROUTES.LOGIN); 
   };
 
+  const navigateToMy = () => {
+    router.push(constants.ROUTES.MY);
+  }
+
   const navigateToCreatePost = ({ market, code, name }: CreatePostRouteParams) => {
     router.push({
       pathname: constants.ROUTES.CREATE_POST,
@@ -70,5 +74,6 @@ export const useNavigate = () => {
     navigateToStockDetail,
     navigateToPostDetail,
     navigateBack,
+    navigateToMy,
   };
 };

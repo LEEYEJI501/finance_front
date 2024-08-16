@@ -36,23 +36,24 @@ const FlowUserList: React.FC = () => {
   return (
     <div className="w-full overflow-x-auto">
       {isLoggedIn && (
-        <div className="flex space-x-4 my-2">
+        <div className="flex justify-center space-x-4 my-2">
           {users.map((user) => (
             <Card
               key={user.userId}
-              className="w-48 h-64 bg-gray text-black p-4 rounded-lg border border-gray-300 shadow-sm flex-shrink-0"
+              className="w-48 h-64 !bg-black text-black p-4 rounded-lg border border-gray-300 shadow-sm flex-shrink-0"
             >
               <img
                 src={"/default-profile.png"}
                 alt={`${user.username} 프로필 이미지`}
                 className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
               />
-              <p className="text-center font-semibold truncate">
+              <p className="text-center text-sm font-semibold truncate">
                 {user.username}
               </p>
               <Button
+                color="green"
                 onClick={() => handleFollowUser(user.userId, user.username)}
-                className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                className="!text-black text-sm mt-8 w-full py-2"
               >
                 팔로우
               </Button>

@@ -4,8 +4,8 @@ import { Input, Button } from "@/components/index";
 
 const ChangePassword: React.FC = () => {
   return (
-    <div className="w-full flex justify-center">
-      <Card className="w-full max-w-3xl p-6 bg-black rounded-lg shadow-md">
+    <div className="w-full flex justify-center my-5">
+      <Card className="p-[80px] bg-black rounded-lg shadow-md">
         <div className="flex items-center mb-6">
           <img
             src="/default-profile.png"

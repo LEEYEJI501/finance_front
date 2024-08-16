@@ -55,14 +55,14 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
 
   return (
     <div className="mb-6">
-      <label className="block text-green-400 mb-2">
+      <label className="block text-green-razer !text-sm mb-2">
         이메일 주소 <span className="text-red-500">*</span>
       </label>
       <div className="flex">
         <Input
           type="text"
           placeholder="example@gmail.com"
-          className={`mr-2 bg-gray-800 text-white placeholder-gray-500 ${
+          className={`text-sm text-green-razer mr-2 bg-black placeholder-gray-500 placeholder-sm ${
             isEmailValid ? "border-green-500" : ""
           }`}
           value={email}
@@ -70,7 +70,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
           disabled={emailDisabled}
         />
         <CountDown
-          className="my-auto mr-1"
+          className="text-sm my-auto mr-1"
           initialTime="3:00"
           color="green"
           hide={countHide}
@@ -78,9 +78,9 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
         />
         <Button
           type="button"
-          color="none"
+          color="green"
           size="small"
-          className="text-green-400 hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
+          className="!text-black hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
           disabled={!isCountCompleted || !isEmailValid}
           onClick={handleEmailSend}
         >
@@ -97,16 +97,16 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
             <Input
               type="text"
               placeholder="인증번호 입력"
-              className="mr-2 bg-gray-800 text-white placeholder-gray-500"
+              className="text-sm text-green-razer mr-2 bg-black placeholder-gray-500 placeholder-sm"
               value={verificationCode}
               onChange={handleCodeChange}
               maxLength={6}
             />
             <Button
               type="button"
-              color="none"
+              color="green"
               size="small"
-              className="text-green-400 hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
+              className="!text-black hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
               onClick={handleCodeVerify}
             >
               인증 확인

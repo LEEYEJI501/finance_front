@@ -30,6 +30,7 @@ export default {
         MAIN_PAGE: '/',
         SIGN_UP: '/signup',
         LOGIN: '/login',
+        MY: '/my',
         STOCK_DETAIL: '/[market]/[code]',
         CREATE_POST: '/posts/create',
         POST_DETAIL: '/posts/[id]',

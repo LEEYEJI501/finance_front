@@ -7,7 +7,7 @@ import { fetchLogout } from "@/services/auth";
 import { useStorage } from "@/hooks/useStorage";
 
 const Header = () => {
-  const { navigateToLogin, navigateToMainPage } = useNavigate();
+  const { navigateToLogin, navigateToMainPage, navigateToMy } = useNavigate();
   const { user, isLoggedIn } = useStorage();
 
   const handleLoginClick = () => {
@@ -58,7 +58,15 @@ const Header = () => {
         <div>
           {isLoggedIn && user ? (
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-green-500">{user.username}</span>
+              <Button
+                size="medium"
+                color="none"
+                purpose="primary"
+                onClick={navigateToMy}
+                className="ml-4 text-green-500 hover:text-green-300"
+              >
+                {user.username}
+              </Button>
               <Button
                 size="medium"
                 color="none"

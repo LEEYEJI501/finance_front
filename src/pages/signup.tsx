@@ -71,9 +71,9 @@ const SignupPage = () => {
   
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-60px)]">
-      <div className="p-8 w-full max-w-md bg-gray-900 rounded-lg shadow-lg neon-border animate-neon-border">
-        <h1 className="text-2xl font-bold mb-10 text-center text-green-400">Sign Up</h1>
-
+      <div className="p-8 w-full max-w-md bg-black rounded-sm shadow-lg border border-gray-800">
+        <h1 className="text-md font-bold mb-5 text-left text-white">STOCK DISCUSSION 계정 만들기</h1>
+        <div className="text-xs text-left text-white mb-10">STOCK DISCUSSION ID는 STOCK DISCUSSION 서비스에서 사용할 수 있는 계정입니다.</div>
         <div className="mb-6 flex flex-col items-center relative">
           <Tooltip message="프로필 사진 업로드" position="bottom">
             <div className="relative">
@@ -121,13 +121,24 @@ const SignupPage = () => {
             type="submit"
             size="medium"
             purpose="primary"
-            color="neonGreen"
-            className="w-full font-bold text-green-400 hover:text-green-300"
+            color="green"
+            className="w-full font-bold !text-black text-sm hover:text-green-300"
             disabled={!isFormValid}
             onClick={handleSignUp}
           >
-            가입 완료
+            생성
           </Button>
+        </div>
+
+        <div className="mt-10 text-gray-300 text-center text-xs">
+          이미 계정이 있으십니까?
+
+          <div 
+            onClick={navigateToLogin}
+            className="text-sm text-white mt-5 hover:cursor-pointer hover:text-green-300"
+          >
+            로그인<span className="text-green-razer ml-2">></span>
+          </div>
         </div>
       </div>
     </div>
