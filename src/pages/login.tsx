@@ -46,7 +46,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-60px)]">
-      <div className="p-8 w-full max-w-sm bg-gray-900 rounded-lg shadow-lg border border-green-500">
+      <div className="p-8 w-full max-w-sm bg-black rounded-lg shadow-lg border border-gray-900">
         <h1 className="text-2xl font-bold mb-6 text-center text-green-400">
           Login
         </h1>
@@ -77,10 +77,10 @@ const LoginPage = () => {
           size="medium"
           color="none"
           purpose="primary"
-          className="w-full mt-2 text-green-400 border border-green-400 hover:text-green-300 hover:border-green-300"
+          className="w-full mt-2 text-black bg-green-700 hover:text-green-300 hover:border-green-300"
           onClick={handleLoginClick}
         >
-          LOGIN
+          로그인
         </Button>
         <div className="flex justify-between mt-6 text-green-400">
           <div

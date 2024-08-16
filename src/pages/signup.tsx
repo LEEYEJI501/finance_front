@@ -121,7 +121,7 @@ const SignupPage = () => {
             type="submit"
             size="medium"
             purpose="primary"
-            color="none"
+            color="neonGreen"
             className="w-full font-bold text-green-400 hover:text-green-300"
             disabled={!isFormValid}
             onClick={handleSignUp}

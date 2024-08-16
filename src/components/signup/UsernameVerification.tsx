@@ -26,7 +26,14 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
     }
 
     const isDuplicate = await fetchCheckUsername(username);
+
+    if (isDuplicate) {
+      showToast("중복된 아이디가 있습니다.", constants.TOAST_TYPES.INFO);
+      return;
+    }
+
     setIsDuplicate(isDuplicate);
+    showToast("사용가능한 아이디입니다.", constants.TOAST_TYPES.SUCCESS);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

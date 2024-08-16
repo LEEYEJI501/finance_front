@@ -100,6 +100,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
               className="mr-2 bg-gray-800 text-white placeholder-gray-500"
               value={verificationCode}
               onChange={handleCodeChange}
+              maxLength={6}
             />
             <Button
               type="button"
