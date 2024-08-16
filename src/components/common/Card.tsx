@@ -1,7 +1,7 @@
 import React from "react";
 
 type CardProps = {
-  title: string;
+  title?: string;
   subtitle?: string;
   icon?: React.ReactNode;
   badgeText?: string;
