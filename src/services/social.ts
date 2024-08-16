@@ -124,3 +124,15 @@ export const fetchGetUnFollwedUsers = async(
     );
     return getUnfollowedUsersModel(response);
 }
+
+export const fetchFollowUser = async (
+    followerId: number,
+    followeeId: number
+) => {
+    const response = await post(`${SOCIAL_URL}/follow`, {
+        followerId,
+        followeeId
+    }, true);
+
+    return response;
+}
