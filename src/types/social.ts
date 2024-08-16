@@ -16,6 +16,7 @@ export interface IComment {
     postId: number;
     userId: number;
     username: string;
+    likedByUser: boolean;
 }
 
 export interface IPost {
@@ -32,7 +33,7 @@ export interface IPost {
 }
 
 export interface IGetPostsResponse {
-    posts: {
+    results: {
         total_elements: number
         total_pages: number
         posts: IPost[]
@@ -41,7 +42,7 @@ export interface IGetPostsResponse {
 }
 
 export interface ICreatePostResponse {
-    post: {
+    results: {
         post_stock_name: string
         post_id: number
         user_id: number
@@ -50,13 +51,19 @@ export interface ICreatePostResponse {
 }
 
 export interface IPostDetailResponse {
-    post: IPost;
+    results: IPost;
 }
 
 export interface ICreateCommentResponse {
-    comment: IComment;
+    results: IComment;
 }
 
 export interface ICreateReplyResponse {
-    reply: IComment;
+    results: IComment;
+}
+
+export interface IDeleteCommentResponse {
+    results: {
+        deletedCommentIds: number[];
+    }
 }

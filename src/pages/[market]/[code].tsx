@@ -58,8 +58,8 @@ const ChartPage = () => {
 
   const getButtonClass = (timeframeKey: string) => {
     return selectedTimeframe === timeframeKey
-      ? 'bg-pink-500 rounded px-4 py-1 text-white'
-      : 'text-black';
+      ? 'bg-[#44D62C] rounded px-4 py-1 text-black'
+      : 'text-green-500 hover:bg-[#2A2A2A] hover:text-[#44D62C]';
   };
 
   const latestClosePrice =
@@ -72,17 +72,17 @@ const ChartPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-5xl p-8">
+    <div className="min-h-screen py-[60px] flex items-center justify-center text-green-500">
+      <div className="w-full max-w-5xl p-8 border border-green-500 rounded-lg shadow-lg">
         <div className="flex justify-between items-center">
-          <h1 className="text-1xl font-bold mb-2 bg-gray-100 text-black rounded-full px-4 py-1">
+          <h1 className="text-2xl font-bold mb-2 bg-gray-800 text-green-500 rounded-full px-4 py-1">
             {name}
           </h1>
-          <h1 className="text-1xl mb-2 border text-black rounded-full px-4 py-1">
+          <h1 className="text-2xl mb-2 border border-green-500 text-green-500 rounded-full px-4 py-1">
             {market}
           </h1>
         </div>
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-3xl font-bold mb-4">
           {latestClosePrice !== null ? `${formatPrice(latestClosePrice)}` : ''}
           <span className="text-sm"> 원</span>
         </h2>
@@ -141,7 +141,7 @@ const ChartPage = () => {
             5년
           </button>
         </div>
-        <hr className="my-8 border-gray-400" />
+        <hr className="my-8 border-gray-600" />
         <div>
           <PostList market={market} code={code} name={name}/>
         </div>

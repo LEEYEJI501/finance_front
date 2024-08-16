@@ -55,14 +55,16 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
 
   return (
     <div className="mb-6">
-      <label className="block text-gray-700 mb-2">
+      <label className="block text-green-400 mb-2">
         이메일 주소 <span className="text-red-500">*</span>
       </label>
       <div className="flex">
         <Input
           type="text"
           placeholder="example@gmail.com"
-          className={`mr-2 ${isEmailValid ? "border-green-500" : ""}`}
+          className={`mr-2 bg-gray-800 text-white placeholder-gray-500 ${
+            isEmailValid ? "border-green-500" : ""
+          }`}
           value={email}
           onChange={handleEmailChange}
           disabled={emailDisabled}
@@ -70,15 +72,15 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
         <CountDown
           className="my-auto mr-1"
           initialTime="3:00"
-          color="blue"
+          color="green"
           hide={countHide}
           onComplete={handleComplete}
         />
         <Button
           type="button"
-          color="slate"
+          color="none"
           size="small"
-          className="text-white px-4 rounded-r text-xs"
+          className="text-green-400 hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
           disabled={!isCountCompleted || !isEmailValid}
           onClick={handleEmailSend}
         >
@@ -88,22 +90,22 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
 
       {isVerificationSent && (
         <div className="mt-4">
-          <label className="block text-gray-700 mb-2">
+          <label className="block text-green-400 mb-2">
             인증번호 <span className="text-red-500">*</span>
           </label>
           <div className="flex">
             <Input
               type="text"
               placeholder="인증번호 입력"
-              className="mr-2"
+              className="mr-2 bg-gray-800 text-white placeholder-gray-500"
               value={verificationCode}
               onChange={handleCodeChange}
             />
             <Button
               type="button"
-              color="slate"
+              color="none"
               size="small"
-              className="text-white px-4 rounded-r text-xs"
+              className="text-green-400 hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
               onClick={handleCodeVerify}
             >
               인증 확인

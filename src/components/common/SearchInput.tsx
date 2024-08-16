@@ -41,7 +41,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       <select
         value={selectedOption}
         onChange={onOptionChange}
-        className="mr-2 p-2 border rounded"
+        className="mr-2 p-2 border rounded bg-black text-green-500 border-green-500"
       >
         {searchOptions.map((option, index) => (
           <option key={index} value={option}>
@@ -54,7 +54,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`flex-grow border rounded-l ${sizeClasses[size]}`}
+        className={`flex-grow border rounded-l ${sizeClasses[size]} bg-black text-green-500 !border-green-500 focus:ring-green-500 focus:ring-1`}
         disabled={disabled}
       />
     </div>

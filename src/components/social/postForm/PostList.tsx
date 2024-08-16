@@ -50,20 +50,20 @@ const PostList: React.FC<PostListProps> = ({ market, code, name }) => {
   };
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto text-green-500 p-6 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-4">
-        <div className="bg-gray-100 text-black rounded-full px-4 py-1 inline-block">
+        <div className="bg-gray-800 text-green-500 rounded-full px-4 py-1 inline-block">
           관련 게시글
         </div>
         {isLoggedIn && (
-          <Button color="blue" onClick={handleCreatePost}>
+          <Button color="neonGreen" onClick={handleCreatePost}>
             포스트 작성
           </Button>
         )}
       </div>
-      <table className="w-full text-sm table-fixed">
+      <table className="w-full text-sm table-fixed bg-gray-900 text-green-500">
         <thead>
-          <tr className="border-b">
+          <tr className="border-b border-green-500">
             <th className="w-1/12 py-2 text-center">No</th>
             <th className="w-6/12 text-center">제목</th>
             <th className="w-3/12 text-center">작성자</th>
@@ -74,7 +74,7 @@ const PostList: React.FC<PostListProps> = ({ market, code, name }) => {
           {posts.map(post => (
             <tr 
               key={post.id} 
-              className="border-b hover:bg-gray-100 cursor-pointer"
+              className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer"
               onClick={() => handlePostClick(post.id)} 
             >
               <td className="w-1/12 py-2 text-center text-gray-400">{post.id}</td>

@@ -1,13 +1,13 @@
 import constants from '@/constants';
 import { IApiResponse } from '@/types/common';
-import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IDeleteCommentResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
 
 export const getPostsModel = (res: IApiResponse<IGetPostsResponse>) => {
     const success = res.success;
 
     if (success) {
         const results = res?.data;
-        const posts = results?.posts;
+        const posts = results?.results;
 
         return {
             total_elements: posts?.total_elements ?? constants.DEFAULT_NUM,
@@ -30,7 +30,7 @@ export const getCreatePostModel = (res: IApiResponse<ICreatePostResponse>) => {
 
     if (success) {
         const results = res.data;
-        const post = results?.post;
+        const post = results?.results;
 
         return {
             postStockName: post?.post_stock_name ?? constants.DEFAULT_STR,
@@ -52,7 +52,7 @@ export const getPostDetailModel = (res: IApiResponse<IPostDetailResponse>) => {
     const success = res.success;
 
     if (success) {
-        const postData = res.data?.post;
+        const postData = res.data?.results;
 
         return {
             id: postData?.id ?? constants.DEFAULT_NUM,
@@ -86,9 +86,10 @@ export const getCreateCommentModel = (res: IApiResponse<ICreateCommentResponse>)
     const success = res.success;
 
     if (success) {
-        const commentData = res.data?.comment;
+        const commentData = res.data?.results;
 
         return {
+            success,
             id: commentData?.id ?? constants.DEFAULT_NUM,
             content: commentData?.content ?? constants.DEFAULT_STR,
             createdAt: commentData?.createdAt ?? constants.DEFAULT_STR,
@@ -96,11 +97,13 @@ export const getCreateCommentModel = (res: IApiResponse<ICreateCommentResponse>)
             parentCommentId: commentData?.parentCommentId ?? null,
             postId: commentData?.postId ?? constants.DEFAULT_NUM,
             userId: commentData?.userId ?? constants.DEFAULT_NUM,
-            username: commentData?.username ?? constants.DEFAULT_STR
+            username: commentData?.username ?? constants.DEFAULT_STR,
+            likedByUser: commentData?.likedByUser ?? constants.DEFAULT_BOOL
         };
     }
 
     return {
+        success,
         id: constants.DEFAULT_NUM,
         content: constants.DEFAULT_STR,
         createdAt: constants.DEFAULT_STR,
@@ -108,7 +111,8 @@ export const getCreateCommentModel = (res: IApiResponse<ICreateCommentResponse>)
         parentCommentId: null,
         postId: constants.DEFAULT_NUM,
         userId: constants.DEFAULT_NUM,
-        username: constants.DEFAULT_STR
+        username: constants.DEFAULT_STR,
+        likedByUser: constants.DEFAULT_BOOL
     };
 };
 
@@ -116,9 +120,10 @@ export const getCreateReplyModel = (res: IApiResponse<ICreateReplyResponse>) => 
     const success = res.success;
 
     if (success) {
-        const commentData = res.data?.reply;
-
+        const commentData = res.data?.results;
+        
         return {
+            success,
             id: commentData?.id ?? constants.DEFAULT_NUM,
             content: commentData?.content ?? constants.DEFAULT_STR,
             createdAt: commentData?.createdAt ?? constants.DEFAULT_STR,
@@ -126,11 +131,13 @@ export const getCreateReplyModel = (res: IApiResponse<ICreateReplyResponse>) => 
             parentCommentId: commentData?.parentCommentId ?? null,
             postId: commentData?.postId ?? constants.DEFAULT_NUM,
             userId: commentData?.userId ?? constants.DEFAULT_NUM,
-            username: commentData?.username ?? constants.DEFAULT_STR
+            username: commentData?.username ?? constants.DEFAULT_STR,
+            likedByUser: commentData?.likedByUser ?? constants.DEFAULT_BOOL
         };
     }
 
     return {
+        success,
         id: constants.DEFAULT_NUM,
         content: constants.DEFAULT_STR,
         createdAt: constants.DEFAULT_STR,
@@ -138,10 +145,32 @@ export const getCreateReplyModel = (res: IApiResponse<ICreateReplyResponse>) => 
         parentCommentId: null,
         postId: constants.DEFAULT_NUM,
         userId: constants.DEFAULT_NUM,
-        username: constants.DEFAULT_STR
+        username: constants.DEFAULT_STR,
+        likedByUser: constants.DEFAULT_BOOL
     };
 }
 
-export const getDeleteCommentModel = (res: IApiResponse<void>) => {
+export const getDeleteCommentModel = (res: IApiResponse<IDeleteCommentResponse>) => {
+    const success = res.success;
+
+    if (success) {
+        const results = res.data?.results
+
+        return {
+            success,
+            ids: results?.deletedCommentIds
+        }
+    }
+    return {
+        success,
+        ids: constants.DEFAULT_ITEMS
+    }
+}
+
+export const getIncrementCommentLikesModel = (res: IApiResponse<any>) => {
+    return res.success;
+}
+
+export const getDecrementCommentLikesModel = (res: IApiResponse<any>) => {
     return res.success;
 }

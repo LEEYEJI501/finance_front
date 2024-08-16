@@ -19,12 +19,29 @@ const getAuthorizationHeader = (): Record<string, string> => {
   return {};
 };
 
+const getUserIdHeader = (): Record<string, string> => {
+  const user = JSON.parse(getItem(constants.LOCAL_STORAGE.USER) || '{}');
+  const headers: Record<string, string> = {};
+
+  if (user?.id) {
+    headers["user-id"] = user.id.toString();
+  }
+
+  return headers;
+};
+
 export const get = async <T>(
   url: string,
-  params?: Record<string, string | number | boolean>
+  params?: Record<string, string | number | boolean>,
+  includeUserId: boolean = false
 ): Promise<IApiResponse<T>> => {
+  const headers = {
+    ...(includeUserId ? getUserIdHeader() : {}), 
+  };
+
   const options: any = {
     searchParams: params,
+    headers,
   };
 
   return handleApiResponse<T>(api.get(url, options).json<T>());

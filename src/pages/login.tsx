@@ -23,15 +23,15 @@ const LoginPage = () => {
         id: userId,
         username,
         accessToken
-      })
+      });
       setItem(
         constants.LOCAL_STORAGE.LOGIN, 
         String(constants.DEFAULT_BOOL_TRUE)
-      )
+      );
       setItem(
         constants.LOCAL_STORAGE.USER,
         user
-      )
+      );
       navigateToMainPage();
 
       showToast(`반갑습니다. ${username}님`, constants.TOAST_TYPES.SUCCESS);
@@ -45,14 +45,16 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="p-8 w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+    <div className="flex items-center justify-center min-h-[calc(100vh-60px)]">
+      <div className="p-8 w-full max-w-sm bg-gray-900 rounded-lg shadow-lg border border-green-500">
+        <h1 className="text-2xl font-bold mb-6 text-center text-green-400">
+          Login
+        </h1>
 
         <div className="mb-6">
           <input
             type="text"
-            className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-black"
+            className="w-full p-2 bg-black text-green-400 border-b border-gray-500 focus:outline-none focus:border-green-500 placeholder-gray-500"
             placeholder="USER NAME"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -61,7 +63,7 @@ const LoginPage = () => {
         <div className="mb-6">
           <input
             type="password"
-            className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-black"
+            className="w-full p-2 bg-black text-green-400 border-b border-gray-500 focus:outline-none focus:border-green-500 placeholder-gray-500"
             placeholder="PASSWORD"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -73,23 +75,23 @@ const LoginPage = () => {
         <Button
           type="submit"
           size="medium"
-          color="slate"
+          color="none"
           purpose="primary"
-          className="w-full mt-2"
+          className="w-full mt-2 text-green-400 border border-green-400 hover:text-green-300 hover:border-green-300"
           onClick={handleLoginClick}
         >
           LOGIN
         </Button>
-        <div className="flex justify-between mt-6 text-blue-700">
+        <div className="flex justify-between mt-6 text-green-400">
           <div
             onClick={handleSignUpClick}
-            className="text-sm hover:cursor-pointer"
+            className="text-sm hover:cursor-pointer hover:text-green-300"
           >
             Forgot Password
           </div>
           <div
             onClick={handleSignUpClick}
-            className="text-sm hover:cursor-pointer"
+            className="text-sm hover:cursor-pointer hover:text-green-300"
           >
             Sign Up
           </div>
