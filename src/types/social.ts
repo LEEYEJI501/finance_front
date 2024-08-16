@@ -67,3 +67,19 @@ export interface IDeleteCommentResponse {
         deletedCommentIds: number[];
     }
 }
+
+export interface IUserSync {
+    lastSyncedAt: string;
+    active: boolean;
+    userId: number;
+    username: string;
+}
+
+export interface IGetUnfollowedUsersResponse {
+    results: {
+        totalPages: number;
+        currentPage: number;
+        users: IUserSync[];
+        totalElements: number;
+    }
+}

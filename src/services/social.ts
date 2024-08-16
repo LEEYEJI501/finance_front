@@ -1,8 +1,8 @@
 import { get, post, del } from "@/api";
 import constants from "@/constants";
-import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel } from "@/models/social";
+import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel, getUnfollowedUsersModel } from "@/models/social";
 import { IPaging } from "@/types/common";
-import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IPostDetailResponse } from "@/types/social";
 
 const SOCIAL_URL = "social";
 
@@ -109,4 +109,18 @@ export const fetchDecrementCommentLikes = async (
         userId
     }, true);
     return getDecrementCommentLikesModel(response);
+}
+
+export const fetchGetUnFollwedUsers = async(
+    paging: IPaging = { 
+        page: constants.DEFAULT_PAGING.PAGE, 
+        pageSize: constants.DEFAULT_PAGING.PAGESIZE 
+    }
+) => {
+    const response = await get<IGetUnfollowedUsersResponse>(
+        `${SOCIAL_URL}/unfollowed-users?page=${paging.page}&pageSize=${paging.pageSize}`,
+        undefined,
+        true
+    );
+    return getUnfollowedUsersModel(response);
 }
