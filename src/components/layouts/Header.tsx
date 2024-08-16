@@ -1,10 +1,10 @@
-import React from 'react';
-import { useNavigate } from '@/hooks/useNavigate';
-import { Button } from '..';
-import constants from '@/constants';
-import { removeItem } from '@/utils/localStorage';
-import { fetchLogout } from '@/services/auth';
-import { useStorage } from '@/hooks/useStorage';
+import React from "react";
+import { useNavigate } from "@/hooks/useNavigate";
+import { Button } from "..";
+import constants from "@/constants";
+import { removeItem } from "@/utils/localStorage";
+import { fetchLogout } from "@/services/auth";
+import { useStorage } from "@/hooks/useStorage";
 
 const Header = () => {
   const { navigateToLogin, navigateToMainPage } = useNavigate();
@@ -31,13 +31,12 @@ const Header = () => {
     <header
       className="fixed top-0 left-0 w-full z-50 shadow-lg bg-black text-green-400 border-b border-green-500"
       style={{
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',  // 수직 가운데 정렬
+        height: "60px",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <div className="container mx-auto flex justify-between items-center border-2 border-transparent rounded">
-        {/* Left side - HOME Button */}
         <div className="flex items-center space-x-4">
           <Button
             onClick={navigateToMainPage}
@@ -48,13 +47,18 @@ const Header = () => {
           </Button>
         </div>
 
-        {/* Right side - Login/Logout section */}
+        <div className="">
+          <img
+            src="/razer-logo.svg"
+            alt="Razer Logo"
+            className="w-6 h-auto block"
+          />
+        </div>
+
         <div>
           {isLoggedIn && user ? (
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-green-500">
-                {user.username}
-              </span>
+              <span className="font-bold text-green-500">{user.username}</span>
               <Button
                 size="medium"
                 color="none"

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Card, Button } from "@/components/index";
 import { fetchGetUnFollwedUsers, fetchFollowUser } from "@/services/social";
 import { IUserSync } from "@/types/social";
-import { useStorage } from '@/hooks/useStorage';
+import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/contexts/ToastContext";
-import constants from '@/constants';
+import constants from "@/constants";
 
 const FlowUserList: React.FC = () => {
   const { isLoggedIn, user } = useStorage();
@@ -24,11 +24,14 @@ const FlowUserList: React.FC = () => {
 
   const handleFollowUser = async (id: number, username: string) => {
     if (isLoggedIn && user) {
-        await fetchFollowUser(user.id, id);
+      await fetchFollowUser(user.id, id);
 
-        showToast(`${username}을 팔로우 하였습니다. 이제부터 피드 알람을 확인할수있어요.`, constants.TOAST_TYPES.SUCCESS);
+      showToast(
+        `${username} 팔로우 완료! 이제부터 피드 알람을 확인 할 수 있어요.`,
+        constants.TOAST_TYPES.SUCCESS
+      );
     }
-  }
+  };
 
   return (
     <div className="w-full overflow-x-auto">
@@ -44,10 +47,13 @@ const FlowUserList: React.FC = () => {
                 alt={`${user.username} 프로필 이미지`}
                 className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
               />
-              <p className="text-center font-semibold truncate">{user.username}</p>
-              <Button 
+              <p className="text-center font-semibold truncate">
+                {user.username}
+              </p>
+              <Button
                 onClick={() => handleFollowUser(user.userId, user.username)}
-                className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" >
+                className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+              >
                 팔로우
               </Button>
             </Card>
