@@ -136,3 +136,24 @@ export const fetchFollowUser = async (
 
     return response;
 }
+
+export const fetchActivityRead = async (
+    id: number
+) => {
+    const response = await post(`${SOCIAL_URL}/activities/${id}/mark-read`, {}, true);
+    return response;
+}
+
+export const fetchGetActivitiesUnRead = async (
+    paging: IPaging = { 
+        page: constants.DEFAULT_PAGING.PAGE, 
+        pageSize: constants.DEFAULT_PAGING.PAGESIZE 
+    }
+) => {
+    const response = await get(
+        `${SOCIAL_URL}/activities/unread?page=${paging.page}&pageSize=${paging.pageSize}`,
+        undefined,
+        true
+    );
+    return response;
+}

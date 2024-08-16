@@ -6,7 +6,7 @@ import { useSockJS } from '@/hooks/useSockJS';
 import constants from '@/constants';
 import PostList from '@/components/social/postForm/PostList';
 
-const ChartPage = () => {
+const ChartPage: React.FC = () => {
   const { getQueryParams } = useNavigate();
   const { market, code, name } = getQueryParams();
   const uniqueId = uuidv4();
