@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
 
-interface ModalProps {
+interface DropDownProps {
   options: { code: string; name: string; market_name: string }[];
   isOpen: boolean;
   onClose: () => void;
@@ -12,21 +11,17 @@ interface ModalProps {
   }) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const DropDown: React.FC<DropDownProps> = ({
   options,
   isOpen,
   onClose,
   onSelect,
 }) => {
-  const router = useRouter();
-
   const handleSelect = (option: {
     code: string;
     name: string;
     market_name: string;
   }) => {
-    console.log(option);
-    // router.push(`/stocks/${option.code}`);
     onSelect(option);
     onClose();
   };
@@ -59,7 +54,7 @@ const Modal: React.FC<ModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-md shadow-lg max-h-60 overflow-y-auto p-4 w-80"
+        className="bg-black border border-green-500 rounded-md shadow-lg max-h-60 overflow-y-auto p-4 w-80"
         onClick={e => e.stopPropagation()}
       >
         {options.length > 0 ? (
@@ -67,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({
             <div
               key={index}
               onClick={() => handleSelect(option)}
-              className="p-2 cursor-pointer hover:bg-blue-500 hover:text-white rounded-md"
+              className="p-2 cursor-pointer text-green-500 hover:bg-green-500 hover:text-black rounded-md transition-colors duration-300"
             >
               <div className="font-semibold">{option.name}</div>
               <div className="text-sm text-gray-500">
@@ -83,4 +78,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal;
+export default DropDown;

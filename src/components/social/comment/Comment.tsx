@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@/components/index';
 import { IComment } from '@/types/social';
 import { useStorage } from '@/hooks/useStorage';
+import { fetchIncrementCommentLikes, fetchDecrementCommentLikes } from '@/services/social';
+import { useToast } from "@/contexts/ToastContext";
+import constants from '@/constants';
 
 interface CommentProps {
   comment: IComment & { replies?: IComment[] };
@@ -18,10 +21,15 @@ const Comment: React.FC<CommentProps> = ({
 }) => {
   const [replyText, setReplyText] = useState('');
   const [likes, setLikes] = useState(comment.likes);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(comment.likedByUser);
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [showReplies, setShowReplies] = useState(false); 
   const { isLoggedIn, user } = useStorage();
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    setIsLiked(comment.likedByUser);
+  }, [comment.likedByUser]);
 
   const handleReplySubmit = () => {
     if (replyText.trim() === '') return;
@@ -30,13 +38,27 @@ const Comment: React.FC<CommentProps> = ({
     setShowReplyInput(false);
   };
 
-  const handleLikeClick = () => {
-    if (isLiked) {
-      setLikes(prevLikes => prevLikes - 1);
-    } else {
-      setLikes(prevLikes => prevLikes + 1);
+  const handleLikeClick = async () => {
+    if (!isLoggedIn) {
+      showToast("로그인이 필요합니다.", constants.TOAST_TYPES.WARNING);
+      return;
     }
-    setIsLiked(!isLiked);
+
+    if (user) {
+      if (isLiked) {
+        const success = await fetchDecrementCommentLikes(comment.id, user.id);
+        if (success) {
+          setLikes(prevLikes => prevLikes - 1);
+          setIsLiked(false);
+        }
+      } else {
+        const success = await fetchIncrementCommentLikes(comment.id, user.id);
+        if (success) {
+          setLikes(prevLikes => prevLikes + 1);
+          setIsLiked(true);
+        }
+      }
+    }
   };
 
   const handleDeleteClick = () => {
@@ -50,7 +72,7 @@ const Comment: React.FC<CommentProps> = ({
         <div className="ml-4 flex-1">
           <div className="text-gray-700 flex items-center justify-between">
             <div>
-              <span className="font-semibold">{comment.username}</span>
+              <span className="font-semibold text-green-500">{comment.username}</span>
               <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
             </div>
             <div className="flex items-center">
@@ -59,7 +81,7 @@ const Comment: React.FC<CommentProps> = ({
                   size="small"
                   color="none"
                   onClick={() => setShowReplyInput(!showReplyInput)}
-                  className="ml-4 text-xs text-blue-400 hover:bg-white"
+                  className="ml-4 text-xs text-green-500 hover:bg-black hover:text-green-300"
                 >
                   댓글달기
                 </Button>
@@ -69,21 +91,21 @@ const Comment: React.FC<CommentProps> = ({
                   size="small"
                   color="none"
                   onClick={handleDeleteClick}
-                  className="ml-4 text-xs text-red-400 hover:bg-white"
+                  className="ml-4 text-xs text-red-400 hover:bg-black hover:text-red-300"
                 >
                   삭제
                 </Button>
               )}
             </div>
           </div>
-          <div className="mt-2 text-gray-600">{comment.content}</div>
+          <div className="mt-2 text-gray-300">{comment.content}</div>
           <div className="flex items-center mt-2">
             <svg
               onClick={handleLikeClick}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              fill={isLiked ? 'red' : 'none'}
-              stroke="currentColor"
+              fill={isLiked ? '#44D62C' : 'none'}
+              stroke="#44D62C"
               strokeWidth={2}
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -91,7 +113,7 @@ const Comment: React.FC<CommentProps> = ({
             >
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
-            <span className="ml-2 text-sm text-gray-600">{likes}</span>
+            <span className="ml-2 text-sm text-green-500">{likes}</span>
           </div>
           {showReplyInput && (
             <div className="flex flex-row space-y-2 mt-4 mb-8">
@@ -100,13 +122,13 @@ const Comment: React.FC<CommentProps> = ({
                 value={replyText}
                 onChange={e => setReplyText(e.target.value)}
                 placeholder="답글을 입력하세요."
-                className="flex-1 w-full"
+                className="flex-1 w-full text-green-500 border-green-500 focus:border-green-300"
               />
               <Button
                 size="small"
                 color="none"
                 onClick={handleReplySubmit}
-                className="self-end whitespace-nowrap border ml-5"
+                className="self-end whitespace-nowrap border ml-5 text-green-500 hover:bg-black hover:text-green-300"
               >
                 답글 작성
               </Button>
@@ -118,7 +140,7 @@ const Comment: React.FC<CommentProps> = ({
                 size="small"
                 color="none"
                 onClick={() => setShowReplies(!showReplies)}
-                className="text-xs text-blue-400 hover:bg-white"
+                className="text-xs text-green-500 hover:bg-black hover:text-green-300"
               >
                 {showReplies ? '대댓글 숨기기' : `대댓글 보기 (${comment.replies.length})`}
               </Button>

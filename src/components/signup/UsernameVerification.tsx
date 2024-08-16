@@ -39,22 +39,22 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
 
   return (
     <div className="mb-6">
-      <label className="block text-gray-700 mb-2">
+      <label className="block text-green-400 mb-2">
         아이디 <span className="text-red-500">*</span>
       </label>
       <div className="flex">
         <Input
           type="text"
           placeholder="아이디 입력"
-          className={`mr-2 ${isDuplicate === false ? "border-green-500" : ""}`}
+          className={`mr-2 bg-gray-800 text-white placeholder-gray-500 ${isDuplicate === false ? "border-green-500" : ""}`}
           value={username}
           onChange={handleChange}
         />
         <Button
           type="button"
-          color="slate"
+          color="none"
           size="small"
-          className="text-white px-4 rounded-r text-xs"
+          className="text-green-400 hover:text-green-300 px-4 rounded-r text-xs border border-green-400"
           onClick={handleCheckClick}
         >
           중복 확인

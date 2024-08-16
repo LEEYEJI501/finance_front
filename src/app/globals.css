@@ -10,3 +10,24 @@ body {
   font-size: 0.75rem;
   color: #6b7280;
 }
+
+@keyframes neon-border {
+  0% {
+    box-shadow: 0 0 5px #44D62C, inset 0 0 1px #44D62C, 0 0 5px #44D62C, inset 0 0 2px #44D62C;
+    border-color: #44D62C;
+  }
+  50% {
+    box-shadow: 0 0 5px #44D62C, inset 0 0 3px #44D62C, 0 0 5px #44D62C, inset 0 0 3px #44D62C;
+    border-color: #44D62C;
+  }
+  100% {
+    box-shadow: 0 0 1px #44D62C, inset 0 0 1px #44D62C, 0 0 5px #44D62C, inset 0 0 2px #44D62C;
+    border-color: #44D62C;
+  }
+}
+
+.animate-neon-border {
+  animation: neon-border 2s infinite alternate;
+  border: 1px solid #44D62C;
+  border-radius: 1px;
+}

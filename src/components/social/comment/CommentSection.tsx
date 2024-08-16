@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@/components/index';
 import Comment from './Comment';
+import Dialog from '@/components/common/Dialog';
 import { fetchCreateComment, fetchCreateReply, fetchDeleteComment } from '@/services/social';
 import { IComment } from '@/types/social';
 import { buildCommentTree } from '@/utils/commentUtils';
@@ -13,9 +14,13 @@ type CommentSectionProps = {
   comments: IComment[];
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
-  const [commentTree, setCommentTree] = useState(buildCommentTree(comments));
+const CommentSection: React.FC<CommentSectionProps> = ({ id, comments: initialComments }) => {
+  const [comments, setComments] = useState(initialComments);
+  const [commentTree, setCommentTree] = useState(buildCommentTree(initialComments));
   const [newComment, setNewComment] = useState('');
+  const [commentToDelete, setCommentToDelete] = useState<number | null>(null); 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const { user, isLoggedIn } = useStorage();
   const { showToast } = useToast();
 
@@ -27,7 +32,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
 
     if (user) {
       const newCommentData = await fetchCreateReply(id, parentCommentId, user.id, user.username, replyText);
-      setCommentTree(prev => buildCommentTree([...comments, newCommentData]));
+      if (newCommentData.success) {
+        const updatedComments = [...comments, newCommentData];
+        setComments(updatedComments);
+        setCommentTree(buildCommentTree(updatedComments));
+        showToast("새 댓글이 작성되었습니다.", constants.TOAST_TYPES.SUCCESS);
+      }
     }
   };
 
@@ -39,29 +49,39 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
     
     if (user) {
       const newCommentData = await fetchCreateComment(id, user.id, user.username, newComment);
-      setCommentTree(prev => buildCommentTree([...comments, newCommentData]));
-      setNewComment('');
+      if (newCommentData.success) {
+        const updatedComments = [...comments, newCommentData];
+        setComments(updatedComments);
+        setCommentTree(buildCommentTree(updatedComments));
+        setNewComment('');
+        showToast("새 댓글이 작성되었습니다.", constants.TOAST_TYPES.SUCCESS);
+      }
     }
   };
 
-  const handleDeleteComment = async (commentId: number) => {
-    if (user) {
-      await fetchDeleteComment(commentId, user.id);
-  
-      setCommentTree(prev => {
-        const updatedComments = buildCommentTree(prev).filter(comment => comment.id !== commentId);
-        return buildCommentTree(updatedComments);
-      });
+  const confirmDeleteComment = (commentId: number) => {
+    setCommentToDelete(commentId);
+    setIsDialogOpen(true);
+  };
+
+  const handleDeleteComment = async () => {
+    if (user && commentToDelete !== null) {
+      const { success, ids } = await fetchDeleteComment(commentToDelete, user.id);
+      
+      if (success && ids) {
+        const updatedComments = comments.filter(comment => !ids.includes(comment.id));
+        setComments(updatedComments);
+        setCommentTree(buildCommentTree(updatedComments));
+        showToast("댓글이 삭제되었습니다.", constants.TOAST_TYPES.SUCCESS);
+      }
+      setIsDialogOpen(false);
     }
   };
-  
-
-  const totalCommentCount = buildCommentTree(comments).length;
 
   return (
     <div className="mx-auto mt-8">
-      <h3 className="text-lg font-semibold mb-4">
-        댓글 <span className="text-blue-500">{totalCommentCount}</span>
+      <h3 className="text-lg font-semibold mb-4 text-green-500">
+        댓글 <span className="text-green-300">{comments.length}</span>
       </h3>
       {isLoggedIn && (
         <div className="flex space-x-4 mt-4 mb-8">
@@ -70,12 +90,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
             value={newComment}
             onChange={e => setNewComment(e.target.value)}
             placeholder="댓글을 입력하세요..."
+            className="text-green-500 border-green-500 focus:border-green-300"
           />
           <Button
             size="small"
-            color="none"
+            color="neonGreen"
             onClick={handleAddComment}
-            className="whitespace-nowrap border"
+            className="whitespace-nowrap border-green-500 hover:bg-green-600"
           >
             댓글 작성
           </Button>
@@ -86,9 +107,32 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments }) => {
           key={comment.id}
           comment={comment}
           onAddReply={handleAddReply}
-          onDeleteComment={handleDeleteComment}
+          onDeleteComment={() => confirmDeleteComment(comment.id)} 
         />
       ))}
+      <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
+        <div className="p-4 rounded text-green-500">
+          <h2 className="text-xl font-semibold mb-4">정말로 댓글을 삭제하시겠습니까?</h2>
+          <div className="flex justify-end space-x-4">
+            <Button
+              size="small"
+              color="none"
+              onClick={() => setIsDialogOpen(false)}
+              className="whitespace-nowrap border-green-500 text-green-500 hover:text-green-300"
+            >
+              취소
+            </Button>
+            <Button
+              size="small"
+              color="red"
+              onClick={handleDeleteComment}
+              className="whitespace-nowrap border-red-500 hover:bg-red-600"
+            >
+              삭제
+            </Button>
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };

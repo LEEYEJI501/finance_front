@@ -1,6 +1,6 @@
 import { get, post, del } from "@/api";
 import constants from "@/constants";
-import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDeleteCommentModel, getPostDetailModel, getPostsModel } from "@/models/social";
+import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel } from "@/models/social";
 import { IPaging } from "@/types/common";
 import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IPostDetailResponse } from "@/types/social";
 
@@ -42,7 +42,11 @@ export const fetchCreatePost = async (
 export const fetchGetPostDetail = async (
     id: number
 ) => {
-    const response = await get<IPostDetailResponse>(`${SOCIAL_URL}/posts/detail/${id}`);
+    const response = await get<IPostDetailResponse>(
+        `${SOCIAL_URL}/posts/detail/${id}`,
+        undefined,
+        true
+    );
     return getPostDetailModel(response);
 }
 
@@ -85,4 +89,24 @@ export const fetchDeleteComment = async (
         userId
     });
     return getDeleteCommentModel(response);
+}
+
+export const fetchIncrementCommentLikes = async (
+    id: number,
+    userId: number
+) => {
+    const response = await post(`${SOCIAL_URL}/comments/${id}/like`, {
+        userId
+    }, true);
+    return getIncrementCommentLikesModel(response);
+}
+
+export const fetchDecrementCommentLikes = async (
+    id: number,
+    userId: number
+) => {
+    const response = await post(`${SOCIAL_URL}/comments/${id}/unlike`, {
+        userId
+    }, true);
+    return getDecrementCommentLikesModel(response);
 }

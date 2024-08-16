@@ -68,11 +68,11 @@ const SignupPage = () => {
       showToast("가입이 완료되었습니다.", constants.TOAST_TYPES.SUCCESS);
     }
   };
-
+  
   return (
-    <div className="min-h-screen flex items-center justify-center w-full">
-      <div className="p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-10 text-center">Sign Up</h1>
+    <div className="flex items-center justify-center min-h-[calc(100vh-60px)]">
+      <div className="p-8 w-full max-w-md bg-gray-900 rounded-lg shadow-lg neon-border animate-neon-border">
+        <h1 className="text-2xl font-bold mb-10 text-center text-green-400">Sign Up</h1>
 
         <div className="mb-6 flex flex-col items-center relative">
           <Tooltip message="프로필 사진 업로드" position="bottom">
@@ -121,8 +121,8 @@ const SignupPage = () => {
             type="submit"
             size="medium"
             purpose="primary"
-            color="sky"
-            className="w-full font-bold"
+            color="none"
+            className="w-full font-bold text-green-400 hover:text-green-300"
             disabled={!isFormValid}
             onClick={handleSignUp}
           >

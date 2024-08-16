@@ -39,7 +39,7 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
   return (
     <>
       <div className="mb-6">
-        <label className="block text-gray-700 mb-2">
+        <label className="block text-green-400 mb-2">
           비밀번호 <span className="text-red-500">*</span>
         </label>
         <Input
@@ -47,7 +47,7 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
           placeholder="비밀번호 입력(8~20자)"
           value={password}
           onChange={handlePasswordChange}
-          className={`${
+          className={`bg-gray-800 text-white placeholder-gray-500 ${
             isPasswordValid === false
               ? "border-red-500"
               : isPasswordValid === true
@@ -58,7 +58,7 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
       </div>
 
       <div className="mb-6">
-        <label className="block text-gray-700 mb-2">
+        <label className="block text-green-400 mb-2">
           비밀번호 확인 <span className="text-red-500">*</span>
         </label>
         <div className="flex items-center">
@@ -67,7 +67,7 @@ const PasswordVerification: React.FC<PasswordVerificationProps> = ({
             placeholder="비밀번호 재입력"
             value={passwordConfirm}
             onChange={handlePasswordConfirmChange}
-            className={`${
+            className={`bg-gray-800 text-white placeholder-gray-500 ${
               isPasswordMatch === false
                 ? "border-red-500"
                 : isPasswordMatch === true

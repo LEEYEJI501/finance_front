@@ -6,7 +6,7 @@ type ContentProps = {
 
 const Content: React.FC<ContentProps> = ({ children }) => {
   return (
-    <main className="p-4 bg-white">
+    <main className="mt-[60px] overflow-hidden">
       <div className="container mx-auto">{children}</div>
     </main>
   );
