@@ -83,3 +83,22 @@ export interface IGetUnfollowedUsersResponse {
         totalElements: number;
     }
 }
+
+export interface IActivity {
+    id: number;
+    userId: number;
+    type: string;
+    referenceId: number;
+    message: string;
+    createdAt: string;
+    isRead: boolean;
+}
+
+export interface IGetUnreadFeedActivitiesResponse {
+    results: {
+        total_elements: number;
+        activities: IActivity[];
+        total_pages: number;
+        current_page: number;
+    }
+}

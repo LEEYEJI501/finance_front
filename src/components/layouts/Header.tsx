@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// Header.tsx
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "@/hooks/useNavigate";
 import { Button } from "..";
 import constants from "@/constants";
@@ -12,8 +13,11 @@ import { fetchGetActivitiesUnRead } from '@/services/social';
 const Header: React.FC = () => {
   const { navigateToLogin, navigateToMainPage, navigateToMy } = useNavigate();
   const { user, isLoggedIn } = useStorage();
-  const { subscribe, send } = useSockJS();
+  const { subscribe } = useSockJS();
   const [activities, setActivities] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLoginClick = () => {
@@ -33,24 +37,67 @@ const Header: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const loadMarketList = async () => {
-      if (isLoggedIn && user) {
-        await fetchGetActivitiesUnRead();
-      }
-    };
+  const loadActivities = async (page: number) => {
+    if (!isLoading && hasMore) {
+      setIsLoading(true);
+      const { activities: newActivities, totalPages } = await fetchGetActivitiesUnRead({ page, pageSize: constants.DEFAULT_PAGING.PAGESIZE });
 
-    loadMarketList();
-  })
+      setActivities((prevActivities) => [...prevActivities, ...newActivities]);
+      setCurrentPage(page);
+      setHasMore(page < totalPages - 1);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isLoggedIn && user) {
-      subscribe(`/topic/activities/${user.id}`, (message) => {
-        const data = JSON.parse(message.body);
-        setActivities((prevActivities) => [...prevActivities, data]);
-      })
+      loadActivities(0); 
     }
-  }, [isLoggedIn, user, subscribe])
+  }, [isLoggedIn, user]);
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      const topics = [
+        {
+          topic: `/topic/activities/${user.id}`,
+          fn: (message: any) => {
+            const data = JSON.parse(message.body);
+            setActivities((prevActivities) => [...prevActivities, data]);
+          }
+        }, 
+        {
+          topic: '/topic/logout/',
+          fn: async (message: any) => {
+            const data = JSON.parse(message.body);
+
+            if (data.success) {
+              await handleLogoutClick();
+            } 
+          }
+        }
+      ]
+
+      for (const { topic, fn } of topics) {
+        subscribe(topic, fn);
+      }
+    }
+  }, [isLoggedIn, user, subscribe]);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastActivityElementRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadActivities(currentPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore, currentPage]
+  );
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -86,7 +133,7 @@ const Header: React.FC = () => {
               <span className="absolute bottom-0 left-6 block w-1 h-1 bg-red-500 rounded-full"></span>
             )}
             {isDropdownOpen && (
-              <NotificationDropdown activities={activities} />
+              <NotificationDropdown activities={activities} setActivities={setActivities} lastActivityElementRef={lastActivityElementRef} />
             )}
           </div>
         )}

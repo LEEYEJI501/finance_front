@@ -1,8 +1,8 @@
 import { get, post, del } from "@/api";
 import constants from "@/constants";
-import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel, getUnfollowedUsersModel } from "@/models/social";
+import { getCreateCommentModel, getCreatePostModel, getCreateReplyModel, getDecrementCommentLikesModel, getDeleteCommentModel, getIncrementCommentLikesModel, getPostDetailModel, getPostsModel, getUnfollowedUsersModel, getUnreadFeedActivitiesModel } from "@/models/social";
 import { IPaging } from "@/types/common";
-import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostDto, ICreatePostResponse, ICreateReplyResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IGetUnreadFeedActivitiesResponse, IPostDetailResponse } from "@/types/social";
 
 const SOCIAL_URL = "social";
 
@@ -150,10 +150,10 @@ export const fetchGetActivitiesUnRead = async (
         pageSize: constants.DEFAULT_PAGING.PAGESIZE 
     }
 ) => {
-    const response = await get(
+    const response = await get<IGetUnreadFeedActivitiesResponse>(
         `${SOCIAL_URL}/activities/unread?page=${paging.page}&pageSize=${paging.pageSize}`,
         undefined,
         true
     );
-    return response;
+    return getUnreadFeedActivitiesModel(response);
 }

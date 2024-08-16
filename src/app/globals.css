@@ -39,3 +39,22 @@ body {
 .placeholder-sm::placeholder {
   font-size: 0.75rem; /* Tailwind's text-xs */
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1c1c1c;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #00ff00; /* 레이저 브랜드 감성의 초록색 */
+  border-radius: 10px;
+  border: 1px solid #00ff00;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00ff00 #1c1c1c;
+}

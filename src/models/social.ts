@@ -1,6 +1,6 @@
 import constants from '@/constants';
 import { IApiResponse } from '@/types/common';
-import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IDeleteCommentResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IPostDetailResponse } from "@/types/social";
+import { ICreateCommentResponse, ICreatePostResponse, ICreateReplyResponse, IDeleteCommentResponse, IGetPostsResponse, IGetUnfollowedUsersResponse, IGetUnreadFeedActivitiesResponse, IPostDetailResponse } from "@/types/social";
 
 export const getPostsModel = (res: IApiResponse<IGetPostsResponse>) => {
     const success = res.success;
@@ -194,5 +194,27 @@ export const getUnfollowedUsersModel = (res: IApiResponse<IGetUnfollowedUsersRes
         currentPage: constants.DEFAULT_NUM,
         totalPages: constants.DEFAULT_NUM,
         users: constants.DEFAULT_ITEMS
+    };
+}
+
+export const getUnreadFeedActivitiesModel = (res: IApiResponse<IGetUnreadFeedActivitiesResponse>) => {
+    const success = res.success;
+
+    if (success) {
+        const results = res.data?.results;
+
+        return {
+            totalElements: results?.total_elements ?? constants.DEFAULT_NUM,
+            currentPage: results?.current_page ?? constants.DEFAULT_NUM,
+            totalPages: results?.total_pages ?? constants.DEFAULT_NUM,
+            activities: results?.activities ?? constants.DEFAULT_ITEMS
+        };
+    }
+
+    return {
+        totalElements: constants.DEFAULT_NUM,
+        currentPage: constants.DEFAULT_NUM,
+        totalPages: constants.DEFAULT_NUM,
+        activities: constants.DEFAULT_ITEMS
     };
 }
