@@ -67,11 +67,14 @@ const Header: React.FC = () => {
         }, 
         {
           topic: `/topic/logout/${user.id}`,
-          fn: async (message: any) => {
+          fn: (message: any) => {
             const data = JSON.parse(message.body);
 
             if (data.success) {
-              await handleLogoutClick();
+              removeItem(constants.LOCAL_STORAGE.LOGIN);
+              removeItem(constants.LOCAL_STORAGE.USER);
+
+              navigateToLogin();
             } 
           }
         }
