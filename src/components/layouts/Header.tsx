@@ -66,7 +66,7 @@ const Header: React.FC = () => {
           }
         }, 
         {
-          topic: '/topic/logout/',
+          topic: `/topic/logout/${user.id}`,
           fn: async (message: any) => {
             const data = JSON.parse(message.body);
 
