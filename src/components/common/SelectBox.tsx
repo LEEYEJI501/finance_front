@@ -19,14 +19,18 @@ const SelectBox: React.FC<SelectBoxProps> = ({ options, selectedValue, onChange,
 
   return (
     <div className="flex flex-col">
-      {label && <label className="mb-2 text-sm text-gray-700">{label}</label>}
+      {label && <label className="mb-2 text-xs text-green-400 font-bold">{label}</label>}
       <select
         value={selectedValue}
         onChange={handleChange}
-        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
+        className="p-1 bg-black text-green-razer text-sm border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out hover:bg-green-500 hover:text-black"
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option 
+            key={option.value} 
+            value={option.value} 
+            className="bg-black text-green-400 hover:bg-green-500 hover:text-black"
+          >
             {option.label}
           </option>
         ))}
