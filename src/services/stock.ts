@@ -37,7 +37,7 @@ export const fetchMarketList = async () => {
   return getMarketListModel(response);
 };
 
-export const fetchSearchStock = async (data: {
+export const fetchSearchStockName = async (data: {
   term: string;
   category: string;
   page?: number;
@@ -46,23 +46,25 @@ export const fetchSearchStock = async (data: {
 
   const encodedTerm = encodeURIComponent(term);
 
-  const apiUrl = (() => {
-    if (category === "name") {
-      return `${STOCK_URL}/securities/search/name?page=${page}&pageSize=10&sort=name,asc&name=${encodedTerm}`;
-    } else if (category === "code") {
-      return `${STOCK_URL}/securities/search/code?page=${page}&pageSize=10&sort=name,asc&code=${encodedTerm}`;
-    } else {
-      throw new Error("잘못된 검색 카테고리입니다.");
-    }
-  })();
+  const response = await get<IStocksByNameResponse>(
+    `${STOCK_URL}/securities/search/name?page=${page}&pageSize=10&sort=name,asc&name=${encodedTerm}`
+  );
+  return getStocksByNameModel(response);
+};
 
-  if (category === "name") {
-    const response = await get<IStocksByNameResponse>(apiUrl);
-    return getStocksByNameModel(response);
-  } else if (category === "code") {
-    const response = await get<IStocksByCodeResponse>(apiUrl);
-    return getStocksByCodeModel(response);
-  }
+export const fetchSearchStockCode = async (data: {
+  term: string;
+  category: string;
+  page?: number;
+}) => {
+  const { term, category, page = 0 } = data;
+
+  const encodedTerm = encodeURIComponent(term);
+
+  const response = await get<IStocksByCodeResponse>(
+    `${STOCK_URL}/securities/search/code?page=${page}&pageSize=10&sort=name,asc&code=${encodedTerm}`
+  );
+  return getStocksByCodeModel(response);
 };
 
 export const parseStockData = (data: any): IStockResponse => {
