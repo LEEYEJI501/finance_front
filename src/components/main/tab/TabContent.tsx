@@ -3,6 +3,7 @@ import Pagination from "@/components/common/Pagination";
 import StockList from "@/components/main/tab/StockList";
 import constants from "@/constants";
 import SortSelectBox from "./SortSelectBox";
+import SearchSection from "@/components/main/tab/SearchSection";
 
 type TabContentProps = {
   market: string;
@@ -32,9 +33,10 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
 
   return (
     <div className="w-full relative">
-       <div className="flex justify-between mb-4">
-        <SortSelectBox onSortChange={handleSortChange} />
+      <div className="flex justify-center mb-6 relative">
+        <SearchSection />
       </div>
+      <SortSelectBox onSortChange={handleSortChange} />
       <StockList
         market={market}
         currentPage={stockListPage}
