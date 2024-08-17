@@ -72,7 +72,6 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         market={market}
         currentPage={stockListPage}
         pageSize={pageSize}
-        searchTerm={""}
         sortOption={sortOption}
         onTotalPagesChange={(totalPages: number) =>
           setTotalStockListPages(totalPages)
