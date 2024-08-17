@@ -1,13 +1,10 @@
-import { post } from '@/api';
-import { ILoginResponse } from '@/types/auth';
-import { getLoginModel, getLogoutModel } from '@/models/auth';
+import { post } from "@/api";
+import { ILoginResponse } from "@/types/auth";
+import { getLoginModel, getLogoutModel } from "@/models/auth";
 
-const AUTH_URL = 'auth';
+const AUTH_URL = "auth";
 
-export const fetchLogin = async (
-  username: string,
-  password: string
-) => {
+export const fetchLogin = async (username: string, password: string) => {
   const response = await post<ILoginResponse>(
     `${AUTH_URL}/login`,
     {
@@ -21,17 +18,15 @@ export const fetchLogin = async (
   return getLoginModel(response);
 };
 
-export const fetchLogout = async (
-  userId: number
-) => {
+export const fetchLogout = async (userId: number) => {
   const response = await post(
     `${AUTH_URL}/logout`,
     {
-      userId
+      userId,
     },
     true,
     true
   );
 
   return getLogoutModel(response);
-}
+};

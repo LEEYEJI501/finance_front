@@ -24,10 +24,12 @@ const colorClasses = {
   slate: "bg-slate-500 hover:bg-slate-700 text-white",
   sky: "bg-sky-500 hover:bg-sky-700 text-white",
   none: "bg-inherit text-black",
-  neonGreen: "bg-black text-green-400 border border-green-400 hover:text-green-300 hover:border-green-300",
+  neonGreen:
+    "bg-black text-green-400 border border-green-400 hover:text-green-300 hover:border-green-300",
 };
 
-const disabledClasses = "bg-gray-900 text-gray-600 border-gray-700 cursor-not-allowed opacity-70";
+const disabledClasses =
+  "bg-gray-900 text-gray-600 border-gray-700 cursor-not-allowed opacity-70";
 
 const purposeClasses = {
   primary: "",

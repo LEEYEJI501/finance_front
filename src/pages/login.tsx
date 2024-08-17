@@ -3,8 +3,8 @@ import { Button } from "../components";
 import { fetchLogin } from "@/services/auth";
 import { useToast } from "@/contexts/ToastContext";
 import constants from "@/constants";
-import { setItem } from '@/utils/localStorage';
-import { useNavigate } from '@/hooks/useNavigate';
+import { setItem } from "@/utils/localStorage";
+import { useNavigate } from "@/hooks/useNavigate";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -16,22 +16,22 @@ const LoginPage = () => {
   const handleLoginClick = async () => {
     setError(null);
 
-    const { success, authenticated, userId, accessToken } = await fetchLogin(username, password);
+    const { success, authenticated, userId, accessToken } = await fetchLogin(
+      username,
+      password
+    );
 
     if (success && authenticated) {
       const user = JSON.stringify({
         id: userId,
         username,
-        accessToken
+        accessToken,
       });
       setItem(
-        constants.LOCAL_STORAGE.LOGIN, 
+        constants.LOCAL_STORAGE.LOGIN,
         String(constants.DEFAULT_BOOL_TRUE)
       );
-      setItem(
-        constants.LOCAL_STORAGE.USER,
-        user
-      );
+      setItem(constants.LOCAL_STORAGE.USER, user);
       navigateToMainPage();
 
       showToast(`반갑습니다. ${username}님`, constants.TOAST_TYPES.SUCCESS);
@@ -97,17 +97,15 @@ const LoginPage = () => {
             onClick={handleSignUpClick}
             className="mt-10 text-center text-sm text-white hover:cursor-pointer hover:text-green-300"
           >
-            <div className="text-gray-300 mb-5 text-xs">아직 계정이 없으십니까?</div>
-            계정 만들기 <span className="text-green-300">></span>
+            <div className="text-gray-300 mb-5 text-xs">
+              아직 계정이 없으십니까?
+            </div>
+            계정 만들기 <span className="text-green-300">&gt;</span>
           </div>
         </div>
 
         <div className="text-center text-white mt-auto flex justify-center items-center">
-          <img
-            src="/razer-logo.svg"
-            alt="Razer Logo"
-            className="w-10 h-auto"
-          />
+          <img src="/razer-logo.svg" alt="Razer Logo" className="w-10 h-auto" />
         </div>
       </div>
     </div>

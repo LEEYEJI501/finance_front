@@ -1,5 +1,5 @@
-import React from 'react';
-import PostCreate from '@/components/social/postForm/PostCreate';
+import React from "react";
+import PostCreate from "@/components/social/postForm/PostCreate";
 
 const CreatePostPage: React.FC = () => {
   return (

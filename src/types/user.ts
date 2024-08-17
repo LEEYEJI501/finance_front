@@ -6,5 +6,5 @@ export interface ISignUpResponse {
   user: {
     id: number;
     username: string;
-  }
+  };
 }

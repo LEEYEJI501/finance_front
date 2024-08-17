@@ -1,4 +1,4 @@
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration } from "chart.js";
 
 export const getChartConfig = (
   labels: string[],
@@ -10,51 +10,51 @@ export const getChartConfig = (
   ma120: (number | null)[]
 ): ChartConfiguration => {
   return {
-    type: 'line',
+    type: "line",
     data: {
       labels: labels,
       datasets: [
         {
-          label: 'Closing Prices',
+          label: "Closing Prices",
           data: closingPrices,
-          borderColor: 'blue',
-          backgroundColor: 'rgba(0, 0, 255, 0.1)',
-          yAxisID: 'y',
+          borderColor: "blue",
+          backgroundColor: "rgba(0, 0, 255, 0.1)",
+          yAxisID: "y",
         },
         {
-          label: 'MA5',
+          label: "MA5",
           data: ma5,
-          borderColor: 'red',
+          borderColor: "red",
           fill: false,
-          yAxisID: 'y',
+          yAxisID: "y",
         },
         {
-          label: 'MA20',
+          label: "MA20",
           data: ma20,
-          borderColor: 'green',
+          borderColor: "green",
           fill: false,
-          yAxisID: 'y',
+          yAxisID: "y",
         },
         {
-          label: 'MA60',
+          label: "MA60",
           data: ma60,
-          borderColor: 'orange',
+          borderColor: "orange",
           fill: false,
-          yAxisID: 'y',
+          yAxisID: "y",
         },
         {
-          label: 'MA120',
+          label: "MA120",
           data: ma120,
-          borderColor: 'purple',
+          borderColor: "purple",
           fill: false,
-          yAxisID: 'y',
+          yAxisID: "y",
         },
         {
-          label: 'Volume',
+          label: "Volume",
           data: volumes,
-          type: 'bar',
-          backgroundColor: 'rgba(0, 0, 0, 0.1)',
-          yAxisID: 'y1',
+          type: "bar",
+          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          yAxisID: "y1",
         },
       ],
     },
@@ -62,18 +62,18 @@ export const getChartConfig = (
       scales: {
         y: {
           beginAtZero: false,
-          position: 'left',
+          position: "left",
           title: {
             display: true,
-            text: 'Price',
+            text: "Price",
           },
         },
         y1: {
           beginAtZero: true,
-          position: 'right',
+          position: "right",
           title: {
             display: true,
-            text: 'Volume',
+            text: "Volume",
           },
           grid: {
             drawOnChartArea: false,
@@ -84,17 +84,17 @@ export const getChartConfig = (
         annotation: {
           annotations: {
             box1: {
-              type: 'box',
+              type: "box",
               xMin: 0,
               xMax: labels.length - 1,
               yMin: Math.min(...closingPrices),
               yMax: Math.max(...closingPrices),
-              backgroundColor: 'rgba(0, 255, 0, 0.1)',
+              backgroundColor: "rgba(0, 255, 0, 0.1)",
             },
           },
         },
       },
-      backgroundColor: 'white',
+      backgroundColor: "white",
     },
   };
 };

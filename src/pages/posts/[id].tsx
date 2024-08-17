@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from '@/hooks/useNavigate';
-import { fetchGetPostDetail, fetchGetPublicPostDetail } from '@/services/social';
-import { IPost } from '@/types/social';
-import PostDetail from '@/components/social/postForm/PostDetail';
-import { useStorage } from '@/hooks/useStorage';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "@/hooks/useNavigate";
+import {
+  fetchGetPostDetail,
+  fetchGetPublicPostDetail,
+} from "@/services/social";
+import { IPost } from "@/types/social";
+import PostDetail from "@/components/social/postForm/PostDetail";
+import { useStorage } from "@/hooks/useStorage";
 
 const PostDetailPage: React.FC = () => {
   const { getQueryParams } = useNavigate();

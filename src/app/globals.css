@@ -13,22 +13,25 @@ body {
 
 @keyframes neon-border {
   0% {
-    box-shadow: 0 0 5px #44D62C, inset 0 0 1px #44D62C, 0 0 5px #44D62C, inset 0 0 2px #44D62C;
-    border-color: #44D62C;
+    box-shadow: 0 0 5px #44d62c, inset 0 0 1px #44d62c, 0 0 5px #44d62c,
+      inset 0 0 2px #44d62c;
+    border-color: #44d62c;
   }
   50% {
-    box-shadow: 0 0 5px #44D62C, inset 0 0 3px #44D62C, 0 0 5px #44D62C, inset 0 0 3px #44D62C;
-    border-color: #44D62C;
+    box-shadow: 0 0 5px #44d62c, inset 0 0 3px #44d62c, 0 0 5px #44d62c,
+      inset 0 0 3px #44d62c;
+    border-color: #44d62c;
   }
   100% {
-    box-shadow: 0 0 1px #44D62C, inset 0 0 1px #44D62C, 0 0 5px #44D62C, inset 0 0 2px #44D62C;
-    border-color: #44D62C;
+    box-shadow: 0 0 1px #44d62c, inset 0 0 1px #44d62c, 0 0 5px #44d62c,
+      inset 0 0 2px #44d62c;
+    border-color: #44d62c;
   }
 }
 
 .animate-neon-border {
   animation: neon-border 2s infinite alternate;
-  border: 1px solid #44D62C;
+  border: 1px solid #44d62c;
   border-radius: 1px;
 }
 

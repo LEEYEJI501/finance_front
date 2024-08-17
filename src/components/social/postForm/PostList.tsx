@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { fetchGetPosts } from '@/services/social';
+import { fetchGetPosts } from "@/services/social";
 import { IPost } from "@/types/social";
 import Pagination from "@/components/common/Pagination";
 import constants from "@/constants";
-import { formatDateTime } from '../../../utils/dateUtils';
+import { formatDateTime } from "../../../utils/dateUtils";
 import Button from "@/components/common/Button";
-import { useStorage } from '@/hooks/useStorage';
-import { useNavigate } from '@/hooks/useNavigate';
+import { useStorage } from "@/hooks/useStorage";
+import { useNavigate } from "@/hooks/useNavigate";
 
 type PostListProps = {
   market: string;
   code: string;
   name: string;
-}
+};
 
 const PostList: React.FC<PostListProps> = ({ market, code, name }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -25,20 +25,20 @@ const PostList: React.FC<PostListProps> = ({ market, code, name }) => {
   useEffect(() => {
     const loadPostList = async () => {
       const { posts, total_pages } = await fetchGetPosts(code);
-      setPosts(posts)
-      setTotalPages(total_pages)
+      setPosts(posts);
+      setTotalPages(total_pages);
     };
 
     loadPostList();
   }, [code]);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page - 1); 
+    setCurrentPage(page - 1);
   };
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
-    setCurrentPage(0); 
+    setCurrentPage(0);
   };
 
   const handleCreatePost = () => {
@@ -71,16 +71,22 @@ const PostList: React.FC<PostListProps> = ({ market, code, name }) => {
           </tr>
         </thead>
         <tbody>
-          {posts.map(post => (
-            <tr 
-              key={post.id} 
+          {posts.map((post) => (
+            <tr
+              key={post.id}
               className="border-b border-gray-700 hover:bg-gray-800 cursor-pointer"
-              onClick={() => handlePostClick(post.id)} 
+              onClick={() => handlePostClick(post.id)}
             >
-              <td className="w-1/12 py-2 text-center text-gray-400">{post.id}</td>
+              <td className="w-1/12 py-2 text-center text-gray-400">
+                {post.id}
+              </td>
               <td className="w-6/12 text-center px-4">{post.title}</td>
-              <td className="w-3/12 text-center text-gray-400">{post.author}</td>
-              <td className="w-2/12 text-center text-gray-400">{formatDateTime(post.createdAt)}</td>
+              <td className="w-3/12 text-center text-gray-400">
+                {post.author}
+              </td>
+              <td className="w-2/12 text-center text-gray-400">
+                {formatDateTime(post.createdAt)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -92,7 +98,7 @@ const PostList: React.FC<PostListProps> = ({ market, code, name }) => {
         onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}
         pageRangeDisplayed={5}
-        pageSizeOptions={[10, 20, 50, 100]} 
+        pageSizeOptions={[10, 20, 50, 100]}
       />
     </div>
   );

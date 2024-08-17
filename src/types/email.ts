@@ -1,7 +1,7 @@
 export interface IEmailSendResponse {
-    message: string;
+  message: string;
 }
 
 export interface IEmailVerifyResponse {
-    isValid: boolean;
+  isValid: boolean;
 }

@@ -1,8 +1,8 @@
-import SockJS from 'sockjs-client';
-import { Client, IMessage } from '@stomp/stompjs';
+import SockJS from "sockjs-client";
+import { Client, IMessage } from "@stomp/stompjs";
 
 const SOCKET_URL =
-  process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000/sockjs';
+  process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000/sockjs";
 
 let stompClient: Client;
 let reconnectAttempts = 0;
@@ -11,9 +11,9 @@ let socketConnected = false;
 
 const subscriptions = [
   {
-    destination: '/topic/error/',
+    destination: "/topic/error/",
     callback: (message: IMessage) => {
-      console.log('Error update:', JSON.parse(message.body));
+      console.log("Error update:", JSON.parse(message.body));
     },
   },
 ];
@@ -33,7 +33,7 @@ export const connectSocket = (onConnectCallback?: () => void): void => {
       console.log(str);
     },
     onConnect: (frame) => {
-      console.log('Connected: ' + frame);
+      console.log("Connected: " + frame);
       socketConnected = true;
       reconnectAttempts = 0;
 
@@ -46,11 +46,11 @@ export const connectSocket = (onConnectCallback?: () => void): void => {
       }
     },
     onStompError: (frame) => {
-      console.error('Broker reported error: ' + frame.headers['message']);
-      console.error('Additional details: ' + frame.body);
+      console.error("Broker reported error: " + frame.headers["message"]);
+      console.error("Additional details: " + frame.body);
     },
     onWebSocketClose: () => {
-      console.log('Socket disconnected');
+      console.log("Socket disconnected");
       socketConnected = false;
       attemptReconnect();
     },
@@ -65,7 +65,7 @@ const attemptReconnect = (): void => {
     console.log(`Attempting to reconnect... (${reconnectAttempts})`);
     setTimeout(connectSocket, 1000 * reconnectAttempts);
   } else {
-    console.log('Max reconnect attempts reached.');
+    console.log("Max reconnect attempts reached.");
   }
 };
 
@@ -103,7 +103,7 @@ const processPendingMessages = (): void => {
 
 export const disconnectSocket = (): void => {
   if (stompClient) {
-    console.log('Disconnecting socket...');
+    console.log("Disconnecting socket...");
     stompClient.deactivate();
     activeSubscriptions.clear();
   }

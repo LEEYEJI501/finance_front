@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 type CountDownProps = {
   initialTime: string;
@@ -6,17 +6,17 @@ type CountDownProps = {
   className?: string;
   hide?: boolean;
   onComplete?: () => void;
-}
+};
 
-const CountDown: React.FC<CountDownProps> = ({ 
-  initialTime, 
-  color = 'black', 
-  className, 
-  hide = false, 
-  onComplete 
+const CountDown: React.FC<CountDownProps> = ({
+  initialTime,
+  color = "black",
+  className,
+  hide = false,
+  onComplete,
 }) => {
   const [timeLeft, setTimeLeft] = useState<number>(() => {
-    const [minutes, seconds] = initialTime.split(':').map(Number);
+    const [minutes, seconds] = initialTime.split(":").map(Number);
     return minutes * 60 + seconds;
   });
 
@@ -34,19 +34,26 @@ const CountDown: React.FC<CountDownProps> = ({
 
   useEffect(() => {
     if (timeLeft <= 0 && onComplete) {
-      onComplete(); 
+      onComplete();
     }
   }, [timeLeft, onComplete]);
 
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
-  if (hide) return null; 
+  if (hide) return null;
 
-  return <div className={className} style={{ color }}>{formatTime(timeLeft)}</div>;
+  return (
+    <div className={className} style={{ color }}>
+      {formatTime(timeLeft)}
+    </div>
+  );
 };
 
 export default CountDown;

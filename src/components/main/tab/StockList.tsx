@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { fetchStockList } from '@/services/stock';
-import { IStock } from '@/types/stock';
-import { useNavigate } from '@/hooks/useNavigate';
-import { Card } from '@/components/index';
+import React, { useEffect, useState } from "react";
+import { fetchStockList } from "@/services/stock";
+import { IStock } from "@/types/stock";
+import { useNavigate } from "@/hooks/useNavigate";
+import { Card } from "@/components/index";
 
 type StockListProps = {
   market: string;
@@ -24,22 +24,21 @@ const StockList: React.FC<StockListProps> = ({
 
   useEffect(() => {
     const loadStockList = async () => {
-      const { stocks, total_pages } = await fetchStockList(market, {
-        page: currentPage,
-        pageSize,
-      }, sortOption);
-      
+      const { stocks, total_pages } = await fetchStockList(
+        market,
+        {
+          page: currentPage,
+          pageSize,
+        },
+        sortOption
+      );
+
       setStocks(stocks);
       onTotalPagesChange(total_pages);
     };
-  
+
     loadStockList();
-  }, [
-    market, 
-    currentPage, 
-    pageSize, 
-    sortOption,
-  ]);
+  }, [market, currentPage, pageSize, sortOption]);
 
   const handleCardClick = (stock: IStock) => {
     navigateToStockDetail({
@@ -52,7 +51,7 @@ const StockList: React.FC<StockListProps> = ({
   return (
     <div className="w-4/5 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
       {stocks.length > 0 ? (
-        stocks.map(stock => (
+        stocks.map((stock) => (
           <Card
             key={stock.code}
             title={stock.name}

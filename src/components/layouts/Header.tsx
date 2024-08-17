@@ -6,9 +6,9 @@ import constants from "@/constants";
 import { removeItem } from "@/utils/localStorage";
 import { fetchLogout } from "@/services/auth";
 import { useStorage } from "@/hooks/useStorage";
-import { useSockJS } from '@/hooks/useSockJS';
+import { useSockJS } from "@/hooks/useSockJS";
 import NotificationDropdown from "../NotificationDropdown";
-import { fetchGetActivitiesUnRead } from '@/services/social';
+import { fetchGetActivitiesUnRead } from "@/services/social";
 
 const Header: React.FC = () => {
   const { navigateToLogin, navigateToMainPage, navigateToMy } = useNavigate();
@@ -40,7 +40,11 @@ const Header: React.FC = () => {
   const loadActivities = async (page: number) => {
     if (!isLoading && hasMore) {
       setIsLoading(true);
-      const { activities: newActivities, totalPages } = await fetchGetActivitiesUnRead({ page, pageSize: constants.DEFAULT_PAGING.PAGESIZE });
+      const { activities: newActivities, totalPages } =
+        await fetchGetActivitiesUnRead({
+          page,
+          pageSize: constants.DEFAULT_PAGING.PAGESIZE,
+        });
 
       setActivities((prevActivities) => [...prevActivities, ...newActivities]);
       setCurrentPage(page);
@@ -51,7 +55,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     if (isLoggedIn && user) {
-      loadActivities(0); 
+      loadActivities(0);
     }
   }, [isLoggedIn, user]);
 
@@ -63,8 +67,8 @@ const Header: React.FC = () => {
           fn: (message: any) => {
             const data = JSON.parse(message.body);
             setActivities((prevActivities) => [...prevActivities, data]);
-          }
-        }, 
+          },
+        },
         {
           topic: `/topic/logout/${user.id}`,
           fn: (message: any) => {
@@ -75,10 +79,10 @@ const Header: React.FC = () => {
               removeItem(constants.LOCAL_STORAGE.USER);
 
               navigateToLogin();
-            } 
-          }
-        }
-      ]
+            }
+          },
+        },
+      ];
 
       for (const { topic, fn } of topics) {
         subscribe(topic, fn);
@@ -89,7 +93,7 @@ const Header: React.FC = () => {
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastActivityElementRef = useCallback(
-    (node) => {
+    (node: any) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
@@ -136,7 +140,11 @@ const Header: React.FC = () => {
               <span className="absolute bottom-0 left-6 block w-1 h-1 bg-red-500 rounded-full"></span>
             )}
             {isDropdownOpen && (
-              <NotificationDropdown activities={activities} setActivities={setActivities} lastActivityElementRef={lastActivityElementRef} />
+              <NotificationDropdown
+                activities={activities}
+                setActivities={setActivities}
+                lastActivityElementRef={lastActivityElementRef}
+              />
             )}
           </div>
         )}

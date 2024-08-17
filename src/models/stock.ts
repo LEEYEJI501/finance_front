@@ -3,12 +3,12 @@ import {
   IMarketsResponse,
   IStocksByCodeResponse,
   IStocksByNameResponse,
-} from '@/types/stock';
-import constants from '@/constants';
-import { IApiResponse } from '@/types/common';
+} from "@/types/stock";
+import constants from "@/constants";
+import { IApiResponse } from "@/types/common";
 
 export const getStockListModel = (
-  res: IApiResponse<IAllStocksByMarketResponse>,
+  res: IApiResponse<IAllStocksByMarketResponse>
 ) => {
   const success = res.success;
 
@@ -46,7 +46,7 @@ export const getMarketListModel = (res: IApiResponse<IMarketsResponse>) => {
 };
 
 export const getStocksByCodeModel = (
-  res: IApiResponse<IStocksByCodeResponse>,
+  res: IApiResponse<IStocksByCodeResponse>
 ) => {
   const success = res.success;
 
@@ -72,7 +72,7 @@ export const getStocksByCodeModel = (
 };
 
 export const getStocksByNameModel = (
-  res: IApiResponse<IStocksByNameResponse>,
+  res: IApiResponse<IStocksByNameResponse>
 ) => {
   const success = res.success;
 

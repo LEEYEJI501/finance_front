@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface StockInfoProps {
   index: number;
@@ -22,7 +22,7 @@ const StockInfo: React.FC<StockInfoProps> = ({
         {index.toLocaleString()}
       </div>
       <div
-        className={`text-lg ${change < 0 ? 'text-red-600' : 'text-green-600'}`}
+        className={`text-lg ${change < 0 ? "text-red-600" : "text-green-600"}`}
       >
         {change > 0 ? `+${change.toLocaleString()}` : change.toLocaleString()} (
         {percentage}%)

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button } from '@/components/index';
-import { IComment } from '@/types/social';
-import { useStorage } from '@/hooks/useStorage';
-import { fetchIncrementCommentLikes, fetchDecrementCommentLikes } from '@/services/social';
+import React, { useState, useEffect } from "react";
+import { Input, Button } from "@/components/index";
+import { IComment } from "@/types/social";
+import { useStorage } from "@/hooks/useStorage";
+import {
+  fetchIncrementCommentLikes,
+  fetchDecrementCommentLikes,
+} from "@/services/social";
 import { useToast } from "@/contexts/ToastContext";
-import constants from '@/constants';
+import constants from "@/constants";
 
 interface CommentProps {
   comment: IComment & { replies?: IComment[] };
@@ -16,14 +19,14 @@ interface CommentProps {
 const Comment: React.FC<CommentProps> = ({
   comment,
   onAddReply,
-  onDeleteComment, 
+  onDeleteComment,
   depth = 0,
 }) => {
-  const [replyText, setReplyText] = useState('');
+  const [replyText, setReplyText] = useState("");
   const [likes, setLikes] = useState(comment.likes);
   const [isLiked, setIsLiked] = useState(comment.likedByUser);
   const [showReplyInput, setShowReplyInput] = useState(false);
-  const [showReplies, setShowReplies] = useState(false); 
+  const [showReplies, setShowReplies] = useState(false);
   const { isLoggedIn, user } = useStorage();
   const { showToast } = useToast();
 
@@ -32,9 +35,9 @@ const Comment: React.FC<CommentProps> = ({
   }, [comment.likedByUser]);
 
   const handleReplySubmit = () => {
-    if (replyText.trim() === '') return;
+    if (replyText.trim() === "") return;
     onAddReply(comment.id, replyText);
-    setReplyText('');
+    setReplyText("");
     setShowReplyInput(false);
   };
 
@@ -48,13 +51,13 @@ const Comment: React.FC<CommentProps> = ({
       if (isLiked) {
         const success = await fetchDecrementCommentLikes(comment.id, user.id);
         if (success) {
-          setLikes(prevLikes => prevLikes - 1);
+          setLikes((prevLikes) => prevLikes - 1);
           setIsLiked(false);
         }
       } else {
         const success = await fetchIncrementCommentLikes(comment.id, user.id);
         if (success) {
-          setLikes(prevLikes => prevLikes + 1);
+          setLikes((prevLikes) => prevLikes + 1);
           setIsLiked(true);
         }
       }
@@ -66,14 +69,18 @@ const Comment: React.FC<CommentProps> = ({
   };
 
   return (
-    <div className={`my-4 ${depth > 0 ? `ml-${depth * 4}` : ''}`}>
+    <div className={`my-4 ${depth > 0 ? `ml-${depth * 4}` : ""}`}>
       <div className="flex">
         <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"></div>
         <div className="ml-4 flex-1">
           <div className="text-gray-700 flex items-center justify-between">
             <div>
-              <span className="font-semibold text-green-500">{comment.username}</span>
-              <span className="ml-2 text-gray-400 text-sm">{comment.createdAt}</span>
+              <span className="font-semibold text-green-500">
+                {comment.username}
+              </span>
+              <span className="ml-2 text-gray-400 text-sm">
+                {comment.createdAt}
+              </span>
             </div>
             <div className="flex items-center">
               {isLoggedIn && (
@@ -104,7 +111,7 @@ const Comment: React.FC<CommentProps> = ({
               onClick={handleLikeClick}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              fill={isLiked ? '#44D62C' : 'none'}
+              fill={isLiked ? "#44D62C" : "none"}
               stroke="#44D62C"
               strokeWidth={2}
               strokeLinecap="round"
@@ -120,7 +127,7 @@ const Comment: React.FC<CommentProps> = ({
               <Input
                 type="text"
                 value={replyText}
-                onChange={e => setReplyText(e.target.value)}
+                onChange={(e) => setReplyText(e.target.value)}
                 placeholder="답글을 입력하세요."
                 className="flex-1 w-full text-green-500 border-green-500 focus:border-green-300"
               />
@@ -142,16 +149,18 @@ const Comment: React.FC<CommentProps> = ({
                 onClick={() => setShowReplies(!showReplies)}
                 className="text-xs text-green-500 hover:bg-black hover:text-green-300"
               >
-                {showReplies ? '대댓글 숨기기' : `대댓글 보기 (${comment.replies.length})`}
+                {showReplies
+                  ? "대댓글 숨기기"
+                  : `대댓글 보기 (${comment.replies.length})`}
               </Button>
               {showReplies && (
                 <div className="mt-4">
-                  {comment.replies.map(reply => (
+                  {comment.replies.map((reply) => (
                     <Comment
                       key={reply.id}
                       comment={reply}
                       onAddReply={onAddReply}
-                      onDeleteComment={onDeleteComment} 
+                      onDeleteComment={onDeleteComment}
                       depth={depth + 1}
                     />
                   ))}

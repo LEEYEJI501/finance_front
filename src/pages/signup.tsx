@@ -61,19 +61,29 @@ const SignupPage = () => {
   };
 
   const handleSignUp = async () => {
-    const { success } = await fetchSignUp(username, password, email, profileImage!);
-  
+    const { success } = await fetchSignUp(
+      username,
+      password,
+      email,
+      profileImage!
+    );
+
     if (success) {
       navigateToLogin();
       showToast("가입이 완료되었습니다.", constants.TOAST_TYPES.SUCCESS);
     }
   };
-  
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-60px)]">
       <div className="p-8 w-full max-w-md bg-black rounded-sm shadow-lg border border-gray-800">
-        <h1 className="text-md font-bold mb-5 text-left text-white">STOCK DISCUSSION 계정 만들기</h1>
-        <div className="text-xs text-left text-white mb-10">STOCK DISCUSSION ID는 STOCK DISCUSSION 서비스에서 사용할 수 있는 계정입니다.</div>
+        <h1 className="text-md font-bold mb-5 text-left text-white">
+          STOCK DISCUSSION 계정 만들기
+        </h1>
+        <div className="text-xs text-left text-white mb-10">
+          STOCK DISCUSSION ID는 STOCK DISCUSSION 서비스에서 사용할 수 있는
+          계정입니다.
+        </div>
         <div className="mb-6 flex flex-col items-center relative">
           <Tooltip message="프로필 사진 업로드" position="bottom">
             <div className="relative">
@@ -132,12 +142,11 @@ const SignupPage = () => {
 
         <div className="mt-10 text-gray-300 text-center text-xs">
           이미 계정이 있으십니까?
-
-          <div 
+          <div
             onClick={navigateToLogin}
             className="text-sm text-white mt-5 hover:cursor-pointer hover:text-green-300"
           >
-            로그인<span className="text-green-razer ml-2">></span>
+            로그인<span className="text-green-razer ml-2">&gt;</span>
           </div>
         </div>
       </div>

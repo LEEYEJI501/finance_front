@@ -33,7 +33,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs }) => {
       </div>
       <div
         className="p-4 border-t rounded-b-lg"
-        style={{ borderColor: '#44D62C' }}
+        style={{ borderColor: "#44D62C" }}
       >
         {currentTab ? currentTab.content : <p>No content available</p>}
       </div>

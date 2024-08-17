@@ -1,5 +1,10 @@
-import { useEffect, useCallback } from 'react';
-import { connectSocket, disconnectSocket, subscribeToTopic, sendMessage } from '@/utils/socket';
+import { useEffect, useCallback } from "react";
+import {
+  connectSocket,
+  disconnectSocket,
+  subscribeToTopic,
+  sendMessage,
+} from "@/utils/socket";
 
 interface UseSockJSReturn {
   connect: () => void;
@@ -17,9 +22,12 @@ export const useSockJS = (): UseSockJSReturn => {
     disconnectSocket();
   }, []);
 
-  const subscribe = useCallback((destination: string, callback: (message: any) => void) => {
-    subscribeToTopic(destination, callback);
-  }, []);
+  const subscribe = useCallback(
+    (destination: string, callback: (message: any) => void) => {
+      subscribeToTopic(destination, callback);
+    },
+    []
+  );
 
   const send = useCallback((destination: string, body: any) => {
     sendMessage(destination, body);

@@ -1,4 +1,4 @@
-declare module 'sockjs-client' {
+declare module "sockjs-client" {
   export interface SockJSOptions {
     server?: string;
     sessionId?: number | (() => string);

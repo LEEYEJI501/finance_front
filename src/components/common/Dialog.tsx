@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { ReactNode, useEffect } from "react";
+import ReactDOM from "react-dom";
 
 interface DialogProps {
   isOpen: boolean;
@@ -10,14 +10,14 @@ interface DialogProps {
 const Dialog: React.FC<DialogProps> = ({ isOpen, onClose, children }) => {
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         onClose();
       }
     };
 
-    document.addEventListener('keydown', handleEsc);
+    document.addEventListener("keydown", handleEsc);
     return () => {
-      document.removeEventListener('keydown', handleEsc);
+      document.removeEventListener("keydown", handleEsc);
     };
   }, [onClose]);
 

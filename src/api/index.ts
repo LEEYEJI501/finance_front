@@ -1,8 +1,8 @@
 import ky from "ky";
-import { handleApiResponse } from "./handleApiResponse"; 
-import { IApiResponse } from '@/types/common';
-import { getItem } from '@/utils/localStorage';
-import constants from '@/constants';
+import { handleApiResponse } from "./handleApiResponse";
+import { IApiResponse } from "@/types/common";
+import { getItem } from "@/utils/localStorage";
+import constants from "@/constants";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 const api = ky.create({
@@ -12,7 +12,7 @@ const api = ky.create({
 });
 
 const getAuthorizationHeader = (): Record<string, string> => {
-  const user = JSON.parse(getItem(constants.LOCAL_STORAGE.USER) || '{}');
+  const user = JSON.parse(getItem(constants.LOCAL_STORAGE.USER) || "{}");
   if (user?.accessToken) {
     return { Authorization: `Bearer ${user.accessToken}` };
   }
@@ -20,7 +20,7 @@ const getAuthorizationHeader = (): Record<string, string> => {
 };
 
 const getUserIdHeader = (): Record<string, string> => {
-  const user = JSON.parse(getItem(constants.LOCAL_STORAGE.USER) || '{}');
+  const user = JSON.parse(getItem(constants.LOCAL_STORAGE.USER) || "{}");
   const headers: Record<string, string> = {};
 
   if (user?.id) {
@@ -36,7 +36,7 @@ export const get = async <T>(
   includeUserId: boolean = false
 ): Promise<IApiResponse<T>> => {
   const headers = {
-    ...(includeUserId ? getUserIdHeader() : {}), 
+    ...(includeUserId ? getUserIdHeader() : {}),
   };
 
   const options: any = {
@@ -51,7 +51,7 @@ export const post = async <T>(
   url: string,
   data: Record<string, any> | FormData,
   token: boolean = false,
-  withCredentials: boolean = false,
+  withCredentials: boolean = false
 ): Promise<IApiResponse<T>> => {
   const options: any = {
     method: "POST",

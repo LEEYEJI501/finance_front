@@ -21,7 +21,10 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
 
   const handleCheckClick = async () => {
     if (username.length < 4 || username.length > 20) {
-      showToast("아이디는 최소 4자에서 최대 20자까지 입력 가능합니다.", constants.TOAST_TYPES.ERROR);
+      showToast(
+        "아이디는 최소 4자에서 최대 20자까지 입력 가능합니다.",
+        constants.TOAST_TYPES.ERROR
+      );
       return;
     }
 
@@ -53,7 +56,9 @@ const UsernameVerification: React.FC<UsernameVerificationProps> = ({
         <Input
           type="text"
           placeholder="아이디 입력"
-          className={`text-sm text-green-razer mr-2 bg-black placeholder-gray-500 placeholder-sm ${isDuplicate === false ? "border-green-500" : ""}`}
+          className={`text-sm text-green-razer mr-2 bg-black placeholder-gray-500 placeholder-sm ${
+            isDuplicate === false ? "border-green-500" : ""
+          }`}
           value={username}
           onChange={handleChange}
         />

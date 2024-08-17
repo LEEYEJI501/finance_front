@@ -1,7 +1,7 @@
 import { post } from "@/api";
 import { IEmailSendResponse, IEmailVerifyResponse } from "@/types/email";
-import { IApiResponse } from '@/types/common';
-import { getEmailVerifyModel } from '@/models/email'
+import { IApiResponse } from "@/types/common";
+import { getEmailVerifyModel } from "@/models/email";
 
 const EMAIL_URL = "email";
 
@@ -15,17 +15,11 @@ export const fetchEmailSend = async (
   return response;
 };
 
-export const fetchEmailVerify = async (
-  email: string,
-  code: string
-) => {
-  const response = await post<IEmailVerifyResponse>(
-    `${EMAIL_URL}/verify`,
-    {
-      email,
-      code,
-    },
-  );
+export const fetchEmailVerify = async (email: string, code: string) => {
+  const response = await post<IEmailVerifyResponse>(`${EMAIL_URL}/verify`, {
+    email,
+    code,
+  });
 
   return getEmailVerifyModel(response);
 };

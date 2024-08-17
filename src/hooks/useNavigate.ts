@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
-import constants from '@/constants';
+import { useRouter } from "next/router";
+import constants from "@/constants";
 
 interface CreatePostRouteParams {
-    market: string;
-    code: string;
-    name: string;
+  market: string;
+  code: string;
+  name: string;
 }
 
 interface StockDetailRouteParams {
-    market: string;
-    code: string;
-    name: string;
-    reload?: boolean;
+  market: string;
+  code: string;
+  name: string;
+  reload?: boolean;
 }
 
 export const useNavigate = () => {
@@ -34,30 +34,41 @@ export const useNavigate = () => {
   };
 
   const navigateToLogin = () => {
-    router.push(constants.ROUTES.LOGIN); 
+    router.push(constants.ROUTES.LOGIN);
   };
 
   const navigateToMy = () => {
     router.push(constants.ROUTES.MY);
-  }
+  };
 
-  const navigateToCreatePost = ({ market, code, name }: CreatePostRouteParams) => {
+  const navigateToCreatePost = ({
+    market,
+    code,
+    name,
+  }: CreatePostRouteParams) => {
     router.push({
       pathname: constants.ROUTES.CREATE_POST,
       query: { market, code, name },
     });
   };
 
-  const navigateToStockDetail = ({ market, code, name }: StockDetailRouteParams) => {
+  const navigateToStockDetail = ({
+    market,
+    code,
+    name,
+  }: StockDetailRouteParams) => {
     router.push({
-      pathname: constants.ROUTES.STOCK_DETAIL.replace('[market]', market).replace('[code]', code),
+      pathname: constants.ROUTES.STOCK_DETAIL.replace(
+        "[market]",
+        market
+      ).replace("[code]", code),
       query: { name },
     });
   };
 
   const navigateToPostDetail = (postId: number) => {
     router.push(
-      constants.ROUTES.POST_DETAIL.replace('[id]', postId.toString()) 
+      constants.ROUTES.POST_DETAIL.replace("[id]", postId.toString())
     );
   };
 
@@ -65,12 +76,12 @@ export const useNavigate = () => {
     router.back();
   };
 
-  return { 
+  return {
     getQueryParams,
-    navigateToMainPage, 
-    navigateToSignUp, 
+    navigateToMainPage,
+    navigateToSignUp,
     navigateToLogin,
-    navigateToCreatePost, 
+    navigateToCreatePost,
     navigateToStockDetail,
     navigateToPostDetail,
     navigateBack,

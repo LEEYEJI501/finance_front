@@ -24,7 +24,7 @@ export const fetchStockList = async (
     page: constants.DEFAULT_PAGING.PAGE,
     pageSize: constants.DEFAULT_PAGING.PAGESIZE,
   },
-  sort: string = 'name,asc'
+  sort: string = "name,asc"
 ) => {
   const response = await get<IAllStocksByMarketResponse>(
     `${STOCK_URL}/markets/${market}/securities?page=${paging.page}&pageSize=${paging.pageSize}&sort=${sort}`

@@ -39,9 +39,15 @@ const Pagination: React.FC<PaginationProps> = ({
 
     if (endPage - startPage + 1 < pageRangeDisplayed) {
       if (startPage === 1) {
-        endPage = Math.min(totalPages, endPage + (pageRangeDisplayed - (endPage - startPage + 1)));
+        endPage = Math.min(
+          totalPages,
+          endPage + (pageRangeDisplayed - (endPage - startPage + 1))
+        );
       } else {
-        startPage = Math.max(1, startPage - (pageRangeDisplayed - (endPage - startPage + 1)));
+        startPage = Math.max(
+          1,
+          startPage - (pageRangeDisplayed - (endPage - startPage + 1))
+        );
       }
     }
 
@@ -79,7 +85,12 @@ const Pagination: React.FC<PaginationProps> = ({
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
           </svg>
         </button>
         {renderPageNumbers()}
@@ -95,7 +106,12 @@ const Pagination: React.FC<PaginationProps> = ({
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 5l7 7-7 7"
+            ></path>
           </svg>
         </button>
       </div>

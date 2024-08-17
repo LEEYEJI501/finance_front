@@ -6,6 +6,12 @@
   ],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "@typescript-eslint/no-explicit-any": "off", // 또는 "error"로 설정하여 오류로 처리
+    "@typescript-eslint/no-inferrable-types": "off", // 불필요한 타입 추론 경고 해제
+    "@typescript-eslint/no-non-null-assertion": "off", // Non-null assertion 허용
+    "@typescript-eslint/no-unused-vars": "warn", // 사용되지 않은 변수에 대한 경고
+    "react-hooks/exhaustive-deps": "warn", // React Hook 의존성 관리 경고
+    "@next/next/no-img-element": "off" // next/image 대신 <img> 태그 사용 허용
   }
 }

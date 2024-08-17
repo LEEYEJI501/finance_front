@@ -1,11 +1,11 @@
-declare module 'sockjs' {
-  import { Server as HttpServer } from 'http';
+declare module "sockjs" {
+  import { Server as HttpServer } from "http";
 
   interface Connection extends NodeJS.EventEmitter {
     send(data: string): void;
     close(code?: number, reason?: string): void;
-    on(event: 'data', listener: (message: string) => void): this;
-    on(event: 'close', listener: () => void): this;
+    on(event: "data", listener: (message: string) => void): this;
+    on(event: "close", listener: () => void): this;
   }
 
   interface ServerOptions {
@@ -20,8 +20,8 @@ declare module 'sockjs' {
 
   class Server {
     constructor(options?: ServerOptions);
-    on(event: 'connection', listener: (conn: Connection) => void): this;
-    on(event: 'close', listener: () => void): this;
+    on(event: "connection", listener: (conn: Connection) => void): this;
+    on(event: "close", listener: () => void): this;
     installHandlers(server: HttpServer, options?: ServerOptions): void;
   }
 

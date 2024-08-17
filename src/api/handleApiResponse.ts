@@ -1,8 +1,10 @@
 import { logError } from "./logger";
 import { extractErrorMessage } from "./extractErrorMessage";
-import { IApiResponse } from '@/types/common';
+import { IApiResponse } from "@/types/common";
 
-export const handleApiResponse = async <T>(apiCall: Promise<T>): Promise<IApiResponse<T>> => {
+export const handleApiResponse = async <T>(
+  apiCall: Promise<T>
+): Promise<IApiResponse<T>> => {
   try {
     const data = await apiCall;
     return { success: true, data };

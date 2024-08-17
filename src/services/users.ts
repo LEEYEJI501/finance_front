@@ -1,12 +1,10 @@
-import { get, post } from '@/api';
-import { ICheckUsernameResponse, ISignUpResponse } from '@/types/user';
-import { getCheckUsernameModel, getSignupModel } from '@/models/users'
+import { get, post } from "@/api";
+import { ICheckUsernameResponse, ISignUpResponse } from "@/types/user";
+import { getCheckUsernameModel, getSignupModel } from "@/models/users";
 
-const USERS_URL = 'users';
+const USERS_URL = "users";
 
-export const fetchCheckUsername = async (
-  username: string
-) => {
+export const fetchCheckUsername = async (username: string) => {
   const response = await get<ICheckUsernameResponse>(
     `${USERS_URL}/check-username`,
     { username }
@@ -25,15 +23,18 @@ export const fetchSignUp = async (
     password,
     email,
     profile: {
-      "greeting": `Hello, I'm ${username}!`
-    }
-  }
-  
+      greeting: `Hello, I'm ${username}!`,
+    },
+  };
+
   const formData = new FormData();
-  formData.append("user", new Blob([JSON.stringify(user)], { type: "application/json" }));
+  formData.append(
+    "user",
+    new Blob([JSON.stringify(user)], { type: "application/json" })
+  );
 
   if (profileImage) {
-    formData.append('profileImage', profileImage);
+    formData.append("profileImage", profileImage);
   }
 
   const response = await post<ISignUpResponse>(

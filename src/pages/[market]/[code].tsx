@@ -1,10 +1,10 @@
-import { useNavigate } from '@/hooks/useNavigate';
-import React, { useEffect, useState } from 'react';
-import { Chart } from '@/components/index';
-import { v4 as uuidv4 } from 'uuid';
-import { useSockJS } from '@/hooks/useSockJS';
-import constants from '@/constants';
-import PostList from '@/components/social/postForm/PostList';
+import { useNavigate } from "@/hooks/useNavigate";
+import React, { useEffect, useState } from "react";
+import { Chart } from "@/components/index";
+import { v4 as uuidv4 } from "uuid";
+import { useSockJS } from "@/hooks/useSockJS";
+import constants from "@/constants";
+import PostList from "@/components/social/postForm/PostList";
 
 const ChartPage: React.FC = () => {
   const { getQueryParams } = useNavigate();
@@ -20,23 +20,26 @@ const ChartPage: React.FC = () => {
   const [signalLine, setSignalLine] = useState([]);
   const [histogram, setHistogram] = useState([]);
   const [timeframe, setTimeframe] = useState(
-    constants.STOCK_DATA_TIME['1MONTH'],
+    constants.STOCK_DATA_TIME["1MONTH"]
   );
-  const [selectedTimeframe, setSelectedTimeframe] = useState('1MONTH');
+  const [selectedTimeframe, setSelectedTimeframe] = useState("1MONTH");
 
   useEffect(() => {
     const fetchData = async () => {
-      subscribe(`/topic/initialData/${market}/${code}/${uniqueId}`, message => {
-        const stockData = JSON.parse(message.body);
-        setRsi(stockData.rsi.rsi);
-        setSma12(stockData.movingAverages.sma12);
-        setSma20(stockData.movingAverages.sma20);
-        setSma26(stockData.movingAverages.sma26);
-        setMacdLine(stockData.macd.macdLine);
-        setSignalLine(stockData.macd.signalLine);
-        setHistogram(stockData.macd.histogram);
-        setStockData(stockData.stockData);
-      });
+      subscribe(
+        `/topic/initialData/${market}/${code}/${uniqueId}`,
+        (message) => {
+          const stockData = JSON.parse(message.body);
+          setRsi(stockData.rsi.rsi);
+          setSma12(stockData.movingAverages.sma12);
+          setSma20(stockData.movingAverages.sma20);
+          setSma26(stockData.movingAverages.sma26);
+          setMacdLine(stockData.macd.macdLine);
+          setSignalLine(stockData.macd.signalLine);
+          setHistogram(stockData.macd.histogram);
+          setStockData(stockData.stockData);
+        }
+      );
 
       send(`/app/initialData/${market}/${code}/${uniqueId}`, {
         timeframe: timeframe,
@@ -50,7 +53,7 @@ const ChartPage: React.FC = () => {
 
   const handleTimeframeChange = (
     newTimeframe: string,
-    timeframeKey: string,
+    timeframeKey: string
   ) => {
     setTimeframe(newTimeframe);
     setSelectedTimeframe(timeframeKey);
@@ -58,17 +61,17 @@ const ChartPage: React.FC = () => {
 
   const getButtonClass = (timeframeKey: string) => {
     return selectedTimeframe === timeframeKey
-      ? 'bg-[#44D62C] rounded px-4 py-1 text-black'
-      : 'text-green-500 hover:bg-[#2A2A2A] hover:text-[#44D62C]';
+      ? "bg-[#44D62C] rounded px-4 py-1 text-black"
+      : "text-green-500 hover:bg-[#2A2A2A] hover:text-[#44D62C]";
   };
 
   const latestClosePrice =
     stockData.length > 0
-      ? stockData[stockData.length - 1].closePrice
+      ? (stockData[stockData.length - 1] as any).closePrice
       : constants.DEFAULT_NUM;
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('ko-KR').format(price);
+    return new Intl.NumberFormat("ko-KR").format(price);
   };
 
   return (
@@ -83,7 +86,7 @@ const ChartPage: React.FC = () => {
           </h1>
         </div>
         <h2 className="text-3xl font-bold mb-4">
-          {latestClosePrice !== null ? `${formatPrice(latestClosePrice)}` : ''}
+          {latestClosePrice !== null ? `${formatPrice(latestClosePrice)}` : ""}
           <span className="text-sm"> 원</span>
         </h2>
 
@@ -102,48 +105,48 @@ const ChartPage: React.FC = () => {
           <button
             onClick={() =>
               handleTimeframeChange(
-                constants.STOCK_DATA_TIME['1MONTH'],
-                '1MONTH',
+                constants.STOCK_DATA_TIME["1MONTH"],
+                "1MONTH"
               )
             }
-            className={getButtonClass('1MONTH')}
+            className={getButtonClass("1MONTH")}
           >
             1개월
           </button>
           <button
             onClick={() =>
-              handleTimeframeChange(constants.STOCK_DATA_TIME['1YEAR'], '1YEAR')
+              handleTimeframeChange(constants.STOCK_DATA_TIME["1YEAR"], "1YEAR")
             }
-            className={getButtonClass('1YEAR')}
+            className={getButtonClass("1YEAR")}
           >
             1년
           </button>
           <button
             onClick={() =>
               handleTimeframeChange(
-                constants.STOCK_DATA_TIME['3YEARS'],
-                '3YEARS',
+                constants.STOCK_DATA_TIME["3YEARS"],
+                "3YEARS"
               )
             }
-            className={getButtonClass('3YEARS')}
+            className={getButtonClass("3YEARS")}
           >
             3년
           </button>
           <button
             onClick={() =>
               handleTimeframeChange(
-                constants.STOCK_DATA_TIME['5YEARS'],
-                '5YEARS',
+                constants.STOCK_DATA_TIME["5YEARS"],
+                "5YEARS"
               )
             }
-            className={getButtonClass('5YEARS')}
+            className={getButtonClass("5YEARS")}
           >
             5년
           </button>
         </div>
         <hr className="my-8 border-gray-600" />
         <div>
-          <PostList market={market} code={code} name={name}/>
+          <PostList market={market} code={code} name={name} />
         </div>
       </div>
     </div>

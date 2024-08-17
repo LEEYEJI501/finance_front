@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 interface DropDownProps {
   options: { code: string; name: string; market_name: string }[];
@@ -28,19 +28,19 @@ const DropDown: React.FC<DropDownProps> = ({
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEsc);
+      document.addEventListener("keydown", handleEsc);
     } else {
-      document.removeEventListener('keydown', handleEsc);
+      document.removeEventListener("keydown", handleEsc);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEsc);
+      document.removeEventListener("keydown", handleEsc);
     };
   }, [isOpen, onClose]);
 
@@ -55,7 +55,7 @@ const DropDown: React.FC<DropDownProps> = ({
     >
       <div
         className="bg-black border border-green-500 rounded-md shadow-lg max-h-60 overflow-y-auto p-4 w-80"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         {options.length > 0 ? (
           options.map((option, index) => (

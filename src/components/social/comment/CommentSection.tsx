@@ -1,37 +1,52 @@
-import React, { useState } from 'react';
-import { Input, Button } from '@/components/index';
-import Comment from './Comment';
-import Dialog from '@/components/common/Dialog';
-import { fetchCreateComment, fetchCreateReply, fetchDeleteComment } from '@/services/social';
-import { IComment } from '@/types/social';
-import { buildCommentTree } from '@/utils/commentUtils';
-import { useStorage } from '@/hooks/useStorage';
+import React, { useState } from "react";
+import { Input, Button } from "@/components/index";
+import Comment from "./Comment";
+import Dialog from "@/components/common/Dialog";
+import {
+  fetchCreateComment,
+  fetchCreateReply,
+  fetchDeleteComment,
+} from "@/services/social";
+import { IComment } from "@/types/social";
+import { buildCommentTree } from "@/utils/commentUtils";
+import { useStorage } from "@/hooks/useStorage";
 import { useToast } from "@/contexts/ToastContext";
-import constants from '@/constants';
+import constants from "@/constants";
 
 type CommentSectionProps = {
   id: number;
   comments: IComment[];
-}
+};
 
-const CommentSection: React.FC<CommentSectionProps> = ({ id, comments: initialComments }) => {
+const CommentSection: React.FC<CommentSectionProps> = ({
+  id,
+  comments: initialComments,
+}) => {
   const [comments, setComments] = useState(initialComments);
-  const [commentTree, setCommentTree] = useState(buildCommentTree(initialComments));
-  const [newComment, setNewComment] = useState('');
-  const [commentToDelete, setCommentToDelete] = useState<number | null>(null); 
+  const [commentTree, setCommentTree] = useState(
+    buildCommentTree(initialComments)
+  );
+  const [newComment, setNewComment] = useState("");
+  const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { user, isLoggedIn } = useStorage();
   const { showToast } = useToast();
 
   const handleAddReply = async (parentCommentId: number, replyText: string) => {
-    if (replyText.trim() === '') {
+    if (replyText.trim() === "") {
       showToast("댓글 내용이 비어있습니다.", constants.TOAST_TYPES.INFO);
       return;
     }
 
     if (user) {
-      const newCommentData = await fetchCreateReply(id, parentCommentId, user.id, user.username, replyText);
+      const newCommentData = await fetchCreateReply(
+        id,
+        parentCommentId,
+        user.id,
+        user.username,
+        replyText
+      );
       if (newCommentData.success) {
         const updatedComments = [...comments, newCommentData];
         setComments(updatedComments);
@@ -42,18 +57,23 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments: initialCo
   };
 
   const handleAddComment = async () => {
-    if (newComment.trim() === '') {
+    if (newComment.trim() === "") {
       showToast("댓글 내용이 비어있습니다.", constants.TOAST_TYPES.INFO);
       return;
     }
-    
+
     if (user) {
-      const newCommentData = await fetchCreateComment(id, user.id, user.username, newComment);
+      const newCommentData = await fetchCreateComment(
+        id,
+        user.id,
+        user.username,
+        newComment
+      );
       if (newCommentData.success) {
         const updatedComments = [...comments, newCommentData];
         setComments(updatedComments);
         setCommentTree(buildCommentTree(updatedComments));
-        setNewComment('');
+        setNewComment("");
         showToast("새 댓글이 작성되었습니다.", constants.TOAST_TYPES.SUCCESS);
       }
     }
@@ -66,10 +86,15 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments: initialCo
 
   const handleDeleteComment = async () => {
     if (user && commentToDelete !== null) {
-      const { success, ids } = await fetchDeleteComment(commentToDelete, user.id);
-      
+      const { success, ids } = await fetchDeleteComment(
+        commentToDelete,
+        user.id
+      );
+
       if (success && ids) {
-        const updatedComments = comments.filter(comment => !ids.includes(comment.id));
+        const updatedComments = comments.filter(
+          (comment) => !ids.includes(comment.id)
+        );
         setComments(updatedComments);
         setCommentTree(buildCommentTree(updatedComments));
         showToast("댓글이 삭제되었습니다.", constants.TOAST_TYPES.SUCCESS);
@@ -88,7 +113,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments: initialCo
           <Input
             type="text"
             value={newComment}
-            onChange={e => setNewComment(e.target.value)}
+            onChange={(e) => setNewComment(e.target.value)}
             placeholder="댓글을 입력하세요..."
             className="text-green-500 border-green-500 focus:border-green-300"
           />
@@ -102,17 +127,19 @@ const CommentSection: React.FC<CommentSectionProps> = ({ id, comments: initialCo
           </Button>
         </div>
       )}
-      {commentTree.map(comment => (
+      {commentTree.map((comment) => (
         <Comment
           key={comment.id}
           comment={comment}
           onAddReply={handleAddReply}
-          onDeleteComment={() => confirmDeleteComment(comment.id)} 
+          onDeleteComment={() => confirmDeleteComment(comment.id)}
         />
       ))}
       <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
         <div className="p-4 rounded text-green-500">
-          <h2 className="text-xl font-semibold mb-4">정말로 댓글을 삭제하시겠습니까?</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            정말로 댓글을 삭제하시겠습니까?
+          </h2>
           <div className="flex justify-end space-x-4">
             <Button
               size="small"
