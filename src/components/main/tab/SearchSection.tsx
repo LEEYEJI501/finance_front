@@ -2,6 +2,7 @@ import React from "react";
 import SearchInput from "@/components/common/SearchInput";
 import Modal from "@/components/common/Modal";
 import useSearchStock from "@/hooks/useSearchStock";
+import { useNavigate } from "@/hooks/useNavigate"; // useNavigate 훅 가져오기
 
 const SearchSection: React.FC = () => {
   const {
@@ -15,6 +16,8 @@ const SearchSection: React.FC = () => {
     debouncedSearch,
     loadMore,
   } = useSearchStock();
+
+  const { navigateToStockDetail } = useNavigate(); // useNavigate 훅 사용
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -32,6 +35,12 @@ const SearchSection: React.FC = () => {
   }) => {
     setSearchTerm(`${option.name} (${option.code})`);
     setIsModalOpen(false);
+
+    navigateToStockDetail({
+      market: option.market_name,
+      code: option.code,
+      name: option.name,
+    });
   };
 
   return (

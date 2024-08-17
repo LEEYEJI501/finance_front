@@ -30,8 +30,7 @@ const TabContent: React.FC<TabContentProps> = ({ market }) => {
         market={market}
         currentPage={stockListPage}
         pageSize={pageSize}
-        searchTerm={""} // searchTerm, searchCategory가 SearchSection에서 처리됨
-        searchCategory={""} // searchTerm, searchCategory가 SearchSection에서 처리됨
+        searchTerm={""}
         onTotalPagesChange={(totalPages: number) =>
           setTotalStockListPages(totalPages)
         }

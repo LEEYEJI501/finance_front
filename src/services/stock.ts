@@ -39,10 +39,9 @@ export const fetchMarketList = async () => {
 
 export const fetchSearchStockName = async (data: {
   term: string;
-  category: string;
   page?: number;
 }) => {
-  const { term, category, page = 0 } = data;
+  const { term, page = 0 } = data;
 
   const encodedTerm = encodeURIComponent(term);
 
@@ -54,10 +53,9 @@ export const fetchSearchStockName = async (data: {
 
 export const fetchSearchStockCode = async (data: {
   term: string;
-  category: string;
   page?: number;
 }) => {
-  const { term, category, page = 0 } = data;
+  const { term, page = 0 } = data;
 
   const encodedTerm = encodeURIComponent(term);
 

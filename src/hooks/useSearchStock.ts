@@ -22,7 +22,6 @@ const useSearchStock = () => {
 
       const results = await fetchStock({
         term,
-        category: searchCategory,
         page: 0,
       });
 
@@ -58,7 +57,6 @@ const useSearchStock = () => {
     try {
       const results = await fetchStock({
         term: searchTerm,
-        category: searchCategory,
         page: modalPage,
       });
 
