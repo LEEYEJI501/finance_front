@@ -8,6 +8,7 @@ type StockListProps = {
   market: string;
   currentPage: number;
   pageSize: number;
+  sortOption: string;
   onTotalPagesChange: (totalPages: number) => void;
 };
 
@@ -15,6 +16,7 @@ const StockList: React.FC<StockListProps> = ({
   market,
   currentPage,
   pageSize,
+  sortOption,
   onTotalPagesChange,
 }) => {
   const [stocks, setStocks] = useState<IStock[]>([]);
@@ -25,7 +27,7 @@ const StockList: React.FC<StockListProps> = ({
       const { stocks, total_pages } = await fetchStockList(market, {
         page: currentPage,
         pageSize,
-      });
+      }, sortOption);
       
       setStocks(stocks);
       onTotalPagesChange(total_pages);
@@ -36,6 +38,7 @@ const StockList: React.FC<StockListProps> = ({
     market, 
     currentPage, 
     pageSize, 
+    sortOption,
   ]);
 
   const handleCardClick = (stock: IStock) => {
