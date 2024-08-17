@@ -18,7 +18,7 @@ const MainContent: React.FC = () => {
 
     const tabs = markets.map((market) => ({
         label: market.name,
-        content: <TabContent market={market.name} />, 
+        content: <TabContent market={market.name} />
     }));
 
     return (

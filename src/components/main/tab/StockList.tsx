@@ -9,8 +9,6 @@ type StockListProps = {
   currentPage: number;
   pageSize: number;
   onTotalPagesChange: (totalPages: number) => void;
-  searchTerm?: string;
-  searchCategory?: string;
 };
 
 const StockList: React.FC<StockListProps> = ({
@@ -18,8 +16,6 @@ const StockList: React.FC<StockListProps> = ({
   currentPage,
   pageSize,
   onTotalPagesChange,
-  searchTerm = '',
-  searchCategory = 'Name',
 }) => {
   const [stocks, setStocks] = useState<IStock[]>([]);
   const { navigateToStockDetail } = useNavigate();
@@ -29,21 +25,17 @@ const StockList: React.FC<StockListProps> = ({
       const { stocks, total_pages } = await fetchStockList(market, {
         page: currentPage,
         pageSize,
-        searchTerm,
-        searchCategory,
       });
+      
       setStocks(stocks);
       onTotalPagesChange(total_pages);
     };
-
+  
     loadStockList();
   }, [
-    market,
-    currentPage,
-    pageSize,
-    searchTerm,
-    searchCategory,
-    onTotalPagesChange,
+    market, 
+    currentPage, 
+    pageSize, 
   ]);
 
   const handleCardClick = (stock: IStock) => {
