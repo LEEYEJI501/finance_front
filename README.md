@@ -12,9 +12,9 @@
 ![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
 <img src="https://img.shields.io/badge/Sock.js-black?style=for-the-badge&logo=&logoColor=white">
 <img src="https://img.shields.io/badge/Stomp.js-black?style=for-the-badge&logo=&logoColor=white">
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 <!--![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)-->
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ## ✅  화면 설계
 ![image](https://github.com/user-attachments/assets/2e46eeb7-7ee0-4a61-93ce-d8d8e4b2772f)
